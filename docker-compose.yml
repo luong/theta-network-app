@@ -24,7 +24,7 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
-      - ./.docker/nginx/conf.d/app.conf:/etc/nginx/conf.d/app.conf
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
     ports:
       - '80:80'
       - '443:443'
