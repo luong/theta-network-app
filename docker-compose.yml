@@ -35,6 +35,7 @@ services:
 
   mysql:
     image: mysql:8.0
+    user: '1000:1000'
     container_name: theta_mysql
     ports:
       - '3306:3306'
