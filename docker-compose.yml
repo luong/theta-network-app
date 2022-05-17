@@ -24,7 +24,7 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
-      - ./.docker/nginx/conf.d/app.conf:/etc/nginx/conf.d/app.conf
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
     ports:
       - '80:80'
       - '443:443'
@@ -35,6 +35,7 @@ services:
 
   mysql:
     image: mysql:8.0
+    user: '1000:1000'
     container_name: theta_mysql
     ports:
       - '3306:3306'
