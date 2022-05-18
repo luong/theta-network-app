@@ -18,5 +18,5 @@ jobs:
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
             cd /var/www
-            sudo git pull origin main
+            ./deploy.sh
 

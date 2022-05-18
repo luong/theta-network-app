@@ -28,8 +28,6 @@ COPY ./.docker/php/local.ini /usr/local/etc/php/conf.d/local.ini
 RUN chmod -R 775 storage
 RUN chmod -R 775 bootstrap
 
-RUN chmod +x .docker/php/start.sh
-
 RUN chown www:www -R .
 USER www
 
