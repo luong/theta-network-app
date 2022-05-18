@@ -18033,3 +18033,14 @@ textarea.form-control-lg {
   content: "\f793";
 }
 
+.navbar {
+  box-shadow: 1px 1px #ccc;
+}
+
+.card.coin {
+  width: 300px;
+}
+.card.coin .card-header .name {
+  vertical-align: middle;
+}
+

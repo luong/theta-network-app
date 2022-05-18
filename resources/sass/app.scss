@@ -1,8 +1,19 @@
-// Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-// Bootstrap icons
 @import '~bootstrap-icons/font/bootstrap-icons';
+
+.navbar {
+    box-shadow: 1px 1px #ccc;
+}
+
+.card {
+    &.coin {
+        width: 300px;
+        .card-header {
+            .name {
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
