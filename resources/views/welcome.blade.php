@@ -1,4 +1,4 @@
-<x-layout title="Theta Network App - Homepage" pageName="home">
+<x-layout title="ThetaNetworkApp - Homepage" pageName="home">
     <script>
     </script>
 
