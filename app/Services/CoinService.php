@@ -37,6 +37,15 @@ class CoinService
         $coins['TFUEL']['market_cap'] = $coinsFromCMC['TFUEL']['market_cap'];
         $coins['TFUEL']['market_cap_rank'] = $coinsFromCMC['TFUEL']['market_cap_rank'];
         $coins['TDROP']['market_cap'] = $coinsFromCMC['TDROP']['market_cap'];
+
+        usort($coins, function($coin1, $coin2) {
+            if ($coin1['price'] < $coin2['price']) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+
         return $coins;
     }
 
