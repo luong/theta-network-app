@@ -8,10 +8,25 @@
 
 .card {
     &.coin {
-        width: 300px;
+        width: 350px;
         .card-header {
             .name {
                 vertical-align: middle;
+            }
+        }
+    }
+    .card-body {
+        font-size: 15px;
+        .row {
+            line-height: 2;
+        }
+        .changes {
+            font-size: 90%;
+            &.up {
+                color: green;
+            }
+            &.down {
+                color: red;
             }
         }
     }

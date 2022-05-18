@@ -18038,9 +18038,24 @@ textarea.form-control-lg {
 }
 
 .card.coin {
-  width: 300px;
+  width: 350px;
 }
 .card.coin .card-header .name {
   vertical-align: middle;
+}
+.card .card-body {
+  font-size: 15px;
+}
+.card .card-body .row {
+  line-height: 2;
+}
+.card .card-body .changes {
+  font-size: 90%;
+}
+.card .card-body .changes.up {
+  color: green;
+}
+.card .card-body .changes.down {
+  color: red;
 }
 

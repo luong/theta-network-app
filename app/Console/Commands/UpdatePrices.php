@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\CoinService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
@@ -38,32 +39,12 @@ class UpdatePrices extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(CoinService $coinService)
     {
-        $coins = [];
-        $response = Http::get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,theta-fuel,theta-token,thetadrop&price_change_percentage=24h,1y');
-        if ($response->ok()) {
-            $data = $response->json();
-            foreach ($data as $each) {
-                $name = Str::upper($each['symbol']);
-                $coins[$name] = [
-                    'name' => $name,
-                    'image' => $each['image'],
-                    'price' => $each['current_price'],
-                    'market_cap' => $each['market_cap'],
-                    'market_cap_rank' => $each['market_cap_rank'],
-                    'volume_24h' => $each['total_volume'],
-                    'price_change_24h' => $each['price_change_percentage_24h_in_currency'],
-                    'price_change_1y' => $each['price_change_percentage_1y_in_currency'],
-                    'price_change_ath' => $each['ath_change_percentage'],
-                    'circulating_supply' => $each['circulating_supply'],
-                    'ath' => $each['ath']
-                ];
-            }
+        $coins = $coinService->getCoinList();
+        if ($coins !== false) {
+            Cache::put('coins', $coins);
         }
-
-        Cache::put('coins', $coins);
-
         $this->info('Done');
         return 0;
     }

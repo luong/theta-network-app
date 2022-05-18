@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\TfuelSupply;
+use App\Services\CoinService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 
 class UpdateTfuelSupply extends Command
 {
@@ -38,14 +38,13 @@ class UpdateTfuelSupply extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(CoinService $coinService)
     {
-        $response = Http::get('https://explorer.thetatoken.org:8443/api/supply/tfuel');
-        if ($response->ok()) {
-            $data = $response->json();
+        $tfuelSupply = $coinService->getTfuelSupply();
+        if ($tfuelSupply !== false) {
             TfuelSupply::updateOrCreate(
                 ['date' => Carbon::today()],
-                ['supply' => $data['circulation_supply']]
+                ['supply' => $tfuelSupply]
             );
         }
         $this->info('Done');
