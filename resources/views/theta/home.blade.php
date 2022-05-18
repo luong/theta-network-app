@@ -24,7 +24,7 @@
                         </div>
                         <div class="row">
                             <div class="col">Market Cap</div>
-                            <div class="col">{{ Helper::formatPrice($coin['market_cap']) }}</div>
+                            <div class="col">{{ Helper::formatPrice($coin['market_cap'], 0) }}</div>
                         </div>
                         <div class="row">
                             <div class="col">Circulating Supply</div>
