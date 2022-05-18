@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(UpdateTfuelSupply::class)->everyThreeHours();
+        $schedule->command(UpdateTfuelSupply::class)->daily();
     }
 
     /**
