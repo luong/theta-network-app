@@ -1,1 +1,1 @@
-* * * * * cd /var/www && sudo docker-compose -f docker-compose.yml exec php artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /var/www && php artisan schedule:run >> /dev/null 2>&1
