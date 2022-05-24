@@ -14,13 +14,83 @@ class CoinService
     const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
 
-    public function getTfuelSupply() {
+    public function getThetaStats() {
+        $thetaTotalStakes = null;
+        $thetaStakedNodes = null;
+        $thetaPrice = null;
+        $thetaMarketCap = null;
+        $tfuelSupply = null;
+        $tfuelTotalStakes = null;
+        $tfuelStakedNodes = null;
+        $tfuelPrice = null;
+        $tfuelMarketCap = null;
+        $onchainWallets = null;
+        $activeWallets = null;
+
+        // theta supply
+        $response = Http::get(self::THETA_API_URL . '/api/supply/theta');
+        if ($response->ok()) {
+            $data = $response->json();
+            $thetaSupply = $data['circulation_supply'];
+        }
+
+        // theta stakes
+        $response = Http::get(self::THETA_API_URL . '/api/stake/totalAmount?type=theta');
+        if ($response->ok()) {
+            $data = $response->json();
+            $thetaTotalStakes = substr($data['body']['totalAmount'], 0, -18);
+            $thetaStakedNodes = $data['body']['totalNodes'];
+        }
+
+        // tfuel supply
         $response = Http::get(self::THETA_API_URL . '/api/supply/tfuel');
         if ($response->ok()) {
             $data = $response->json();
-            return $data['circulation_supply'];
+            $tfuelSupply = $data['circulation_supply'];
         }
-        return false;
+
+        // tfuel stakes
+        $response = Http::get(self::THETA_API_URL . '/api/stake/totalAmount?type=tfuel');
+        if ($response->ok()) {
+            $data = $response->json();
+            $tfuelTotalStakes = substr($data['body']['totalAmount'], 0, -18);
+            $tfuelStakedNodes = $data['body']['totalNodes'];
+        }
+
+        // onchain wallets
+        $response = Http::get(self::THETA_API_URL . '/api/account/total/number');
+        if ($response->ok()) {
+            $data = $response->json();
+            $onchainWallets = $data['total_number_account'];
+        }
+
+        // active wallets
+        $response = Http::get(self::THETA_API_URL . '/api/activeAccount/latest');
+        if ($response->ok()) {
+            $data = $response->json();
+            $activeWallets = $data['body']['amount'];
+        }
+
+        // prices
+        $response = Http::get(self::THETA_API_URL . '/api/price/all');
+        if ($response->ok()) {
+            $data = $response->json();
+            foreach ($data['body'] as $each) {
+                if ($each['_id'] == 'THETA') {
+                    $thetaPrice = $each['price'];
+                    $thetaMarketCap = $each['market_cap'];
+                } else if ($each['_id'] == 'TFUEL') {
+                    $tfuelPrice = $each['price'];
+                    $tfuelMarketCap = $each['market_cap'];
+                }
+            }
+        }
+
+        return [
+            'theta' => ['price' => $thetaPrice, 'market_cap' => $thetaMarketCap, 'supply' => $thetaSupply, 'total_stakes' => $thetaTotalStakes, 'staked_nodes' => $thetaStakedNodes],
+            'tfuel' => ['price' => $tfuelPrice, 'market_cap' => $tfuelMarketCap, 'supply' => $tfuelSupply, 'total_stakes' => $tfuelTotalStakes, 'staked_nodes' => $tfuelStakedNodes],
+            'network' => ['onchain_wallets' => $onchainWallets, 'active_wallets' => $activeWallets]
+        ];
     }
 
     public function getCoinList() {
@@ -33,7 +103,9 @@ class CoinService
         if ($coins === false) {
             return false;
         }
-        $coins['TFUEL']['circulating_supply'] = $this->getTfuelSupply();
+
+        $thetaStats = $this->getThetaStats();
+        $coins['TFUEL']['circulating_supply'] = $thetaStats['tfuel']['supply'];
         $coins['TFUEL']['market_cap'] = $coinsFromCMC['TFUEL']['market_cap'];
         $coins['TFUEL']['market_cap_rank'] = $coinsFromCMC['TFUEL']['market_cap_rank'];
         $coins['TDROP']['market_cap'] = $coinsFromCMC['TDROP']['market_cap'];

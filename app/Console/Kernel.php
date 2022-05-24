@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\UpdatePrices;
-use App\Console\Commands\UpdateTfuelSupply;
+use App\Console\Commands\UpdateThetaStats;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(UpdateTfuelSupply::class)->daily();
+        $schedule->command(UpdateThetaStats::class)->daily();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTfuelSuppliesTable extends Migration
+class CreateDailyChainsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateTfuelSuppliesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tfuel_supplies', function (Blueprint $table) {
+        Schema::create('daily_chains', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->unique();
-            $table->bigInteger('supply');
+            $table->date('date');
+            $table->string('chain');
+            $table->integer('onchain_wallets')->nullable();
+            $table->integer('active_wallets')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateTfuelSuppliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tfuel_supplies');
+        Schema::dropIfExists('daily_chains');
     }
 }
