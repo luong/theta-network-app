@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(UpdateThetaStats::class)->daily();
+        $schedule->command(UpdateThetaStats::class)->everyThreeHours();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
     }
 

@@ -20,7 +20,7 @@ class CoinService
             $data = $response->json();
             return $data['circulation_supply'];
         }
-        return 0;
+        return false;
     }
 
     public function getThetaStats() {
@@ -43,6 +43,8 @@ class CoinService
         if ($response->ok()) {
             $data = $response->json();
             $thetaSupply = $data['circulation_supply'];
+        } else {
+            return false;
         }
 
         // theta stakes
@@ -51,10 +53,15 @@ class CoinService
             $data = $response->json();
             $thetaTotalStakes = substr($data['body']['totalAmount'], 0, -18);
             $thetaStakedNodes = $data['body']['totalNodes'];
+        } else {
+            return false;
         }
 
         // tfuel supply
         $tfuelSupply = $this->getTfuelSupply();
+        if ($tfuelSupply === false) {
+            return false;
+        }
 
         // tfuel stakes
         $response = Http::get(self::THETA_API_URL . '/api/stake/totalAmount?type=tfuel');
@@ -62,6 +69,8 @@ class CoinService
             $data = $response->json();
             $tfuelTotalStakes = substr($data['body']['totalAmount'], 0, -18);
             $tfuelStakedNodes = $data['body']['totalNodes'];
+        } else {
+            return false;
         }
 
         // onchain wallets
@@ -69,6 +78,8 @@ class CoinService
         if ($response->ok()) {
             $data = $response->json();
             $onchainWallets = $data['total_number_account'];
+        } else {
+            return false;
         }
 
         // active wallets
@@ -76,6 +87,8 @@ class CoinService
         if ($response->ok()) {
             $data = $response->json();
             $activeWallets = $data['body']['amount'];
+        } else {
+            return false;
         }
 
         // prices
@@ -93,6 +106,8 @@ class CoinService
                     $tfuelVolume24h = $each['volume_24h'];
                 }
             }
+        } else {
+            return false;
         }
 
         return [
