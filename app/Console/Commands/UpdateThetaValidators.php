@@ -40,16 +40,19 @@ class UpdateThetaValidators extends Command
      */
     public function handle(CoinService $coinService)
     {
+        $marketingData = $coinService->getThetaMarketingData();
+
         $dailyChain = DailyChain::where('date', Carbon::today())->where('chain', 'theta')->first();
         if (empty($dailyChain)) {
             $this->info('Not ready');
             return 0;
         }
 
-        $marketingData = $coinService->getThetaMarketingData();
-        $dailyChain->validators = $marketingData['validators'];
-        $dailyChain->metadata = ['edge_nodes' => $marketingData['edge_nodes'], 'guardian_nodes' => $marketingData['guardian_nodes']];
-        $dailyChain->save();
+        if (empty($dailyChain->validators)) {
+            $dailyChain->validators = $marketingData['validators'];
+            $dailyChain->metadata = ['edge_nodes' => $marketingData['edge_nodes'], 'guardian_nodes' => $marketingData['guardian_nodes']];
+            $dailyChain->save();
+        }
 
         $this->info('Done');
         return 0;
