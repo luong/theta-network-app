@@ -45,12 +45,12 @@ class UpdateThetaStats extends Command
 
         DailyCoin::updateOrCreate(
             ['date' => Carbon::today(), 'coin' => 'theta'],
-            ['price' => $stats['theta']['price'], 'market_cap' => $stats['theta']['market_cap'], 'supply' => $stats['theta']['supply'], 'total_stakes' => $stats['theta']['total_stakes'], 'staked_nodes' => $stats['theta']['staked_nodes']]
+            ['price' => $stats['theta']['price'], 'market_cap' => $stats['theta']['market_cap'], 'volume_24h' => $stats['theta']['volume_24h'],  'supply' => $stats['theta']['supply'], 'total_stakes' => $stats['theta']['total_stakes'], 'staked_nodes' => $stats['theta']['staked_nodes']]
         );
 
         DailyCoin::updateOrCreate(
             ['date' => Carbon::today(), 'coin' => 'tfuel'],
-            ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes']]
+            ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes']]
         );
 
         DailyChain::updateOrCreate(

@@ -19,6 +19,7 @@ class CreateDailyCoinsTable extends Migration
             $table->string('coin');
             $table->double('price')->nullable();
             $table->double('market_cap')->nullable();
+            $table->double('volume_24h')->nullable();
             $table->bigInteger('supply')->nullable();
             $table->integer('total_stakes')->nullable();
             $table->integer('staked_nodes')->nullable();
