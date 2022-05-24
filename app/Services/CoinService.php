@@ -14,6 +14,19 @@ class CoinService
     const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
 
+    public function getThetaMarketingData() {
+        $response = Http::get('https://marketing-api.thetatoken.org/v1/nodes/locations/optimized');
+        if ($response->ok()) {
+            $data = $response->json();
+            return [
+                'edge_nodes' => $data['totals']['en'],
+                'guardian_nodes' => $data['totals']['gn'],
+                'validators' => $data['totals']['validator']
+            ];
+        }
+        return false;
+    }
+
     public function getTfuelSupply() {
         $response = Http::get(self::THETA_API_URL . '/api/supply/tfuel');
         if ($response->ok()) {
