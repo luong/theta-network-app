@@ -6,7 +6,6 @@ use App\Models\NodeValidator;
 use App\Services\ThetaService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class UpdateThetaStakes extends Command
@@ -73,6 +72,7 @@ class UpdateThetaStakes extends Command
             }
             NodeValidator::insert($data);
             $thetaService->cacheValidators();
+            $thetaService->updateDailyValidators(count($data));
         }
 
         $this->info('Done.');

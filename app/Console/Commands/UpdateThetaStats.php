@@ -59,10 +59,18 @@ class UpdateThetaStats extends Command
                 ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes']]
             );
 
-            DailyChain::updateOrCreate(
-                ['date' => Carbon::today(), 'chain' => 'theta'],
-                ['onchain_wallets' => $stats['network']['onchain_wallets'], 'active_wallets' => $stats['network']['active_wallets']]
-            );
+            $marketingData = $coinService->getThetaMarketingData();
+
+            $chain = new DailyChain([
+                'date' => Carbon::today(),
+                'chain' => 'theta',
+                'onchain_wallets' => $stats['network']['onchain_wallets'],
+                'active_wallets' => $stats['network']['active_wallets'],
+            ]);
+            $chain->save();
+            $chain->metadata = ['edge_nodes' => $marketingData['edge_nodes'], 'guardian_nodes' => $marketingData['guardian_nodes']];
+            $chain->save();
+
         }
 
         $this->info('Done');

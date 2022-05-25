@@ -20,7 +20,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(UpdateThetaStats::class)->everySixHours();
-        $schedule->command(UpdateThetaValidators::class)->hourly();
         $schedule->command(UpdateThetaStakes::class)->everySixHours();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
     }
