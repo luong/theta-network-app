@@ -15,6 +15,16 @@
             }
         }
     }
+
+    &.network-info {
+        width: 350px;
+        .card-header {
+            .name {
+                vertical-align: middle;
+            }
+        }
+    }
+
     .card-body {
         font-size: 15px;
         .row {

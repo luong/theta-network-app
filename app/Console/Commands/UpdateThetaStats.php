@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
 use App\Services\OnChainService;
+use App\Services\ThetaService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -39,14 +40,14 @@ class UpdateThetaStats extends Command
      *
      * @return int
      */
-    public function handle(OnChainService $coinService)
+    public function handle(OnChainService $onChainService, ThetaService $thetaService)
     {
         if (DailyChain::where('date', Carbon::today())->where('chain', 'theta')->exists()) {
             $this->info('Existed');
             return 0;
         }
 
-        $stats = $coinService->getThetaStats();
+        $stats = $onChainService->getThetaStats();
 
         if ($stats !== false) {
             DailyCoin::updateOrCreate(
@@ -59,7 +60,7 @@ class UpdateThetaStats extends Command
                 ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes']]
             );
 
-            $marketingData = $coinService->getThetaMarketingData();
+            $marketingData = $onChainService->getThetaMarketingData();
 
             $chain = new DailyChain([
                 'date' => Carbon::today(),
@@ -71,6 +72,7 @@ class UpdateThetaStats extends Command
             $chain->metadata = ['edge_nodes' => $marketingData['edge_nodes'], 'guardian_nodes' => $marketingData['guardian_nodes']];
             $chain->save();
 
+            $thetaService->cacheNetworkInfo();
         }
 
         $this->info('Done');

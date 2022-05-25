@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\DailyChain;
+use App\Models\DailyCoin;
 use App\Models\Holder;
 use App\Models\NodeValidator;
 use Carbon\Carbon;
@@ -17,6 +18,33 @@ class ThetaService
         $this->cacheValidators();
         $this->cacheCoinList();
         $this->cacheTopTransactions();
+        $this->cacheNetworkInfo();
+    }
+
+    public function cacheNetworkInfo()
+    {
+        $lastChain = DailyChain::latest()->first();
+        $lastThetaCoin = DailyCoin::where('coin', 'theta')->latest()->first();
+        $lastTfuelCoin = DailyCoin::where('coin', 'tfuel')->latest()->first();
+        $info = [
+            'validators' => $lastChain->validators,
+            'onchain_wallets' => $lastChain->onchain_wallets,
+            'active_wallets' => $lastChain->active_wallets,
+            'theta_stake_nodes' => $lastThetaCoin->staked_nodes,
+            'theta_stake_rate' => round($lastThetaCoin->total_stakes / $lastThetaCoin->supply, 2),
+            'tfuel_stake_nodes' => $lastTfuelCoin->staked_nodes,
+            'tfuel_stake_rate' => round($lastTfuelCoin->total_stakes / $lastTfuelCoin->supply, 2),
+        ];
+        Cache::put('network_info', $info);
+        return $info;
+    }
+
+    public function getNetworkInfo() {
+        $info = Cache::get('network_info');
+        if (empty($info)) {
+            $info = $this->cacheNetworkInfo();
+        }
+        return $info;
     }
 
     public function cacheTopTransactions()

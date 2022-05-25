@@ -73,6 +73,7 @@ class UpdateThetaStakes extends Command
             NodeValidator::insert($data);
             $thetaService->cacheValidators();
             $thetaService->updateDailyValidators(count($data));
+            $thetaService->cacheNetworkInfo();
         }
 
         $this->info('Done.');

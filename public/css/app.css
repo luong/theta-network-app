@@ -18043,6 +18043,12 @@ textarea.form-control-lg {
 .card.coin .card-header .name {
   vertical-align: middle;
 }
+.card.network-info {
+  width: 350px;
+}
+.card.network-info .card-header .name {
+  vertical-align: middle;
+}
 .card .card-body {
   font-size: 15px;
 }
