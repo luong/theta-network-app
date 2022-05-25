@@ -58,6 +58,22 @@
             <div class="card-body">
                 <div class="container">
                     <div class="row">
+                        <div class="col">THETA / TFUEL</div>
+                        <div class="col">{{ round($coins['THETA']['price'] / $coins['TFUEL']['price'], 1) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Validators</div>
+                        <div class="col">{{ $networkInfo['validators'] }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Edge Nodes</div>
+                        <div class="col">{{ number_format($networkInfo['edge_nodes']) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Guardian Nodes</div>
+                        <div class="col">{{ number_format($networkInfo['guardian_nodes']) }}</div>
+                    </div>
+                    <div class="row">
                         <div class="col">Validators</div>
                         <div class="col">{{ $networkInfo['validators'] }}</div>
                     </div>

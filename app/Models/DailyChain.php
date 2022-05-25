@@ -10,4 +10,8 @@ class DailyChain extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'metadata' => 'array'
+    ];
 }

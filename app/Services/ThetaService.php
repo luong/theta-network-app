@@ -28,6 +28,8 @@ class ThetaService
         $lastTfuelCoin = DailyCoin::where('coin', 'tfuel')->latest()->first();
         $info = [
             'validators' => $lastChain->validators,
+            'edge_nodes' => $lastChain->metadata['edge_nodes'],
+            'guardian_nodes' => $lastChain->metadata['guardian_nodes'],
             'onchain_wallets' => $lastChain->onchain_wallets,
             'active_wallets' => $lastChain->active_wallets,
             'theta_stake_nodes' => $lastThetaCoin->staked_nodes,
