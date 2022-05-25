@@ -16,6 +16,26 @@ class ThetaService
         $this->cacheHolders();
         $this->cacheValidators();
         $this->cacheCoinList();
+        $this->cacheTopTransactions();
+    }
+
+    public function cacheTopTransactions()
+    {
+        $transactions = Cache::get('top_transactions');
+        if (empty($transactions)) {
+            $transactions = [];
+            Cache::put('top_transactions', $transactions);
+        }
+        return $transactions;
+    }
+
+    public function getTopTransactions()
+    {
+        $transactions = Cache::get('top_transactions');
+        if (empty($transactions)) {
+            $transactions = $this->cacheTopTransactions();
+        }
+        return $transactions;
     }
 
     public function cacheHolders()

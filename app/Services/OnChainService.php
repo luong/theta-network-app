@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -13,6 +14,79 @@ class OnChainService
     const COINGECKO_API_URL = 'https://api.coingecko.com';
     const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
+
+    public function getLatestTransactions() {
+        $limit = 100;
+        $checkUSD = 10000;
+        $wei = 1000000000000000000;
+        $response = Http::get('https://explorer.thetatoken.org:8443/api/transactions/range?limit=' . $limit);
+        if (!$response->ok()) {
+            return false;
+        }
+
+        $data = [];
+        $transactions = $response->json()['body'];
+        $coins = $this->getCoinList();
+
+        foreach ($transactions as $transaction) {
+            if ($transaction['type'] == 2) { // transfer
+                $usd = 0;
+                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / $wei, 2);
+                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / $wei, 2);
+                if ($theta > 0) {
+                    $usd = round($theta * $coins['THETA']['price'], 2);
+                    if ($usd >= $checkUSD) {
+                        $data[$transaction['_id']] = [
+                            'type' => 'transfer',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
+                            'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                            'amount' => number_format($theta, 2) . ' theta (' . number_format($usd, 2) . ' USD)'
+                        ];
+                    }
+                } else {
+                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    if ($usd >= $checkUSD) {
+                        $data[$transaction['_id']] = [
+                            'type' => 'transfer',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
+                            'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                            'amount' => number_format($tfuel, 2) . ' tfuel (' . number_format($usd, 2) . ' USD)'
+                        ];
+                    }
+                }
+
+            } else if ($transaction['type'] == 10) { // withdrawal
+                $usd = 0;
+                $theta = round($transaction['data']['source']['coins']['thetawei'] / $wei, 2);
+                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / $wei, 2);
+                if ($theta > 0) {
+                    $usd = round($theta * $coins['THETA']['price'], 2);
+                    if ($usd >= $checkUSD) {
+                        $data[$transaction['_id']] = [
+                            'type' => 'withdrawal',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
+                            'amount' => number_format($theta, 2) . ' theta (' . number_format($usd, 2) . ' USD)'
+                        ];
+                    }
+                } else {
+                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    if ($usd >= $checkUSD) {
+                        $data[$transaction['_id']] = [
+                            'type' => 'withdrawal',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
+                            'amount' => number_format($tfuel, 2) . ' tfuel (' . number_format($usd, 2) . ' USD)'
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
 
     public function getThetaMarketingData() {
         $response = Http::get('https://marketing-api.thetatoken.org/v1/nodes/locations/optimized');
@@ -147,7 +221,7 @@ class OnChainService
         $coins['TDROP']['market_cap'] = $coinsFromCMC['TDROP']['market_cap'];
         $coins['TDROP']['market_cap_rank'] = $coinsFromCMC['TDROP']['market_cap_rank'];
 
-        usort($coins, function($coin1, $coin2) {
+        uasort($coins, function($coin1, $coin2) {
             if ($coin1['price'] < $coin2['price']) {
                 return 1;
             } else {
@@ -208,5 +282,9 @@ class OnChainService
             return $coins;
         }
         return false;
+    }
+
+    private function makeThetaAccountLink($account) {
+        return "<a href='https://explorer.thetatoken.org/account/{$account}' target='_blank'>{$account}</a>";
     }
 }
