@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
-use App\Services\CoinService;
+use App\Services\OnChainService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -39,7 +39,7 @@ class UpdateThetaStats extends Command
      *
      * @return int
      */
-    public function handle(CoinService $coinService)
+    public function handle(OnChainService $coinService)
     {
         if (DailyChain::where('date', Carbon::today())->where('chain', 'theta')->exists()) {
             $this->info('Existed');

@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Holder;
+use App\Models\NodeValidator;
+use Illuminate\Support\Facades\Cache;
+
+class ThetaService
+{
+
+    public function caching() {
+        $this->cacheHolders();
+        $this->cacheValidators();
+    }
+
+    public function cacheHolders() {
+        $holders = Holder::all()->keyBy('code')->toArray();
+        Cache::put('holders', $holders);
+        return $holders;
+    }
+
+    public function getHolders() {
+        $holders = Cache::get('holders');
+        if (empty($holders)) {
+            $holders = $this->cacheHolders();
+        }
+        return $holders;
+    }
+
+    public function cacheValidators() {
+        $validators = NodeValidator::all()->keyBy('holder')->toArray();
+        Cache::put('validators', $validators);
+        return $validators;
+    }
+
+    public function getValidators() {
+        $validators = Cache::get('validators');
+        if (empty($validators)) {
+            $validators = $this->cacheValidators();
+        }
+        return $validators;
+    }
+
+}

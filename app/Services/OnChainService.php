@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class CoinService
+class OnChainService
 {
 
     const THETA_API_URL = 'https://explorer.thetatoken.org:8443';

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\CoinService;
+use App\Services\OnChainService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
@@ -39,7 +39,7 @@ class UpdatePrices extends Command
      *
      * @return int
      */
-    public function handle(CoinService $coinService)
+    public function handle(OnChainService $coinService)
     {
         $coins = $coinService->getCoinList();
         if ($coins !== false) {

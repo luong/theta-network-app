@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\DailyChain;
-use App\Services\CoinService;
+use App\Services\OnChainService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -38,7 +38,7 @@ class UpdateThetaValidators extends Command
      *
      * @return int
      */
-    public function handle(CoinService $coinService)
+    public function handle(OnChainService $coinService)
     {
         $marketingData = $coinService->getThetaMarketingData();
 

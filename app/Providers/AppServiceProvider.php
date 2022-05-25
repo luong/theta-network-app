@@ -2,14 +2,16 @@
 
 namespace App\Providers;
 
-use App\Services\CoinService;
+use App\Services\OnChainService;
+use App\Services\ThetaService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
 
     public $singletons = [
-        CoinService::class => CoinService::class,
+        OnChainService::class => OnChainService::class,
+        ThetaService::class => ThetaService::class
     ];
 
     /**

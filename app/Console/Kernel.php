@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\UpdatePrices;
+use App\Console\Commands\UpdateThetaStakes;
 use App\Console\Commands\UpdateThetaStats;
 use App\Console\Commands\UpdateThetaValidators;
 use Illuminate\Console\Scheduling\Schedule;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(UpdateThetaStats::class)->everySixHours();
         $schedule->command(UpdateThetaValidators::class)->hourly();
+        $schedule->command(UpdateThetaStakes::class)->everySixHours();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
     }
 
