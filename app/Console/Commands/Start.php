@@ -2,28 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
-class UpdatePrices extends Command
+class Start extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:updatePrices';
+    protected $signature = 'theta:start';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update prices';
+    protected $description = 'Initialize the project';
 
     /**
      * Create a new command instance.
@@ -42,8 +38,7 @@ class UpdatePrices extends Command
      */
     public function handle(ThetaService $thetaService)
     {
-        $thetaService->cacheCoinList();
-        $this->info('Done');
+        $thetaService->caching();
         return 0;
     }
 }

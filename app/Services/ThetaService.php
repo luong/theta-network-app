@@ -12,6 +12,7 @@ class ThetaService
     public function caching() {
         $this->cacheHolders();
         $this->cacheValidators();
+        $this->cacheCoinList();
     }
 
     public function cacheHolders() {
@@ -40,6 +41,21 @@ class ThetaService
             $validators = $this->cacheValidators();
         }
         return $validators;
+    }
+
+    public function cacheCoinList() {
+        $onChainServer = resolve(OnChainService::class);
+        $coins = $onChainServer->getCoinList();
+        Cache::put('coins', $coins);
+        return $coins;
+    }
+
+    public function getCoinList() {
+        $coins = Cache::get('coins');
+        if (empty($coins)) {
+            $coins = $this->cacheCoinList();
+        }
+        return $coins;
     }
 
 }
