@@ -18037,20 +18037,36 @@ textarea.form-control-lg {
   box-shadow: 1px 1px #ccc;
 }
 
-.card.coin {
+.card {
+  height: 290px;
+}
+.card.c1x {
   width: 350px;
 }
-.card.coin .card-header .name {
+.card.c2x {
+  width: 550px;
+}
+@media (max-width: 991.98px) {
+  .card.c2x {
+    width: 350px;
+  }
+}
+.card .card-header {
+  height: 45px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.card .card-header .name {
   vertical-align: middle;
+  line-height: 45px;
 }
-.card.network-info {
-  width: 350px;
-}
-.card.network-info .card-header .name {
+.card .card-header .icon {
+  font-size: 25px;
   vertical-align: middle;
 }
 .card .card-body {
   font-size: 15px;
+  overflow: auto;
 }
 .card .card-body .row {
   line-height: 2;

@@ -17,7 +17,7 @@ class OnChainService
 
     public function getLatestTransactions() {
         $limit = 100;
-        $checkUSD = 10000;
+        $checkUSD = 50;
         $wei = 1000000000000000000;
         $response = Http::get('https://explorer.thetatoken.org:8443/api/transactions/range?limit=' . $limit);
         if (!$response->ok()) {
@@ -57,7 +57,7 @@ class OnChainService
                     }
                 }
 
-            } else if ($transaction['type'] == 10) { // withdrawal
+            } else if ($transaction['type'] == 10) { // state
                 $usd = 0;
                 $theta = round($transaction['data']['source']['coins']['thetawei'] / $wei, 2);
                 $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / $wei, 2);
@@ -75,7 +75,7 @@ class OnChainService
                     $usd = round($tfuel * $coins['TFUEL']['price'], 2);
                     if ($usd >= $checkUSD) {
                         $data[$transaction['_id']] = [
-                            'type' => 'withdrawal',
+                            'type' => 'state',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
                             'amount' => number_format($tfuel, 2) . ' tfuel (' . number_format($usd, 2) . ' USD)'

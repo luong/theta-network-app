@@ -17,7 +17,8 @@ class ThetaController extends Controller
     {
         return view('theta.home', [
             'coins' => $this->thetaService->getCoinList(),
-            'networkInfo' => $this->thetaService->getNetworkInfo()
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'topTransactions' => $this->thetaService->getTopTransactions()
         ]);
     }
 }

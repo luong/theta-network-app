@@ -7,26 +7,36 @@
 }
 
 .card {
-    &.coin {
+    height: 290px;
+
+    &.c1x {
         width: 350px;
-        .card-header {
-            .name {
-                vertical-align: middle;
-            }
+    }
+
+    &.c2x {
+        width: 550px;
+        @include media-breakpoint-down(lg) {
+            width: 350px;
         }
     }
 
-    &.network-info {
-        width: 350px;
-        .card-header {
-            .name {
-                vertical-align: middle;
-            }
+    .card-header {
+        height: 45px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        .name {
+            vertical-align: middle;
+            line-height: 45px;
+        }
+        .icon {
+            font-size: 25px;
+            vertical-align: middle;
         }
     }
 
     .card-body {
         font-size: 15px;
+        overflow: auto;
         .row {
             line-height: 2;
         }
@@ -38,6 +48,11 @@
             &.down {
                 color: red;
             }
+        }
+    }
+
+    &.top-transactions {
+        .row {
         }
     }
 }
