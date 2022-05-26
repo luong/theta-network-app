@@ -26,6 +26,10 @@
                 <div class="col">{{ number_format($networkInfo['onchain_wallets']) }}</div>
             </div>
             <div class="row">
+                <div class="col">Active Wallets</div>
+                <div class="col">{{ number_format($networkInfo['active_wallets']) }}</div>
+            </div>
+            <div class="row">
                 <div class="col">THETA Stakes</div>
                 <div class="col">{{ number_format($networkInfo['theta_stake_rate'] * 100, 2) }}%</div>
             </div>

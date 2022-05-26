@@ -18042,7 +18042,7 @@ textarea.form-control-lg {
 }
 
 .card {
-  height: 290px;
+  height: auto;
 }
 .card.c1x {
   width: 350px;

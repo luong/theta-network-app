@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\MonitorThetaTransactions;
+use App\Console\Commands\TweetDailyUpdates;
 use App\Console\Commands\UpdatePrices;
 use App\Console\Commands\UpdateThetaStakes;
 use App\Console\Commands\UpdateThetaStats;
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(UpdateThetaStakes::class)->everySixHours();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
         $schedule->command(MonitorThetaTransactions::class)->everyTwoMinutes();
+        $schedule->command(TweetDailyUpdates::class)->dailyAt('00:30');
     }
 
     /**
