@@ -10,9 +10,9 @@ class TweetService
         $client = $this->getClient();
         $text = '';
         if ($tx['type'] == 'transfer') {
-            $text = "{$tx['amount']} transferred from unknown wallet to unknown wallet https://explorer.thetatoken.org/txs/{$tx['id']}";
+            $text = "[Bot] {$tx['amount']} transferred from unknown wallet to unknown wallet https://explorer.thetatoken.org/txs/{$tx['id']}";
         } else if ($tx['type'] == 'stake') {
-            $text = "{$tx['amount']} staked https://explorer.thetatoken.org/txs/{$tx['id']}";
+            $text = "[Bot] {$tx['amount']} staked https://explorer.thetatoken.org/txs/{$tx['id']}";
         }
         $client->tweet()->performRequest('POST', ['text' => $text]);
     }
