@@ -17,7 +17,8 @@ class OnChainService
 
     public function getLatestTransactions() {
         $limit = 100;
-        $checkUSD = 50;
+        $checkUSD = 100000;
+        $checkTweetUSD = 200000;
         $wei = 1000000000000000000;
         $response = Http::get('https://explorer.thetatoken.org:8443/api/transactions/range?limit=' . $limit);
         if (!$response->ok()) {
@@ -27,6 +28,7 @@ class OnChainService
         $data = [];
         $transactions = $response->json()['body'];
         $coins = $this->getCoinList();
+        $tweetService = resolve(TweetService::class);
 
         foreach ($transactions as $transaction) {
             if ($transaction['type'] == 2) { // transfer
@@ -35,51 +37,73 @@ class OnChainService
                 $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / $wei, 2);
                 if ($theta > 0) {
                     $usd = round($theta * $coins['THETA']['price'], 2);
+                    $tx = [
+                        'id' => $transaction['_id'],
+                        'type' => 'transfer',
+                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                        'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
+                        'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                        'amount' => number_format($theta, 2) . ' $THETA (' . number_format($usd, 2) . ' USD)'
+                    ];
                     if ($usd >= $checkUSD) {
-                        $data[$transaction['_id']] = [
-                            'type' => 'transfer',
-                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                            'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
-                            'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
-                            'amount' => number_format($theta, 2) . ' theta (' . number_format($usd, 2) . ' USD)'
-                        ];
+                        $data[$transaction['_id']] = $tx;
                     }
+                    if ($usd >= $checkTweetUSD) {
+                        $tweetService->tweet($tx);
+                    }
+
                 } else {
                     $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    $tx = [
+                        'id' => $transaction['_id'],
+                        'type' => 'transfer',
+                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                        'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
+                        'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                        'amount' => number_format($tfuel, 2) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
+                    ];
                     if ($usd >= $checkUSD) {
-                        $data[$transaction['_id']] = [
-                            'type' => 'transfer',
-                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                            'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
-                            'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
-                            'amount' => number_format($tfuel, 2) . ' tfuel (' . number_format($usd, 2) . ' USD)'
-                        ];
+                        $data[$transaction['_id']] = $tx;
+                    }
+                    if ($usd >= $checkTweetUSD) {
+                        $tweetService->tweet($tx);
                     }
                 }
 
-            } else if ($transaction['type'] == 10) { // state
+            } else if ($transaction['type'] == 10) { // stake
                 $usd = 0;
                 $theta = round($transaction['data']['source']['coins']['thetawei'] / $wei, 2);
                 $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / $wei, 2);
                 if ($theta > 0) {
                     $usd = round($theta * $coins['THETA']['price'], 2);
+                    $tx = [
+                        'id' => $transaction['_id'],
+                        'type' => 'withdrawal',
+                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                        'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
+                        'amount' => number_format($theta, 2) . ' $THETA (' . number_format($usd, 2) . ' USD)'
+                    ];
                     if ($usd >= $checkUSD) {
-                        $data[$transaction['_id']] = [
-                            'type' => 'withdrawal',
-                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                            'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
-                            'amount' => number_format($theta, 2) . ' theta (' . number_format($usd, 2) . ' USD)'
-                        ];
+                        $data[$transaction['_id']] = $tx;
                     }
+                    if ($usd >= $checkTweetUSD) {
+                        $tweetService->tweet($tx);
+                    }
+
                 } else {
                     $usd = round($tfuel * $coins['TFUEL']['price'], 2);
                     if ($usd >= $checkUSD) {
-                        $data[$transaction['_id']] = [
+                        $tx = [
+                            'id' => $transaction['_id'],
                             'type' => 'state',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
-                            'amount' => number_format($tfuel, 2) . ' tfuel (' . number_format($usd, 2) . ' USD)'
+                            'amount' => number_format($tfuel, 2) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                         ];
+                        $data[$transaction['_id']] = $tx;
+                    }
+                    if ($usd >= $checkTweetUSD) {
+                        $tweetService->tweet($tx);
                     }
                 }
             }
