@@ -49,7 +49,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= $checkTweetUSD) {
-                        $tweetService->tweet($tx);
+                        $tweetService->tweetTransaction($tx);
                     }
 
                 } else {
@@ -66,7 +66,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= $checkTweetUSD) {
-                        $tweetService->tweet($tx);
+                        $tweetService->tweetTransaction($tx);
                     }
                 }
 
@@ -87,7 +87,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= $checkTweetUSD) {
-                        $tweetService->tweet($tx);
+                        $tweetService->tweetTransaction($tx);
                     }
 
                 } else {
@@ -103,7 +103,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= $checkTweetUSD) {
-                        $tweetService->tweet($tx);
+                        $tweetService->tweetTransaction($tx);
                     }
                 }
             }

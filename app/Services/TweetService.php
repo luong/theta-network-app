@@ -6,7 +6,7 @@ use Noweh\TwitterApi\Client;
 class TweetService
 {
 
-    public function tweet($tx) {
+    public function tweetTransaction($tx) {
         $client = $this->getClient();
         $text = '';
         if ($tx['type'] == 'transfer') {
@@ -14,7 +14,12 @@ class TweetService
         } else if ($tx['type'] == 'stake') {
             $text = "[Bot] {$tx['amount']} staked https://explorer.thetatoken.org/txs/{$tx['id']}";
         }
-        $client->tweet()->performRequest('POST', ['text' => $text]);
+        return $client->tweet()->performRequest('POST', ['text' => $text]);
+    }
+
+    public function tweetText($text) {
+        $client = $this->getClient();
+        return $client->tweet()->performRequest('POST', ['text' => $text]);
     }
 
     private function getClient() {

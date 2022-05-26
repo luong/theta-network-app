@@ -53,9 +53,9 @@ class ThetaService
             'onchain_wallets' => $lastChain->onchain_wallets,
             'active_wallets' => $lastChain->active_wallets,
             'theta_stake_nodes' => $lastThetaCoin->staked_nodes,
-            'theta_stake_rate' => round($lastThetaCoin->total_stakes / $lastThetaCoin->supply, 2),
+            'theta_stake_rate' => round($lastThetaCoin->total_stakes / $lastThetaCoin->supply, 4),
             'tfuel_stake_nodes' => $lastTfuelCoin->staked_nodes,
-            'tfuel_stake_rate' => round($lastTfuelCoin->total_stakes / $lastTfuelCoin->supply, 2),
+            'tfuel_stake_rate' => round($lastTfuelCoin->total_stakes / $lastTfuelCoin->supply, 4),
         ];
         Cache::put('network_info', $info);
         return $info;
