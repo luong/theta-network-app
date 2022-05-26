@@ -19,7 +19,9 @@ class ThetaController extends Controller
             'coins' => $this->thetaService->getCoinList(),
             'networkInfo' => $this->thetaService->getNetworkInfo(),
             'topTransactions' => $this->thetaService->getTopTransactions(),
-            'tfuelSupplyChartData' => $this->thetaService->getTfuelSupplyChartData()
+            'tfuelSupplyChartData' => $this->thetaService->getTfuelSupplyChartData(),
+            'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
+            'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData()
         ]);
     }
 }

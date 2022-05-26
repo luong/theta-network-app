@@ -1,18 +1,18 @@
-<div class="card c2x tfuel-supply-chart m-2 h-auto">
+<div class="card c2x theta-stake-chart m-2 h-auto">
     <h6 class="card-header">
         <span class="icon bi bi-graph-down"></span>
-        <span class="name ms-1">TFUEL SUPPLY CHART</span>
+        <span class="name ms-1">THETA STAKE CHART</span>
     </h6>
     <div class="card-body">
         <div class="container">
-            <canvas id="tfuelSupplyChartHolder"></canvas>
+            <canvas id="thetaStakeChartHolder"></canvas>
         </div>
     </div>
 </div>
 
 <script>
     new Chart(
-        document.getElementById('tfuelSupplyChartHolder'),
+        document.getElementById('thetaStakeChartHolder'),
         {
             type: 'line',
             data: {
@@ -21,7 +21,7 @@
                     borderColor: 'rgb(255, 99, 132)',
                     pointStyle: 'circle',
                     pointRadius: 5,
-                    data: @json($tfuelSupplyChartData),
+                    data: @json($thetaStakeChartData),
                 }]
             },
             options: {

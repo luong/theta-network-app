@@ -51,6 +51,7 @@ class UpdateThetaStakes extends Command
 
         $stakes = $response->json()['body'];
         $networkInfo = $thetaService->getNetworkInfo();
+        $cachedValidators = $thetaService->getValidators();
 
         $validators = [];
         foreach ($stakes as $stake) {
@@ -68,11 +69,11 @@ class UpdateThetaStakes extends Command
             $validatorCount = count($validators);
             $data = [];
             foreach ($validators as $holder => $props) {
-                $node = ['holder' => $holder, 'name' => '*', 'chain' => 'theta', 'amount' => $props['amount'], 'coin' => 'theta', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
+                $node = ['holder' => $holder, 'name' => '*', 'chain' => 'theta', 'amount' => round($props['amount']), 'coin' => 'theta', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
                 if (isset($holders[$holder])) {
                     $node['name'] = $holders[$holder]['name'];
                 } else {
-                    $tweet = "[Bot] We're thrilled to have a new validator joining @Theta_Network : " . number_format($props['amount']) . " \$THETA https://explorer.thetatoken.org/account/{$holder}";
+                    $tweet = "[Bot] We're thrilled to have a new validator joining @Theta_Network : " . number_format($node['amount']) . " \$THETA https://explorer.thetatoken.org/account/{$holder}";
                     $tweetService->tweetText($tweet);
 
                     Holder::updateOrCreate(
@@ -81,6 +82,12 @@ class UpdateThetaStakes extends Command
                     );
                     $thetaService->cacheHolders();
                 }
+
+                if (round($node['amount']) != round($cachedValidators[$holder]['amount'])) {
+                    $tweet = "[Bot] A validator updated its \$THETA amount from " . number_format($cachedValidators[$holder]['amount']) . ' to ' . number_format($node['amount']) . " https://explorer.thetatoken.org/account/{$holder}";
+                    $tweetService->tweetText($tweet);
+                }
+
                 $data[] = $node;
             }
             NodeValidator::insert($data);
