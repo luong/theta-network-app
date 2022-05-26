@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Constants;
+use App\Helpers\Helper;
 use App\Models\Holder;
 use App\Models\NodeValidator;
 use App\Services\ThetaService;
@@ -10,21 +12,21 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class UpdateThetaStakes extends Command
+class UpdateStakes extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:updateThetaStakes';
+    protected $signature = 'theta:updateStakes';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update theta stakes';
+    protected $description = 'Update stakes';
 
     /**
      * Create a new command instance.
@@ -43,7 +45,7 @@ class UpdateThetaStakes extends Command
      */
     public function handle(ThetaService $thetaService, TweetService $tweetService)
     {
-        $response = Http::get('https://explorer.thetatoken.org:8443/api/stake/all');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/all');
         if (!$response->ok()) {
             $this->error('Request failed.');
             return 0;
@@ -59,7 +61,7 @@ class UpdateThetaStakes extends Command
                 if (!isset($validators[$stake['holder']])) {
                     $validators[$stake['holder']] = ['amount' => 0];
                 }
-                $validators[$stake['holder']]['amount'] += ($stake['amount'] / 1000000000000000000);
+                $validators[$stake['holder']]['amount'] += ($stake['amount'] / Constants::THETA_WEI);
             }
         }
 
@@ -73,7 +75,7 @@ class UpdateThetaStakes extends Command
                 if (isset($holders[$holder])) {
                     $node['name'] = $holders[$holder]['name'];
                 } else {
-                    $tweet = "[Bot] We're thrilled to have a new validator joining @Theta_Network : " . number_format($node['amount']) . " \$THETA https://explorer.thetatoken.org/account/{$holder}";
+                    $tweet = "[Bot] We're thrilled to have a new validator joining @Theta_Network : " . number_format($node['amount']) . " \$THETA " . Helper::makeThetaAccountURL($holder);
                     $tweetService->tweetText($tweet);
 
                     Holder::updateOrCreate(
@@ -84,7 +86,7 @@ class UpdateThetaStakes extends Command
                 }
 
                 if (round($node['amount']) != round($cachedValidators[$holder]['amount'])) {
-                    $tweet = "[Bot] A validator updated its \$THETA amount from " . number_format($cachedValidators[$holder]['amount']) . ' to ' . number_format($node['amount']) . " https://explorer.thetatoken.org/account/{$holder}";
+                    $tweet = "[Bot] A validator updated its \$THETA amount from " . number_format($cachedValidators[$holder]['amount']) . ' to ' . number_format($node['amount']) . ' ' . Helper::makeThetaAccountURL($holder);
                     $tweetService->tweetText($tweet);
                 }
 

@@ -2,27 +2,27 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Constants;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 
-class MonitorThetaTransactions extends Command
+class MonitorTransactions extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:monitorThetaTransactions';
+    protected $signature = 'theta:monitorTransactions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Monitor theta transactions';
+    protected $description = 'Monitor transactions';
 
     /**
      * Create a new command instance.
@@ -41,7 +41,6 @@ class MonitorThetaTransactions extends Command
      */
     public function handle(OnChainService $onChainService, ThetaService $thetaService)
     {
-        $limit = 100;
         $latestTransactions = $onChainService->getLatestTransactions();
 
         $topTransactions = $thetaService->getTopTransactions();
@@ -55,11 +54,12 @@ class MonitorThetaTransactions extends Command
                 }
             });
         }
-        if (count($topTransactions) > $limit) {
-            $topTransactions = array_slice($topTransactions, 0, $limit);
+        if (count($topTransactions) > Constants::TOP_TRANSACTION_LIMIT) {
+            $topTransactions = array_slice($topTransactions, 0, Constants::TOP_TRANSACTION_LIMIT);
         }
         Cache::put('top_transactions', $topTransactions);
 
+        $this->info('Done');
         return 0;
     }
 }

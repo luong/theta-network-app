@@ -5,6 +5,20 @@ namespace App\Helpers;
 class Helper
 {
 
+    public static function makeThetaTransactionURL($transactionId)
+    {
+        return Constants::THETA_EXPLORER_URL . '/txs/' . $transactionId;
+    }
+
+    public static function makeThetaAccountURL($accountId)
+    {
+        return Constants::THETA_EXPLORER_URL . '/account/' . $accountId;
+    }
+
+    public static function makeThetaAccountLink($accountId) {
+        return "<a href='" . Constants::THETA_EXPLORER_URL . "/account/{$accountId}' target='_blank'>{$accountId}</a>";
+    }
+
     public static function formatPrice($price, $decimals = 4)
     {
         $n = number_format($price, $decimals);

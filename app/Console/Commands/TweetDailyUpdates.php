@@ -3,13 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Helpers\Helper;
-use App\Services\OnChainService;
 use App\Services\ThetaService;
 use App\Services\TweetService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
 class TweetDailyUpdates extends Command
 {

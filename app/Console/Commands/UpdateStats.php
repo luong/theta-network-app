@@ -9,21 +9,21 @@ use App\Services\ThetaService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class UpdateThetaStats extends Command
+class UpdateStats extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:updateThetaStats';
+    protected $signature = 'theta:updateStats';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update theta stats';
+    protected $description = 'Update stats';
 
     /**
      * Create a new command instance.

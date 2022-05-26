@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+use App\Helpers\Constants;
+use App\Helpers\Helper;
 use Noweh\TwitterApi\Client;
 
 class TweetService
@@ -10,11 +12,14 @@ class TweetService
         $client = $this->getClient();
         $text = '';
         if ($tx['type'] == 'transfer') {
-            $text = "[Bot] {$tx['amount']} transferred from unknown wallet to unknown wallet https://explorer.thetatoken.org/txs/{$tx['id']}";
+            $text = "[Bot] {$tx['amount']} transferred from unknown wallet " . Helper::makeThetaTransactionURL($tx['id']);
         } else if ($tx['type'] == 'stake') {
-            $text = "[Bot] {$tx['amount']} staked https://explorer.thetatoken.org/txs/{$tx['id']}";
+            $text = "[Bot] {$tx['amount']} staked " . Helper::makeThetaTransactionURL($tx['id']);
         }
-        return $client->tweet()->performRequest('POST', ['text' => $text]);
+        if (!empty($text)) {
+            return $client->tweet()->performRequest('POST', ['text' => $text]);
+        }
+        return false;
     }
 
     public function tweetText($text) {
@@ -24,12 +29,12 @@ class TweetService
 
     private function getClient() {
         $settings = [
-            'account_id' => '24379483',
-            'consumer_key' => 'RgS0RclonF2zP2XHzhqLzZKBM',
-            'consumer_secret' => 'VpwzWmTMNMpd2oQd9c7Znr0xsvbBSGxffTxqc7vBo5EC6Bw4py',
-            'bearer_token' => 'AAAAAAAAAAAAAAAAAAAAAFsAdAEAAAAAzjadkvlRQPHHoaHzR1Q%2FtnE0s%2Fo%3DDMjkgL4wI1ekEQ71DbBSQrHJpHsqQyqx3Q3EeMnGIx7FZ19kRf',
-            'access_token' => '1341024171048890369-DSAJVdRW8D5IoWIHVpRFQDLLymhVXc',
-            'access_token_secret' => '149sBGibRjCR3FifO9CS192dY1gq6bomWMJPGiYZquRAF'
+            'account_id' => Constants::TWITTER_PROJECT_ID,
+            'consumer_key' => Constants::TWITTER_CONSUMER_KEY,
+            'consumer_secret' => Constants::TWITTER_CONSUMER_SECRET,
+            'bearer_token' => Constants::TWITTER_BEARER_TOKEN,
+            'access_token' => Constants::TWITTER_ACCESS_TOKEN,
+            'access_token_secret' => Constants::TWITTER_ACCESS_TOKEN_SECRET
         ];
         return new Client($settings);
     }

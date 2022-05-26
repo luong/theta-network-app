@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
+use App\Helpers\Constants;
+use App\Helpers\Helper;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -10,17 +11,9 @@ use Illuminate\Support\Str;
 class OnChainService
 {
 
-    const THETA_API_URL = 'https://explorer.thetatoken.org:8443';
-    const COINGECKO_API_URL = 'https://api.coingecko.com';
-    const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
-    const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
-
-    public function getLatestTransactions() {
-        $limit = 100;
-        $checkUSD = 100000;
-        $checkTweetUSD = 200000;
-        $wei = 1000000000000000000;
-        $response = Http::get('https://explorer.thetatoken.org:8443/api/transactions/range?limit=' . $limit);
+    public function getLatestTransactions()
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transactions/range?limit=' . Constants::TOP_TRANSACTION_LIMIT);
         if (!$response->ok()) {
             return false;
         }
@@ -33,22 +26,22 @@ class OnChainService
         foreach ($transactions as $transaction) {
             if ($transaction['type'] == 2) { // transfer
                 $usd = 0;
-                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / $wei, 2);
-                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / $wei, 2);
+                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI, 2);
+                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
                 if ($theta > 0) {
                     $usd = round($theta * $coins['THETA']['price'], 2);
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
-                        'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                        'from' => Helper::makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
+                        'to' => Helper::makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
                         'amount' => number_format($theta, 2) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
-                    if ($usd >= $checkUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
                     }
-                    if ($usd >= $checkTweetUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $tweetService->tweetTransaction($tx);
                     }
 
@@ -58,51 +51,51 @@ class OnChainService
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $this->makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
-                        'to' => $this->makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                        'from' => Helper::makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
+                        'to' => Helper::makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
                         'amount' => number_format($tfuel, 2) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                     ];
-                    if ($usd >= $checkUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
                     }
-                    if ($usd >= $checkTweetUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $tweetService->tweetTransaction($tx);
                     }
                 }
 
             } else if ($transaction['type'] == 10) { // stake
                 $usd = 0;
-                $theta = round($transaction['data']['source']['coins']['thetawei'] / $wei, 2);
-                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / $wei, 2);
+                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI, 2);
+                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
                 if ($theta > 0) {
                     $usd = round($theta * $coins['THETA']['price'], 2);
                     $tx = [
                         'id' => $transaction['_id'],
-                        'type' => 'withdrawal',
+                        'type' => 'stake',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
+                        'from' => Helper::makeThetaAccountLink($transaction['data']['source']['address']),
                         'amount' => number_format($theta, 2) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
-                    if ($usd >= $checkUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
                     }
-                    if ($usd >= $checkTweetUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $tweetService->tweetTransaction($tx);
                     }
 
                 } else {
                     $usd = round($tfuel * $coins['TFUEL']['price'], 2);
-                    if ($usd >= $checkUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $tx = [
                             'id' => $transaction['_id'],
                             'type' => 'state',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                            'from' => $this->makeThetaAccountLink($transaction['data']['source']['address']),
+                            'from' => Helper::makeThetaAccountLink($transaction['data']['source']['address']),
                             'amount' => number_format($tfuel, 2) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                         ];
                         $data[$transaction['_id']] = $tx;
                     }
-                    if ($usd >= $checkTweetUSD) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $tweetService->tweetTransaction($tx);
                     }
                 }
@@ -113,7 +106,7 @@ class OnChainService
     }
 
     public function getThetaMarketingData() {
-        $response = Http::get('https://marketing-api.thetatoken.org/v1/nodes/locations/optimized');
+        $response = Http::get(Constants::THETA_MARKETING_API_URL . '/v1/nodes/locations/optimized');
         if ($response->ok()) {
             $data = $response->json();
             return [
@@ -126,7 +119,7 @@ class OnChainService
     }
 
     public function getTfuelSupply() {
-        $response = Http::get(self::THETA_API_URL . '/api/supply/tfuel');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/supply/tfuel');
         if ($response->ok()) {
             $data = $response->json();
             return $data['circulation_supply'];
@@ -150,7 +143,7 @@ class OnChainService
         $activeWallets = null;
 
         // theta supply
-        $response = Http::get(self::THETA_API_URL . '/api/supply/theta');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/supply/theta');
         if ($response->ok()) {
             $data = $response->json();
             $thetaSupply = $data['circulation_supply'];
@@ -159,7 +152,7 @@ class OnChainService
         }
 
         // theta stakes
-        $response = Http::get(self::THETA_API_URL . '/api/stake/totalAmount?type=theta');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/totalAmount?type=theta');
         if ($response->ok()) {
             $data = $response->json();
             $thetaTotalStakes = substr($data['body']['totalAmount'], 0, -18);
@@ -175,7 +168,7 @@ class OnChainService
         }
 
         // tfuel stakes
-        $response = Http::get(self::THETA_API_URL . '/api/stake/totalAmount?type=tfuel');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/totalAmount?type=tfuel');
         if ($response->ok()) {
             $data = $response->json();
             $tfuelTotalStakes = substr($data['body']['totalAmount'], 0, -18);
@@ -185,7 +178,7 @@ class OnChainService
         }
 
         // onchain wallets
-        $response = Http::get(self::THETA_API_URL . '/api/account/total/number');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/total/number');
         if ($response->ok()) {
             $data = $response->json();
             $onchainWallets = $data['total_number_account'];
@@ -194,7 +187,7 @@ class OnChainService
         }
 
         // active wallets
-        $response = Http::get(self::THETA_API_URL . '/api/activeAccount/latest');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/activeAccount/latest');
         if ($response->ok()) {
             $data = $response->json();
             $activeWallets = $data['body']['amount'];
@@ -203,7 +196,7 @@ class OnChainService
         }
 
         // prices
-        $response = Http::get(self::THETA_API_URL . '/api/price/all');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/price/all');
         if ($response->ok()) {
             $data = $response->json();
             foreach ($data['body'] as $each) {
@@ -257,7 +250,7 @@ class OnChainService
     }
 
     public function getCoinListFromCoingecko() {
-        $response = Http::get(self::COINGECKO_API_URL . '/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,theta-fuel,theta-token,thetadrop&price_change_percentage=24h,1y');
+        $response = Http::get(Constants::COINGECKO_API_URL . '/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,theta-fuel,theta-token,thetadrop&price_change_percentage=24h,1y');
         if ($response->ok()) {
             $coins = [];
             $data = $response->json();
@@ -283,7 +276,7 @@ class OnChainService
     }
 
     private function getCoinListFromCMC() {
-        $response = Http::get(self::CMC_API_URL . '/v2/cryptocurrency/quotes/latest?CMC_PRO_API_KEY=' . self::CMC_API_KEY . '&symbol=BTC,THETA,TFUEL,TDROP');
+        $response = Http::get(Constants::CMC_API_URL . '/v2/cryptocurrency/quotes/latest?CMC_PRO_API_KEY=' . Constants::CMC_API_KEY . '&symbol=BTC,THETA,TFUEL,TDROP');
         if ($response->ok()) {
             $coins = [];
             $data = $response->json();
@@ -308,7 +301,4 @@ class OnChainService
         return false;
     }
 
-    private function makeThetaAccountLink($account) {
-        return "<a href='https://explorer.thetatoken.org/account/{$account}' target='_blank'>{$account}</a>";
-    }
 }
