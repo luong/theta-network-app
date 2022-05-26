@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(UpdateThetaStats::class)->everySixHours();
-        $schedule->command(UpdateThetaStakes::class)->everySixHours();
+        $schedule->command(UpdateThetaStakes::class)->everyTwoHours();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
         $schedule->command(MonitorThetaTransactions::class)->everyTwoMinutes();
         $schedule->command(TweetDailyUpdates::class)->dailyAt('00:30');

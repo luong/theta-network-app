@@ -140,7 +140,7 @@ class ThetaService
     public function updateDailyValidators(int $validators)
     {
         $chain = DailyChain::where('date', Carbon::today())->where('chain', 'theta')->first();
-        if (!empty($chain) && empty($chain->validators)) {
+        if (!empty($chain)) {
             $chain->validators = $validators;
             $chain->save();
         }

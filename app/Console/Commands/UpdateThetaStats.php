@@ -48,6 +48,7 @@ class UpdateThetaStats extends Command
         }
 
         $stats = $onChainService->getThetaStats();
+        $networkInfo = $thetaService->getNetworkInfo();
 
         if ($stats !== false) {
             DailyCoin::updateOrCreate(
@@ -65,6 +66,7 @@ class UpdateThetaStats extends Command
             $chain = new DailyChain([
                 'date' => Carbon::today(),
                 'chain' => 'theta',
+                'validators' => $networkInfo['validators'],
                 'onchain_wallets' => $stats['network']['onchain_wallets'],
                 'active_wallets' => $stats['network']['active_wallets'],
             ]);
