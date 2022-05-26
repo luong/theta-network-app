@@ -18037,6 +18037,10 @@ textarea.form-control-lg {
   box-shadow: 1px 1px #ccc;
 }
 
+.donate-model .modal-body {
+  overflow-wrap: anywhere;
+}
+
 .card {
   height: 290px;
 }
@@ -18045,6 +18049,7 @@ textarea.form-control-lg {
 }
 .card.c2x {
   width: 550px;
+  height: 320px;
 }
 @media (max-width: 991.98px) {
   .card.c2x {
@@ -18066,6 +18071,8 @@ textarea.form-control-lg {
 }
 .card .card-body {
   font-size: 15px;
+}
+.card .card-body.scrollable {
   overflow: auto;
 }
 .card .card-body .row {
@@ -18079,5 +18086,8 @@ textarea.form-control-lg {
 }
 .card .card-body .changes.down {
   color: red;
+}
+.card.tfuel-supply-chart .card-body {
+  padding-right: 0px;
 }
 

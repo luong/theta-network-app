@@ -36,7 +36,7 @@
         </div>
     </nav>
 
-    <div class="modal" id="donateModel">
+    <div class="modal donate-model" id="donateModel">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

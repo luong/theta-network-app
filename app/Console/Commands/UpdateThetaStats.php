@@ -73,6 +73,7 @@ class UpdateThetaStats extends Command
             $chain->save();
 
             $thetaService->cacheNetworkInfo();
+            $thetaService->cacheTfuelSupplyChartData();
         }
 
         $this->info('Done');

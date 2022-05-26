@@ -19,6 +19,26 @@ class ThetaService
         $this->cacheCoinList();
         $this->cacheTopTransactions();
         $this->cacheNetworkInfo();
+        $this->cacheTfuelSupplyChartData();
+    }
+
+    public function cacheTfuelSupplyChartData() {
+        $data = [];
+        $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
+        foreach ($coins as $coin) {
+            $supply = $coin->supply;
+            $data[] = ['x' => date('d-M', strtotime($coin->date)), 'y' => $supply];
+        }
+        Cache::put('tfuel_supply_chart_data', $data);
+        return $data;
+    }
+
+    public function getTfuelSupplyChartData() {
+        $data = Cache::get('tfuel_supply_chart_data');
+        if (empty($data)) {
+            $data = $this->cacheTfuelSupply();
+        }
+        return $data;
     }
 
     public function cacheNetworkInfo()

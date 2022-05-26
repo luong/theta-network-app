@@ -6,6 +6,12 @@
     box-shadow: 1px 1px #ccc;
 }
 
+.donate-model {
+    .modal-body {
+        overflow-wrap: anywhere;
+    }
+}
+
 .card {
     height: 290px;
 
@@ -15,6 +21,7 @@
 
     &.c2x {
         width: 550px;
+        height: 320px;
         @include media-breakpoint-down(lg) {
             width: 350px;
         }
@@ -36,7 +43,9 @@
 
     .card-body {
         font-size: 15px;
-        overflow: auto;
+        &.scrollable {
+            overflow: auto;
+        }
         .row {
             line-height: 2;
         }
@@ -53,6 +62,12 @@
 
     &.top-transactions {
         .row {
+        }
+    }
+
+    &.tfuel-supply-chart {
+        .card-body {
+            padding-right: 0px;
         }
     }
 }
