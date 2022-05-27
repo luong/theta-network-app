@@ -1,7 +1,7 @@
 #!/bin/sh
 
-chmod -R 775 storage
-chmod -R 775 bootstrap
+chmod -R 777 storage
+chmod -R 777 bootstrap
 chown www:www -R .
 
 crond -b
