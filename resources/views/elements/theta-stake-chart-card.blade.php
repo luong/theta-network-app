@@ -26,6 +26,10 @@
             },
             options: {
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Current supply: {{ number_format($networkInfo['theta_supply']) }} # Staked: {{ $networkInfo['theta_stake_rate'] * 100 }}%'
+                    },
                     legend: {
                         display: false
                     }

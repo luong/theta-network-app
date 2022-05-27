@@ -6,8 +6,7 @@ use App\Console\Commands\MonitorTransactions;
 use App\Console\Commands\TweetDailyUpdates;
 use App\Console\Commands\UpdatePrices;
 use App\Console\Commands\UpdateStakes;
-use App\Console\Commands\UpdateStats;
-use App\Console\Commands\UpdateThetaValidators;
+use App\Console\Commands\UpdateDailyStats;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -21,7 +20,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(UpdateStats::class)->everySixHours();
+        $schedule->command(UpdateDailyStats::class)->everySixHours();
         $schedule->command(UpdateStakes::class)->hourly();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
         $schedule->command(MonitorTransactions::class)->everyTwoMinutes();

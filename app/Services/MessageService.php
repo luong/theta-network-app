@@ -9,7 +9,8 @@ use Noweh\TwitterApi\Client;
 class MessageService
 {
 
-    public function hasLargeTransaction($tx) {
+    public function hasLargeTransaction($tx)
+    {
         if (!$this->canPost()) {
             return false;
         }
@@ -38,7 +39,8 @@ class MessageService
         return false;
     }
 
-    public function hasNewValidator($address, $amount) {
+    public function hasNewValidator($address, $amount)
+    {
         if (!$this->canPost()) {
             return false;
         }
@@ -46,7 +48,8 @@ class MessageService
         return $this->tweetText($tweet);
     }
 
-    public function validatorChangesStakes($address, $oldAmount, $newAmount) {
+    public function validatorChangesStakes($address, $oldAmount, $newAmount)
+    {
         if (!$this->canPost()) {
             return false;
         }
@@ -59,7 +62,8 @@ class MessageService
         return $this->tweetText($tweet);
     }
 
-    public function sendDailyUpdates($params) {
+    public function sendDailyUpdates($params)
+    {
         if (!$this->canPost()) {
             return false;
         }
@@ -67,16 +71,19 @@ class MessageService
         return $this->tweetText($tweet);
     }
 
-    public function tweetText($text) {
+    public function tweetText($text)
+    {
         $client = $this->getTwitterClient();
         return $client->tweet()->performRequest('POST', ['text' =>'[Bot] ' .  $text]);
     }
 
-    private function canPost() {
+    private function canPost()
+    {
         return App::environment('production');
     }
 
-    private function getTwitterClient() {
+    private function getTwitterClient()
+    {
         $settings = [
             'account_id' => Constants::TWITTER_PROJECT_ID,
             'consumer_key' => Constants::TWITTER_CONSUMER_KEY,

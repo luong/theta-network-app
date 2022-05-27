@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">THETA / TFUEL</div>
-                <div class="col">{{ round($coins['THETA']['price'] / $coins['TFUEL']['price'], 1) }}</div>
+                <div class="col">{{ round($networkInfo['theta_price'] / $networkInfo['tfuel_price'], 1) }}</div>
             </div>
             <div class="row">
                 <div class="col">Validators</div>

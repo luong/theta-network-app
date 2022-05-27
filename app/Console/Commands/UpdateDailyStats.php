@@ -9,7 +9,7 @@ use App\Services\ThetaService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class UpdateStats extends Command
+class UpdateDailyStats extends Command
 {
     /**
      * The name and signature of the console command.

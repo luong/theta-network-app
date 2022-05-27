@@ -24,7 +24,8 @@ class ThetaService
         $this->cacheTfuelStakeChartData();
     }
 
-    public function cacheThetaStakeChartData() {
+    public function cacheThetaStakeChartData()
+    {
         $data = [];
         $coins = DailyCoin::where('coin', 'theta')->take(100)->get();
         foreach ($coins as $coin) {
@@ -34,7 +35,8 @@ class ThetaService
         return $data;
     }
 
-    public function getThetaStakeChartData() {
+    public function getThetaStakeChartData()
+    {
         $data = Cache::get('theta_stake_chart_data');
         if (empty($data)) {
             $data = $this->cacheThetaStakeChartData();
@@ -42,7 +44,8 @@ class ThetaService
         return $data;
     }
 
-    public function cacheTfuelStakeChartData() {
+    public function cacheTfuelStakeChartData()
+    {
         $data = [];
         $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
         foreach ($coins as $coin) {
@@ -52,7 +55,8 @@ class ThetaService
         return $data;
     }
 
-    public function getTfuelStakeChartData() {
+    public function getTfuelStakeChartData()
+    {
         $data = Cache::get('tfuel_stake_chart_data');
         if (empty($data)) {
             $data = $this->cacheTfuelStakeChartData();
@@ -60,7 +64,8 @@ class ThetaService
         return $data;
     }
 
-    public function cacheTfuelSupplyChartData() {
+    public function cacheTfuelSupplyChartData()
+    {
         $data = [];
         $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
         foreach ($coins as $coin) {
@@ -71,7 +76,8 @@ class ThetaService
         return $data;
     }
 
-    public function getTfuelSupplyChartData() {
+    public function getTfuelSupplyChartData()
+    {
         $data = Cache::get('tfuel_supply_chart_data');
         if (empty($data)) {
             $data = $this->cacheTfuelSupply();
@@ -82,24 +88,31 @@ class ThetaService
     public function cacheNetworkInfo()
     {
         $lastChain = DailyChain::latest()->first();
-        $lastThetaCoin = DailyCoin::where('coin', 'theta')->latest()->first();
-        $lastTfuelCoin = DailyCoin::where('coin', 'tfuel')->latest()->first();
+        $onChainService = resolve(OnChainService::class);
+        $stats = $onChainService->getThetaStats();
+        $marketingData = $onChainService->getThetaMarketingData();
+
         $info = [
             'validators' => $lastChain->validators,
-            'edge_nodes' => $lastChain->metadata['edge_nodes'],
-            'guardian_nodes' => $lastChain->metadata['guardian_nodes'],
-            'onchain_wallets' => $lastChain->onchain_wallets,
-            'active_wallets' => $lastChain->active_wallets,
-            'theta_stake_nodes' => $lastThetaCoin->staked_nodes,
-            'theta_stake_rate' => round($lastThetaCoin->total_stakes / $lastThetaCoin->supply, 4),
-            'tfuel_stake_nodes' => $lastTfuelCoin->staked_nodes,
-            'tfuel_stake_rate' => round($lastTfuelCoin->total_stakes / $lastTfuelCoin->supply, 4),
+            'edge_nodes' => $marketingData['edge_nodes'],
+            'guardian_nodes' => $marketingData['guardian_nodes'],
+            'onchain_wallets' => $stats['network']['onchain_wallets'],
+            'active_wallets' => $stats['network']['active_wallets'],
+            'theta_price' => $stats['theta']['price'],
+            'theta_supply' => $stats['theta']['supply'],
+            'theta_stake_nodes' => $stats['theta']['staked_nodes'],
+            'theta_stake_rate' => round($stats['theta']['total_stakes'] / $stats['theta']['supply'], 4),
+            'tfuel_price' => $stats['tfuel']['price'],
+            'tfuel_supply' => $stats['tfuel']['supply'],
+            'tfuel_stake_nodes' => $stats['tfuel']['staked_nodes'],
+            'tfuel_stake_rate' => round($stats['tfuel']['total_stakes'] / $stats['tfuel']['supply'], 4),
         ];
         Cache::put('network_info', $info);
         return $info;
     }
 
-    public function getNetworkInfo() {
+    public function getNetworkInfo()
+    {
         $info = Cache::get('network_info');
         if (empty($info)) {
             $info = $this->cacheNetworkInfo();

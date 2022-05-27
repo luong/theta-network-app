@@ -43,6 +43,7 @@ class UpdatePrices extends Command
     public function handle(ThetaService $thetaService)
     {
         $thetaService->cacheCoinList();
+        $thetaService->cacheNetworkInfo();
         $this->info('Done');
         return 0;
     }

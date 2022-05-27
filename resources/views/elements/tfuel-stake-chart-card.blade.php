@@ -26,6 +26,10 @@
             },
             options: {
                 plugins: {
+                    title: {
+                        display: true,
+                        text: 'Current supply: {{ number_format($networkInfo['tfuel_supply']) }} # Staked: {{ $networkInfo['tfuel_stake_rate'] * 100 }}%'
+                    },
                     legend: {
                         display: false
                     }
