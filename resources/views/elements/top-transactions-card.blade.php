@@ -8,9 +8,9 @@
             @foreach ($topTransactions as $hash => $transaction)
                 <div class="row">
                     @if ($transaction['type'] == 'transfer')
-                        <span class="bi bi-circle w-auto"></span><a href="{{ Helper::makeThetaTransactionURL($hash) }}" target="_blank" class="w-auto ps-0">{{ $transaction['amount'] }}</a> transferred on {{ $transaction['date'] }}
+                        <span class="bi bi-circle w-auto"></span><a href="{{ Helper::makeThetaTransactionURL($hash) }}" target="_blank" class="w-auto p-0">{{ $transaction['amount'] }}</a> <span class="d-none d-lg-inline w-auto p-0 ps-1">transferred on {{ $transaction['date'] }}</span>
                     @elseif ($transaction['type'] == 'stake')
-                        <span class="bi bi-circle w-auto"></span><a href="{{ Helper::makeThetaTransactionURL($hash) }}" target="_blank" class="w-auto ps-0">{{ $transaction['amount'] }}</a> staked on {{ $transaction['date'] }}
+                        <span class="bi bi-circle w-auto"></span><a href="{{ Helper::makeThetaTransactionURL($hash) }}" target="_blank" class="w-auto p-0">{{ $transaction['amount'] }}</a> <span class="d-none d-lg-inline w-auto p-0 ps-1">staked on {{ $transaction['date'] }}</span>
                     @endif
                 </div>
             @endforeach
