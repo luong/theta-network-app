@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Helpers\Helper;
 use App\Services\ThetaService;
-use App\Services\TweetService;
+use App\Services\MessageService;
 use Illuminate\Console\Command;
 
 class TweetDailyUpdates extends Command
@@ -38,7 +38,7 @@ class TweetDailyUpdates extends Command
      *
      * @return int
      */
-    public function handle(ThetaService $thetaService, TweetService $tweetService)
+    public function handle(ThetaService $thetaService, MessageService $messageService)
     {
         $coins = $thetaService->getCoinList();
         $networkInfo = $thetaService->getNetworkInfo();
@@ -50,9 +50,7 @@ class TweetDailyUpdates extends Command
         $ratio = round($coins['THETA']['price'] / $coins['TFUEL']['price'], 1);
         $thetaStakes = number_format($networkInfo['theta_stake_rate'] * 100, 2) . '%';
         $tfuelStakes = number_format($networkInfo['tfuel_stake_rate'] * 100, 2) . '%';
-
-        $text = "[Bot] Daily Updates @Theta_Network: \n - BTC: {$btcPrice} \n - THETA: {$thetaPrice} \n - TFUEL: {$tfuelPrice} \n - TDROP: {$tdropPrice} \n - THETA-TFUEL Ratio: {$ratio} \n - THETA-TFUEL Stakes: {$thetaStakes} - {$tfuelStakes} \n";
-        $tweetService->tweetText($text);
+        $messageService->sendDailyUpdates(compact(['btcPrice', 'thetaPrice', 'tfuelPrice', 'tdropPrice', 'ratio', 'thetaStakes', 'tfuelStakes']));
 
         $this->info('Done');
         return 0;

@@ -7,7 +7,7 @@ use App\Helpers\Helper;
 use App\Models\Holder;
 use App\Models\NodeValidator;
 use App\Services\ThetaService;
-use App\Services\TweetService;
+use App\Services\MessageService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -43,7 +43,7 @@ class UpdateStakes extends Command
      *
      * @return int
      */
-    public function handle(ThetaService $thetaService, TweetService $tweetService)
+    public function handle(ThetaService $thetaService, MessageService $messageService)
     {
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/all');
         if (!$response->ok()) {
@@ -52,7 +52,6 @@ class UpdateStakes extends Command
         }
 
         $stakes = $response->json()['body'];
-        $networkInfo = $thetaService->getNetworkInfo();
         $cachedValidators = $thetaService->getValidators();
 
         $validators = [];
@@ -61,7 +60,7 @@ class UpdateStakes extends Command
                 if (!isset($validators[$stake['holder']])) {
                     $validators[$stake['holder']] = ['amount' => 0];
                 }
-                $validators[$stake['holder']]['amount'] += ($stake['amount'] / Constants::THETA_WEI);
+                $validators[$stake['holder']]['amount'] += round($stake['amount'] / Constants::THETA_WEI);
             }
         }
 
@@ -74,20 +73,20 @@ class UpdateStakes extends Command
                 $node = ['holder' => $holder, 'name' => '*', 'chain' => 'theta', 'amount' => round($props['amount']), 'coin' => 'theta', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
                 if (isset($holders[$holder])) {
                     $node['name'] = $holders[$holder]['name'];
-                } else {
-                    $tweet = "[Bot] We're thrilled to have a new validator joining @Theta_Network : " . number_format($node['amount']) . " \$THETA " . Helper::makeThetaAccountURL($holder);
-                    $tweetService->tweetText($tweet);
+                }
+
+                if (!isset($cachedValidators[$holder])) {  // New validator
+                    $messageService->hasNewValidator($holder, number_format($node['amount']));
 
                     Holder::updateOrCreate(
                         ['code' => $holder, 'chain' => 'theta'],
-                        ['name' => '*']
+                        ['name' => 'Validator']
                     );
                     $thetaService->cacheHolders();
                 }
 
                 if (round($node['amount']) != round($cachedValidators[$holder]['amount'])) {
-                    $tweet = "[Bot] A validator updated its \$THETA amount from " . number_format($cachedValidators[$holder]['amount']) . ' to ' . number_format($node['amount']) . ' ' . Helper::makeThetaAccountURL($holder);
-                    $tweetService->tweetText($tweet);
+                    $messageService->validatorChangesStakes($holder, number_format($cachedValidators[$holder]['amount']), number_format($node['amount']));
                 }
 
                 $data[] = $node;

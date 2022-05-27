@@ -21,7 +21,7 @@ class OnChainService
         $data = [];
         $transactions = $response->json()['body'];
         $coins = $this->getCoinList();
-        $tweetService = resolve(TweetService::class);
+        $messageService = resolve(MessageService::class);
 
         foreach ($transactions as $transaction) {
             if ($transaction['type'] == 2) { // transfer
@@ -42,7 +42,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                        $tweetService->tweetTransaction($tx);
+                        $messageService->hasLargeTransaction($tx);
                     }
 
                 } else {
@@ -59,7 +59,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                        $tweetService->tweetTransaction($tx);
+                        $messageService->hasLargeTransaction($tx);
                     }
                 }
 
@@ -80,7 +80,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                        $tweetService->tweetTransaction($tx);
+                        $messageService->hasLargeTransaction($tx);
                     }
 
                 } else {
@@ -96,7 +96,7 @@ class OnChainService
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                        $tweetService->tweetTransaction($tx);
+                        $messageService->hasLargeTransaction($tx);
                     }
                 }
             }
