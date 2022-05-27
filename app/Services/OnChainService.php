@@ -36,7 +36,7 @@ class OnChainService
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => Helper::makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
                         'to' => Helper::makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
-                        'amount' => number_format($theta, 2) . ' $THETA (' . number_format($usd, 2) . ' USD)'
+                        'amount' => number_format($theta) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
@@ -53,7 +53,7 @@ class OnChainService
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => Helper::makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
                         'to' => Helper::makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
-                        'amount' => number_format($tfuel, 2) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
+                        'amount' => number_format($tfuel) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
@@ -74,7 +74,7 @@ class OnChainService
                         'type' => 'stake',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => Helper::makeThetaAccountLink($transaction['data']['source']['address']),
-                        'amount' => number_format($theta, 2) . ' $THETA (' . number_format($usd, 2) . ' USD)'
+                        'amount' => number_format($theta) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
@@ -91,7 +91,7 @@ class OnChainService
                             'type' => 'state',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => Helper::makeThetaAccountLink($transaction['data']['source']['address']),
-                            'amount' => number_format($tfuel, 2) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
+                            'amount' => number_format($tfuel) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                         ];
                         $data[$transaction['_id']] = $tx;
                     }
