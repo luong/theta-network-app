@@ -1,4 +1,4 @@
-<div class="card c2x tfuel-supply-chart m-2 h-auto">
+<div class="card c2x tfuel-supply-chart chart m-2 h-auto">
     <h6 class="card-header">
         <span class="icon bi bi-graph-down"></span>
         <span class="name ms-1">TFUEL SUPPLY CHART</span>

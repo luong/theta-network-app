@@ -18087,7 +18087,17 @@ textarea.form-control-lg {
 .card .card-body .changes.down {
   color: red;
 }
-.card.tfuel-supply-chart .card-body {
+.card.chart .card-body {
   padding-right: 0px;
+}
+.card.chart .chart-title {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+@media (max-width: 991.98px) {
+  .card.chart .chart-title {
+    font-size: 12px;
+    margin-bottom: 7px;
+  }
 }
 

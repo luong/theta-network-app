@@ -65,9 +65,17 @@
         }
     }
 
-    &.tfuel-supply-chart {
+    &.chart {
         .card-body {
             padding-right: 0px;
+        }
+        .chart-title {
+            font-size: 15px;
+            margin-bottom: 5px;
+            @include media-breakpoint-down(lg) {
+                font-size: 12px;
+                margin-bottom: 7px;
+            }
         }
     }
 }
