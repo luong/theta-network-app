@@ -3,12 +3,16 @@
 namespace App\Services;
 use App\Helpers\Constants;
 use App\Helpers\Helper;
+use Illuminate\Support\Facades\App;
 use Noweh\TwitterApi\Client;
 
 class TweetService
 {
 
     public function tweetTransaction($tx) {
+        if (App::environment('local')) {
+            return false;
+        }
         $client = $this->getClient();
         $text = '';
         if ($tx['type'] == 'transfer') {
@@ -23,6 +27,9 @@ class TweetService
     }
 
     public function tweetText($text) {
+        if (App::environment('local')) {
+            return false;
+        }
         $client = $this->getClient();
         return $client->tweet()->performRequest('POST', ['text' => $text]);
     }
