@@ -76,6 +76,8 @@ class UpdateStats extends Command
 
             $thetaService->cacheNetworkInfo();
             $thetaService->cacheTfuelSupplyChartData();
+            $thetaService->cacheTfuelStakeChartData();
+            $thetaService->cacheThetaStakeChartData();
         }
 
         $this->info('Done');
