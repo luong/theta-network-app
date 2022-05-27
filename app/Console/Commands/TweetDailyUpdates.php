@@ -51,7 +51,7 @@ class TweetDailyUpdates extends Command
         $thetaStakes = number_format($networkInfo['theta_stake_rate'] * 100, 2) . '%';
         $tfuelStakes = number_format($networkInfo['tfuel_stake_rate'] * 100, 2) . '%';
 
-        $text = "[Bot] Daily Updates: \n - BTC: {$btcPrice} \n - THETA: {$thetaPrice} \n - TFUEL: {$tfuelPrice} \n - TDROP: {$tdropPrice} \n - THETA-TFUEL Ratio: {$ratio} \n - THETA-TFUEL Stakes: {$thetaStakes} - {$tfuelStakes} \n";
+        $text = "[Bot] Daily Updates @Theta_Network: \n - BTC: {$btcPrice} \n - THETA: {$thetaPrice} \n - TFUEL: {$tfuelPrice} \n - TDROP: {$tdropPrice} \n - THETA-TFUEL Ratio: {$ratio} \n - THETA-TFUEL Stakes: {$thetaStakes} - {$tfuelStakes} \n";
         $tweetService->tweetText($text);
 
         $this->info('Done');
