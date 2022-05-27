@@ -34,8 +34,8 @@ class OnChainService
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => Helper::makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
-                        'to' => Helper::makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                        'from' => $transaction['data']['inputs'][0]['address'],
+                        'to' => $transaction['data']['outputs'][0]['address'],
                         'amount' => number_format($theta) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
@@ -51,8 +51,8 @@ class OnChainService
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => Helper::makeThetaAccountLink($transaction['data']['inputs'][0]['address']),
-                        'to' => Helper::makeThetaAccountLink($transaction['data']['outputs'][0]['address']),
+                        'from' => $transaction['data']['inputs'][0]['address'],
+                        'to' => $transaction['data']['outputs'][0]['address'],
                         'amount' => number_format($tfuel) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
@@ -73,7 +73,7 @@ class OnChainService
                         'id' => $transaction['_id'],
                         'type' => 'stake',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => Helper::makeThetaAccountLink($transaction['data']['source']['address']),
+                        'from' => $transaction['data']['source']['address'],
                         'amount' => number_format($theta) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
@@ -90,7 +90,7 @@ class OnChainService
                             'id' => $transaction['_id'],
                             'type' => 'state',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                            'from' => Helper::makeThetaAccountLink($transaction['data']['source']['address']),
+                            'from' => $transaction['data']['source']['address'],
                             'amount' => number_format($tfuel) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
                         ];
                         $data[$transaction['_id']] = $tx;

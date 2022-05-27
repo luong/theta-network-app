@@ -13,11 +13,24 @@ class MessageService
         if (!$this->canPost()) {
             return false;
         }
+        $holders = resolve(ThetaService::class)->getHolders();
         $text = '';
         if ($tx['type'] == 'transfer') {
-            $text = "[Bot] {$tx['amount']} transferred from unknown wallet " . Helper::makeThetaTransactionURL($tx['id']);
+            $fromTo = 'from unknown wallet';
+            if (isset($holders[$tx['from']]) && isset($holders[$tx['to']])) {
+                $fromTo = 'from ' . $holders[$tx['from']]['name'] . ' to ' . $holders[$tx['to']]['name'];
+            } else if (isset($holders[$tx['from']])) {
+                $fromTo = 'from ' . $holders[$tx['from']]['name'];
+            } else if (isset($holders[$tx['to']])) {
+                $fromTo = 'to ' . $holders[$tx['to']]['name'];
+            }
+            $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeThetaTransactionURL($tx['id']);
         } else if ($tx['type'] == 'stake') {
-            $text = "[Bot] {$tx['amount']} staked " . Helper::makeThetaTransactionURL($tx['id']);
+            $from = 'from unknown wallet';
+            if (isset($holders[$tx['from']])) {
+                $from = 'from ' . $holders[$tx['from']]['name'];
+            }
+            $text = "{$tx['amount']} staked {$from} " . Helper::makeThetaTransactionURL($tx['id']);
         }
         if (!empty($text)) {
             return $this->tweetText($text);
@@ -29,7 +42,7 @@ class MessageService
         if (!$this->canPost()) {
             return false;
         }
-        $tweet = "[Bot] We're thrilled to have a new validator joining @Theta_Network : {$amount} \$THETA => " . Helper::makeThetaAccountURL($address);
+        $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$THETA => " . Helper::makeThetaAccountURL($address);
         return $this->tweetText($tweet);
     }
 
@@ -37,7 +50,12 @@ class MessageService
         if (!$this->canPost()) {
             return false;
         }
-        $tweet = "[Bot] A validator updated its \$THETA amount from {$oldAmount} to {$newAmount} => " . Helper::makeThetaAccountURL($address);
+        $holders = resolve(ThetaService::class)->getHolders();
+        $accountName = 'A validator';
+        if (isset($holders[$address])) {
+            $accountName = 'The validator ' .  $holders[$address]['name'];
+        }
+        $tweet = "{$accountName} updated its \$THETA amount from {$oldAmount} to {$newAmount} => " . Helper::makeThetaAccountURL($address);
         return $this->tweetText($tweet);
     }
 
@@ -45,13 +63,13 @@ class MessageService
         if (!$this->canPost()) {
             return false;
         }
-        $tweet = "[Bot] Daily Updates @Theta_Network: \n - BTC: {$params['btcPrice']} \n - THETA: {$params['thetaPrice']} \n - TFUEL: {$params['tfuelPrice']} \n - TDROP: {$params['tdropPrice']} \n - THETA-TFUEL Ratio: {$params['ratio']} \n - THETA-TFUEL Stakes: {$params['thetaStakes']} - {$params['tfuelStakes']} \n";
+        $tweet = "Daily Updates @Theta_Network: \n - BTC: {$params['btcPrice']} \n - THETA: {$params['thetaPrice']} \n - TFUEL: {$params['tfuelPrice']} \n - TDROP: {$params['tdropPrice']} \n - THETA-TFUEL Ratio: {$params['ratio']} \n - THETA-TFUEL Stakes: {$params['thetaStakes']} - {$params['tfuelStakes']} \n";
         return $this->tweetText($tweet);
     }
 
     public function tweetText($text) {
         $client = $this->getTwitterClient();
-        return $client->tweet()->performRequest('POST', ['text' => $text]);
+        return $client->tweet()->performRequest('POST', ['text' =>'[Bot] ' .  $text]);
     }
 
     private function canPost() {
