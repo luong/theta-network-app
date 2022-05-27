@@ -1,5 +1,6 @@
 FROM php:8.1.6-fpm-alpine
 
+USER root
 WORKDIR /var/www
 
 RUN apk update && apk add --update --no-cache \
@@ -22,14 +23,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN addgroup -g 1000 www
 RUN adduser -u 1000 www -G www -D
 
-COPY . .
 COPY ./.docker/php/local.ini /usr/local/etc/php/conf.d/local.ini
-
-RUN chmod -R 775 storage
-RUN chmod -R 775 bootstrap
-
-RUN chown www:www -R .
-USER www
 
 EXPOSE 9000
 CMD ["php-fpm"]
