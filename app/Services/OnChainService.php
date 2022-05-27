@@ -85,14 +85,14 @@ class OnChainService
 
                 } else {
                     $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    $tx = [
+                        'id' => $transaction['_id'],
+                        'type' => 'state',
+                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                        'from' => $transaction['data']['source']['address'],
+                        'amount' => number_format($tfuel) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
+                    ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
-                        $tx = [
-                            'id' => $transaction['_id'],
-                            'type' => 'state',
-                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                            'from' => $transaction['data']['source']['address'],
-                            'amount' => number_format($tfuel) . ' $TFUEL (' . number_format($usd, 2) . ' USD)'
-                        ];
                         $data[$transaction['_id']] = $tx;
                     }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
