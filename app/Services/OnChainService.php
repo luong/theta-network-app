@@ -38,10 +38,10 @@ class OnChainService
                         'to' => $transaction['data']['outputs'][0]['address'],
                         'amount' => number_format($theta) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
                     }
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
 
@@ -76,10 +76,10 @@ class OnChainService
                         'from' => $transaction['data']['source']['address'],
                         'amount' => number_format($theta) . ' $THETA (' . number_format($usd, 2) . ' USD)'
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
                     }
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
 

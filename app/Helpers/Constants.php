@@ -8,6 +8,7 @@ class Constants
     const THETA_EXPLORER_API_URL = 'https://explorer.thetatoken.org:8443';
     const THETA_MARKETING_API_URL = 'https://marketing-api.thetatoken.org';
     const THETA_WEI = 1000000000000000000;
+    const THETA_VALIDATOR_MIN_AMOUNT = 200000;
 
     const COINGECKO_API_URL = 'https://api.coingecko.com';
 
