@@ -12,6 +12,8 @@ class Constants
 
     const COINGECKO_API_URL = 'https://api.coingecko.com';
 
+    const DL_API_URL = 'https://api.llama.fi';
+
     const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
 

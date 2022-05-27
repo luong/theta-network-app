@@ -19,12 +19,15 @@ class Helper
         return "<a href='" . Constants::THETA_EXPLORER_URL . "/account/{$accountId}' target='_blank'>{$accountId}</a>";
     }
 
-    public static function formatPrice($price, $decimals = 4)
+    public static function formatPrice($price, $decimals = 4, $unit = '')
     {
+        if ($unit == 'M') {
+            $price = $price / 1000000;
+        }
         $n = number_format($price, $decimals);
         if (str_contains($n, '.')) {
             $n = rtrim(rtrim($n, '0'), '.');
         }
-        return '$' . $n;
+        return '$' . $n . $unit;
     }
 }

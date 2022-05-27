@@ -6,6 +6,13 @@
     <div class="card-body">
         <div class="container">
             <div class="row">
+                <div class="col">TVL</div>
+                <div class="col">
+                    {{ Helper::formatPrice($networkInfo['tvl_value'], 2, 'M') }}
+                    <span class="changes {{ $networkInfo['tvl_change_24h'] >= 0 ? 'up' : 'down' }}">({{ round($networkInfo['tvl_change_24h'], 2) }}%)</span>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col">THETA / TFUEL</div>
                 <div class="col">{{ round($networkInfo['theta_price'] / $networkInfo['tfuel_price'], 1) }}</div>
             </div>
@@ -24,10 +31,6 @@
             <div class="row">
                 <div class="col">Onchain Wallets</div>
                 <div class="col">{{ number_format($networkInfo['onchain_wallets']) }}</div>
-            </div>
-            <div class="row">
-                <div class="col">Active Wallets</div>
-                <div class="col">{{ number_format($networkInfo['active_wallets']) }}</div>
             </div>
             <div class="row">
                 <div class="col">THETA Stakes</div>

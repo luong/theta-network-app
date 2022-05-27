@@ -91,6 +91,7 @@ class ThetaService
         $onChainService = resolve(OnChainService::class);
         $stats = $onChainService->getThetaStats();
         $marketingData = $onChainService->getThetaMarketingData();
+        $tvl = $onChainService->getTVL();
 
         $info = [
             'validators' => $lastChain->validators,
@@ -106,6 +107,8 @@ class ThetaService
             'tfuel_supply' => $stats['tfuel']['supply'],
             'tfuel_stake_nodes' => $stats['tfuel']['staked_nodes'],
             'tfuel_stake_rate' => round($stats['tfuel']['total_stakes'] / $stats['tfuel']['supply'], 4),
+            'tvl_value' => $tvl['current_value'],
+            'tvl_change_24h' => $tvl['change_24h']
         ];
         Cache::put('network_info', $info);
         return $info;

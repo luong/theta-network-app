@@ -3,13 +3,26 @@
 namespace App\Services;
 
 use App\Helpers\Constants;
-use App\Helpers\Helper;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class OnChainService
 {
+
+    public function getTVL() {
+        $response = Http::get(Constants::DL_API_URL . '/charts/theta');
+        if (!$response->ok()) {
+            return false;
+        }
+        $data = $response->json();
+        $todayData = round($data[count($data) - 1]['totalLiquidityUSD']);
+        $prevData = round($data[count($data) - 2]['totalLiquidityUSD']);
+        return [
+            'current_value' => $todayData,
+            'change_24h' => round(($todayData - $prevData) / $prevData, 4)
+        ];
+    }
 
     public function getLatestTransactions()
     {
