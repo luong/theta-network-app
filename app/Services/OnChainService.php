@@ -26,8 +26,8 @@ class OnChainService
         foreach ($transactions as $transaction) {
             if ($transaction['type'] == 2) { // transfer
                 $usd = 0;
-                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI, 2);
-                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
+                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI);
+                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI);
                 if ($theta > 0) {
                     $usd = round($theta * $coins['THETA']['price'], 2);
                     $tx = [
@@ -65,8 +65,8 @@ class OnChainService
 
             } else if ($transaction['type'] == 10) { // stake
                 $usd = 0;
-                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI, 2);
-                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
+                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
+                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI);
                 if ($theta > 0) {
                     $usd = round($theta * $coins['THETA']['price'], 2);
                     $tx = [
