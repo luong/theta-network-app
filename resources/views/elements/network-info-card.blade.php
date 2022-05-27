@@ -35,7 +35,7 @@
             </div>
             <div class="row">
                 <div class="col"></div>
-                <div class="col">[{{ $networkInfo['theta_stake_nodes'] }} nodes]</div>
+                <div class="col">[{{ number_format($networkInfo['theta_stake_nodes']) }} nodes]</div>
             </div>
             <div class="row">
                 <div class="col">TFUEL Stakes</div>
@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <div class="col"></div>
-                <div class="col">[{{ $networkInfo['tfuel_stake_nodes'] }} nodes]</div>
+                <div class="col">[{{ number_format($networkInfo['tfuel_stake_nodes']) }} nodes]</div>
             </div>
         </div>
     </div>

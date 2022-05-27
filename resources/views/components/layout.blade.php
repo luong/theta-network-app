@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
                 <div class="navbar-nav">
                     <a class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#donateModel"><span class="bi bi-currency-bitcoin"></span> Donate</a>
-                    <a class="nav-link text-secondary fs-5" href="mailto:luongfox@gmail.com"><span class="bi bi-envelope"></span> Contact</a>
+                    <a class="nav-link text-secondary fs-5" href="https://twitter.com/0xTfuel" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
                 </div>
             </div>
         </div>
