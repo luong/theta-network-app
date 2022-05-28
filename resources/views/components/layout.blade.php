@@ -29,8 +29,8 @@
             </button>
             <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
                 <div class="navbar-nav">
-                    <a class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#donateModel"><span class="bi bi-currency-bitcoin"></span> Donate</a>
-                    <a class="nav-link text-secondary fs-5" href="https://twitter.com/0xTfuel" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
+                    <a id="donateLink" class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#donateModel"><span class="bi bi-currency-bitcoin"></span> Donate</a>
+                    <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/0xTfuel" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
                 </div>
             </div>
         </div>
@@ -40,6 +40,12 @@
 
     <div class="">{{ $slot }}</div>
 </div>
+
+<script>
+    mixpanel.track('ViewPage', { page: '{{ $pageName }}' });
+    mixpanel.track_links('#donateLink', 'Click Donate');
+    mixpanel.track_links('#contactLink', 'Click Contact');
+</script>
 
 </body>
 </html>
