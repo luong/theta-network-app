@@ -18,7 +18,7 @@ class Constants
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
 
     const TOP_TRANSACTION_LIMIT = 100;
-    const TOP_TRANSACTION_MIN_AMOUNT = 100000;
+    const TOP_TRANSACTION_MIN_AMOUNT = 200000;
     const TOP_TRANSACTION_TWEET_AMOUNT = 200000;
 
     const TWITTER_PROJECT_ID = '24379483';

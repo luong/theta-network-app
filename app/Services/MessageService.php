@@ -11,9 +11,6 @@ class MessageService
 
     public function hasLargeTransaction($tx)
     {
-        if (!$this->canPost()) {
-            return false;
-        }
         $holders = resolve(ThetaService::class)->getHolders();
         $text = '';
         if ($tx['type'] == 'transfer') {
@@ -41,18 +38,12 @@ class MessageService
 
     public function hasNewValidator($address, $amount)
     {
-        if (!$this->canPost()) {
-            return false;
-        }
         $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$THETA => " . Helper::makeThetaAccountURL($address);
         return $this->tweetText($tweet);
     }
 
     public function validatorChangesStakes($address, $oldAmount, $newAmount)
     {
-        if (!$this->canPost()) {
-            return false;
-        }
         $holders = resolve(ThetaService::class)->getHolders();
         $accountName = 'A validator';
         if (isset($holders[$address])) {
@@ -64,15 +55,15 @@ class MessageService
 
     public function sendDailyUpdates($params)
     {
-        if (!$this->canPost()) {
-            return false;
-        }
-        $tweet = "Daily Updates @Theta_Network: \n - BTC: {$params['btcPrice']} \n - THETA: {$params['thetaPrice']} \n - TFUEL: {$params['tfuelPrice']} \n - TDROP: {$params['tdropPrice']} \n - THETA-TFUEL Ratio: {$params['ratio']} \n - THETA-TFUEL Stakes: {$params['thetaStakes']} - {$params['tfuelStakes']} \n";
+        $tweet = "Daily Updates @Theta_Network: \n- TVL: {$params['tvl']} \n- THETA: {$params['thetaPrice']} \n- TFUEL: {$params['tfuelPrice']} \n- TDROP: {$params['tdropPrice']} \n- THETA-TFUEL Ratio: {$params['ratio']} \n- THETA-TFUEL Stakes: {$params['thetaStakes']} - {$params['tfuelStakes']} \n- TFUEL Supply: {$params['tfuelSupply']} \n";
         return $this->tweetText($tweet);
     }
 
     public function tweetText($text)
     {
+        if (!$this->canPost()) {
+            return false;
+        }
         $client = $this->getTwitterClient();
         return $client->tweet()->performRequest('POST', ['text' =>'[Bot] ' .  $text]);
     }
