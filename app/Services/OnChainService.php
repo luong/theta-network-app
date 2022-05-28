@@ -35,8 +35,14 @@ class OnChainService
         $transactions = $response->json()['body'];
         $coins = $this->getCoinList();
         $messageService = resolve(MessageService::class);
+        $thetaService = resolve(ThetaService::class);
+        $cachedTopTransactions = $thetaService->getTopTransactions();
 
         foreach ($transactions as $transaction) {
+            if (isset($cachedTopTransactions[$transaction['_id']])) {
+                continue;
+            }
+
             if ($transaction['type'] == 2) { // transfer
                 $usd = 0;
                 $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI);
