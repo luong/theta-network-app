@@ -18078,6 +18078,15 @@ textarea.form-control-lg {
 .card .card-body .row {
   line-height: 2;
 }
+.card .card-body .row .bullet {
+  color: #bcbebf;
+  border: 1px solid #bcbebf;
+  padding: 5px;
+  line-height: 0.5;
+  height: 20px !important;
+  margin-top: 5px;
+  margin-right: 7px;
+}
 .card .card-body .changes {
   font-size: 90%;
 }

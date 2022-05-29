@@ -48,6 +48,15 @@
         }
         .row {
             line-height: 2;
+            .bullet {
+                color: #bcbebf;
+                border: 1px solid #bcbebf;
+                padding: 5px;
+                line-height: 0.5;
+                height: 20px !important;
+                margin-top: 5px;
+                margin-right: 7px;
+            }
         }
         .changes {
             font-size: 90%;
