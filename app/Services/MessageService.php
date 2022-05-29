@@ -29,6 +29,12 @@ class MessageService
                 $from = 'from ' . $holders[$tx['from']]['name'];
             }
             $text = "{$tx['amount']} staked {$from} " . Helper::makeThetaTransactionURL($tx['id']);
+        } else if ($tx['type'] == 'withdraw') {
+            $from = 'from unknown wallet';
+            if (isset($holders[$tx['from']])) {
+                $from = 'from ' . $holders[$tx['from']]['name'];
+            }
+            $text = "{$tx['amount']} withdrawn {$from} " . Helper::makeThetaAccountURL($tx['from']);
         }
         if (!empty($text)) {
             return $this->tweetText($text);

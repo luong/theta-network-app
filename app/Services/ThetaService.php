@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Constants;
 use App\Helpers\Helper;
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
@@ -207,4 +208,21 @@ class ThetaService
         }
     }
 
+    public function addTopTransactions($transactions) {
+        $topTransactions = $this->getTopTransactions();
+        if (!empty($transactions)) {
+            $topTransactions = $transactions + $topTransactions;
+            uasort($topTransactions, function($tx1, $tx2) {
+                if ($tx1['date'] < $tx2['date']) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            });
+        }
+        if (count($topTransactions) > Constants::TOP_TRANSACTION_LIMIT) {
+            $topTransactions = array_slice($topTransactions, 0, Constants::TOP_TRANSACTION_LIMIT);
+        }
+        Cache::put('top_transactions', $topTransactions);
+    }
 }

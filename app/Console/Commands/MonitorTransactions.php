@@ -2,11 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Constants;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 class MonitorTransactions extends Command
 {
@@ -42,22 +40,7 @@ class MonitorTransactions extends Command
     public function handle(OnChainService $onChainService, ThetaService $thetaService)
     {
         $latestTransactions = $onChainService->getLatestTransactions();
-
-        $topTransactions = $thetaService->getTopTransactions();
-        if (!empty($latestTransactions)) {
-            $topTransactions = $latestTransactions + $topTransactions;
-            uasort($topTransactions, function($tx1, $tx2) {
-                if ($tx1['date'] < $tx2['date']) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            });
-        }
-        if (count($topTransactions) > Constants::TOP_TRANSACTION_LIMIT) {
-            $topTransactions = array_slice($topTransactions, 0, Constants::TOP_TRANSACTION_LIMIT);
-        }
-        Cache::put('top_transactions', $topTransactions);
+        $thetaService->addTopTransactions($latestTransactions);
 
         $this->info('Done');
         return 0;

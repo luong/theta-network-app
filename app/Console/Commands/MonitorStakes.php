@@ -12,21 +12,21 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class UpdateStakes extends Command
+class MonitorStakes extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:updateStakes';
+    protected $signature = 'theta:monitorStakes';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update stakes';
+    protected $description = 'Monitor stakes';
 
     /**
      * Create a new command instance.
@@ -53,9 +53,31 @@ class UpdateStakes extends Command
 
         $stakes = $response->json()['body'];
         $cachedValidators = $thetaService->getValidators();
+        $coins = $thetaService->getCoinList();
+        $cachedTopTransactions = $thetaService->getTopTransactions();
 
         $validators = [];
+        $topTransactions = [];
+
         foreach ($stakes as $stake) {
+            if ($stake['withdrawn']) {
+                $theta = round($stake['amount'] / Constants::THETA_WEI);
+                $usd = $theta * $coins['THETA']['price'];
+                if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
+                    if (isset($cachedTopTransactions[$stake['_id']])) {
+                        continue;
+                    }
+                    $tx = [
+                        'id' => $stake['_id'],
+                        'type' => 'withdraw',
+                        'date' => date('Y-m-d H:i'),
+                        'from' => $stake['source']['address'],
+                        'amount' => number_format($theta) . ' $THETA (' . Helper::formatPrice($usd, 0) . ')'
+                    ];
+                    $topTransactions[$stake['_id']] = $tx;
+                    $messageService->hasLargeTransaction($tx);
+                }
+            }
             if ($stake['type'] == 'vcp') {
                 if (!isset($validators[$stake['holder']])) {
                     $validators[$stake['holder']] = ['amount' => 0];
@@ -96,6 +118,36 @@ class UpdateStakes extends Command
             $thetaService->cacheValidators();
             $thetaService->updateDailyValidators($validatorCount);
             $thetaService->cacheNetworkInfo();
+        }
+
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/all?types[]=eenp');
+        if ($response->ok()) {
+            $stakes = $response->json()['body'];
+            foreach ($stakes as $stake) {
+                if (!$stake['withdrawn']) {
+                    continue;
+                }
+                $tfuel = round($stake['amount'] / Constants::THETA_WEI);
+                $usd = $tfuel * $coins['TFUEL']['price'];
+                if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
+                    if (isset($cachedTopTransactions[$stake['_id']])) {
+                        continue;
+                    }
+                    $tx = [
+                        'id' => $stake['_id'],
+                        'type' => 'withdraw',
+                        'date' => date('Y-m-d H:i'),
+                        'from' => $stake['source']['address'],
+                        'amount' => number_format($tfuel) . ' $TFUEL (' . Helper::formatPrice($usd, 0) . ')'
+                    ];
+                    $topTransactions[$stake['_id']] = $tx;
+                    $messageService->hasLargeTransaction($tx);
+                }
+            }
+        }
+
+        if ($topTransactions) {
+            $thetaService->addTopTransactions($topTransactions);
         }
 
         $this->info('Done.');
