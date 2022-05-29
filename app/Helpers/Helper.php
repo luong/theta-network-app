@@ -21,13 +21,18 @@ class Helper
 
     public static function formatPrice($price, $decimals = 4, $unit = '')
     {
+        return '$' . self::formatNumber($price, $decimals, $unit);
+    }
+
+    public static function formatNumber($number, $decimals = 4, $unit = '')
+    {
         if ($unit == 'M') {
-            $price = $price / 1000000;
+            $number = $number / 1000000;
         }
-        $n = number_format($price, $decimals);
+        $n = number_format($number, $decimals);
         if (str_contains($n, '.')) {
             $n = rtrim(rtrim($n, '0'), '.');
         }
-        return '$' . $n . $unit;
+        return $n . $unit;
     }
 }

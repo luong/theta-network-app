@@ -5,6 +5,12 @@
     </h6>
     <div class="card-body">
         <div class="container">
+            <div class="chart-title text-center">
+                24H:
+                {{ ($networkInfo['tfuel_supply_change_24h'] >= 0 ? '+' : '-') . $networkInfo['tfuel_supply_change_24h'] }} in supply
+                #
+                {{ ($networkInfo['tfuel_stake_change_24h'] >= 0 ? '+' : '-') . $networkInfo['tfuel_stake_change_24h'] }} in staking
+            </div>
             <canvas id="tfuelSupplyChartHolder"></canvas>
         </div>
     </div>
