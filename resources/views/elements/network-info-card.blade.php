@@ -13,6 +13,27 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col">THETA Price</div>
+                <div class="col">
+                    {{ Helper::formatPrice($coins['THETA']['price']) }}
+                    <span class="changes {{ $coins['THETA']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ round($coins['THETA']['price_change_24h'], 2) }}%)</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">TFUEL Price</div>
+                <div class="col">
+                    {{ Helper::formatPrice($coins['TFUEL']['price']) }}
+                    <span class="changes {{ $coins['TFUEL']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ round($coins['TFUEL']['price_change_24h'], 2) }}%)</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">TDROP Price</div>
+                <div class="col">
+                    {{ Helper::formatPrice($coins['TDROP']['price']) }}
+                    <span class="changes {{ $coins['TDROP']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ round($coins['TDROP']['price_change_24h'], 2) }}%)</span>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col">THETA / TFUEL</div>
                 <div class="col">{{ round($networkInfo['theta_price'] / $networkInfo['tfuel_price'], 1) }}</div>
             </div>
@@ -31,22 +52,6 @@
             <div class="row">
                 <div class="col">Onchain Wallets</div>
                 <div class="col">{{ number_format($networkInfo['onchain_wallets']) }}</div>
-            </div>
-            <div class="row">
-                <div class="col">THETA Stakes</div>
-                <div class="col">{{ number_format($networkInfo['theta_stake_rate'] * 100, 2) }}%</div>
-            </div>
-            <div class="row">
-                <div class="col"></div>
-                <div class="col">[{{ number_format($networkInfo['theta_stake_nodes']) }} nodes]</div>
-            </div>
-            <div class="row">
-                <div class="col">TFUEL Stakes</div>
-                <div class="col">{{ number_format($networkInfo['tfuel_stake_rate'] * 100, 2) }}%</div>
-            </div>
-            <div class="row">
-                <div class="col"></div>
-                <div class="col">[{{ number_format($networkInfo['tfuel_stake_nodes']) }} nodes]</div>
             </div>
         </div>
     </div>
