@@ -55,7 +55,7 @@ class MessageService
 
     public function sendDailyUpdates($params)
     {
-        $tweet = "Daily Updates @Theta_Network: \n- TVL: {$params['tvl']} \n- THETA: {$params['thetaPrice']} \n- TFUEL: {$params['tfuelPrice']} \n- TDROP: {$params['tdropPrice']} \n- THETA-TFUEL Ratio: {$params['ratio']} \n- THETA-TFUEL Stakes: {$params['thetaStakes']} - {$params['tfuelStakes']} \n- TFUEL Supply: {$params['tfuelSupply']} \n";
+        $tweet = "Daily Updates @Theta_Network: \n- TVL: {$params['tvl']} \n- \$theta: {$params['thetaPrice']} \n- \$tfuel: {$params['tfuelPrice']} \n- \$tdrop: {$params['tdropPrice']} \n- \$theta:\$tfuel ratio: {$params['ratio']} \n- \$theta-\$tfuel stakes: {$params['thetaStakes']} - {$params['tfuelStakes']} \n- \$tfuel supply: {$params['tfuelSupply']} \n";
         return $this->tweetText($tweet);
     }
 

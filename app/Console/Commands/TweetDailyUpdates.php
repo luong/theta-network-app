@@ -50,7 +50,7 @@ class TweetDailyUpdates extends Command
         $ratio = round($coins['THETA']['price'] / $coins['TFUEL']['price'], 1);
         $thetaStakes = number_format($networkInfo['theta_stake_rate'] * 100, 2) . '%';
         $tfuelStakes = number_format($networkInfo['tfuel_stake_rate'] * 100, 2) . '%';
-        $tfuelSupply = number_format($networkInfo['tfuel_supply']);
+        $tfuelSupply = number_format($networkInfo['tfuel_supply']) . ' (' . ($networkInfo['tfuel_supply_change_24h'] >= 0 ? '+' : '-') . $networkInfo['tfuel_supply_change_24h'] . ')';
         $messageService->sendDailyUpdates(compact(['tvl', 'thetaPrice', 'tfuelPrice', 'tdropPrice', 'ratio', 'thetaStakes', 'tfuelStakes', 'tfuelSupply']));
 
         $this->info('Done');
