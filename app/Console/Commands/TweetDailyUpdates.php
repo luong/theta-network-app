@@ -48,8 +48,8 @@ class TweetDailyUpdates extends Command
         $tfuelPrice = Helper::formatPrice($coins['TFUEL']['price']) . ' (' . ($coins['TFUEL']['price_change_24h'] > 0 ? '+' : '') . round($coins['TFUEL']['price_change_24h'], 2) . '%) #' . $coins['TFUEL']['market_cap_rank'];
         $tdropPrice = Helper::formatPrice($coins['TDROP']['price']) . ' (' . ($coins['TDROP']['price_change_24h'] > 0 ? '+' : '') . round($coins['TDROP']['price_change_24h'], 2) . '%) #' . $coins['TDROP']['market_cap_rank'];
         $ratio = round($coins['THETA']['price'] / $coins['TFUEL']['price'], 1);
-        $thetaStakes = number_format($networkInfo['theta_stake_rate'] * 100, 2) . '% ( ' . (($networkInfo['theta_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['theta_stake_change_24h'], 2, 'M')) . ')';
-        $tfuelStakes = number_format($networkInfo['tfuel_stake_rate'] * 100, 2) . '% ( ' . (($networkInfo['tfuel_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_stake_change_24h'], 2, 'M')) . ')';
+        $thetaStakes = number_format($networkInfo['theta_stake_rate'] * 100, 2) . '% (' . (($networkInfo['theta_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['theta_stake_change_24h'], 2, 'M')) . ')';
+        $tfuelStakes = number_format($networkInfo['tfuel_stake_rate'] * 100, 2) . '% (' . (($networkInfo['tfuel_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_stake_change_24h'], 2, 'M')) . ')';
         $tfuelSupply = Helper::formatNumber($networkInfo['tfuel_supply'], 3, 'M') . ' (' . ($networkInfo['tfuel_supply_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['tfuel_supply_change_24h'], 2, 'M') . ')';
         $messageService->sendDailyUpdates(compact(['tvl', 'thetaPrice', 'tfuelPrice', 'tdropPrice', 'ratio', 'thetaStakes', 'tfuelStakes', 'tfuelSupply']));
 
