@@ -5,7 +5,7 @@
     </h6>
     <div class="card-body">
         <div class="container">
-            <div class="chart-title text-center">Current supply: {{ number_format($networkInfo['tfuel_supply']) }} # Staked: {{ $networkInfo['tfuel_stake_rate'] * 100 }}%</div>
+            <div class="chart-title text-center">Supply: {{ number_format($networkInfo['tfuel_supply']) }} # Staked: {{ $networkInfo['tfuel_stake_rate'] * 100 }}% ({{ ($networkInfo['tfuel_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_stake_change_24h'], 2, 'M') }})</div>
             <canvas id="tfuelStakeChartHolder"></canvas>
         </div>
     </div>
