@@ -9,28 +9,28 @@
                 <div class="col">TVL</div>
                 <div class="col">
                     {{ Helper::formatPrice($networkInfo['tvl_value'], 2, 'M') }}
-                    <span class="changes {{ $networkInfo['tvl_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($networkInfo['tvl_change_24h'] >= 0 ? '+' : '') . round($networkInfo['tvl_change_24h'], 2) }}%)</span>
+                    <span class="changes {{ $networkInfo['tvl_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($networkInfo['tvl_change_24h'] > 0 ? '+' : '') . round($networkInfo['tvl_change_24h'] * 100, 2) }}%)</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col">THETA Price</div>
                 <div class="col">
                     {{ Helper::formatPrice($coins['THETA']['price']) }}
-                    <span class="changes {{ $coins['THETA']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coins['THETA']['price_change_24h'] >= 0 ? '+' : '') . round($coins['THETA']['price_change_24h'], 2) }}%)</span>
+                    <span class="changes {{ $coins['THETA']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coins['THETA']['price_change_24h'] > 0 ? '+' : '') . round($coins['THETA']['price_change_24h'], 2) }}%)</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col">TFUEL Price</div>
                 <div class="col">
                     {{ Helper::formatPrice($coins['TFUEL']['price']) }}
-                    <span class="changes {{ $coins['TFUEL']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coins['TFUEL']['price_change_24h'] >= 0 ? '+' : '') . round($coins['TFUEL']['price_change_24h'], 2) }}%)</span>
+                    <span class="changes {{ $coins['TFUEL']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coins['TFUEL']['price_change_24h'] > 0 ? '+' : '') . round($coins['TFUEL']['price_change_24h'], 2) }}%)</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col">TDROP Price</div>
                 <div class="col">
                     {{ Helper::formatPrice($coins['TDROP']['price']) }}
-                    <span class="changes {{ $coins['TDROP']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coins['TDROP']['price_change_24h'] >= 0 ? '+' : '') . round($coins['TDROP']['price_change_24h'], 2) }}%)</span>
+                    <span class="changes {{ $coins['TDROP']['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coins['TDROP']['price_change_24h'] > 0 ? '+' : '') . round($coins['TDROP']['price_change_24h'], 2) }}%)</span>
                 </div>
             </div>
             <div class="row">
