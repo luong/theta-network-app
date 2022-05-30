@@ -95,9 +95,11 @@ class ThetaService
         $marketingData = $onChainService->getThetaMarketingData();
         $tvl = $onChainService->getTVL();
         $lastestTfuelCoins = DailyCoin::where('coin', 'tfuel')->latest()->take(2)->get();
+        $lastestThetaCoins = DailyCoin::where('coin', 'theta')->latest()->take(2)->get();
 
-        $tfuelSupplyChange24h = Helper::formatNumber($lastestTfuelCoins[0]->supply - $lastestTfuelCoins[1]->supply, 2, 'M');
-        $tfuelStakeChange24h = Helper::formatNumber($lastestTfuelCoins[0]->total_stakes - $lastestTfuelCoins[1]->total_stakes, 2, 'M');
+        $thetaStakeChange24h = round($lastestThetaCoins[0]->total_stakes - $lastestThetaCoins[1]->total_stakes);
+        $tfuelSupplyChange24h = round($lastestTfuelCoins[0]->supply - $lastestTfuelCoins[1]->supply);
+        $tfuelStakeChange24h = round($lastestTfuelCoins[0]->total_stakes - $lastestTfuelCoins[1]->total_stakes);
 
         $info = [
             'validators' => $lastChain->validators,
@@ -109,6 +111,7 @@ class ThetaService
             'theta_supply' => $stats['theta']['supply'],
             'theta_stake_nodes' => $stats['theta']['staked_nodes'],
             'theta_stake_rate' => round($stats['theta']['total_stakes'] / $stats['theta']['supply'], 4),
+            'theta_stake_change_24h' => $thetaStakeChange24h,
             'tfuel_price' => $stats['tfuel']['price'],
             'tfuel_supply' => $stats['tfuel']['supply'],
             'tfuel_stake_nodes' => $stats['tfuel']['staked_nodes'],

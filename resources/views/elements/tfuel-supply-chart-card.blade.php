@@ -7,9 +7,9 @@
         <div class="container">
             <div class="chart-title text-center">
                 24H:
-                {{ ($networkInfo['tfuel_supply_change_24h'] >= 0 ? '+' : '') . $networkInfo['tfuel_supply_change_24h'] }} in supply
+                {{ ($networkInfo['tfuel_supply_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_supply_change_24h'], 2, 'M') }} in supply
                 #
-                {{ ($networkInfo['tfuel_stake_change_24h'] >= 0 ? '+' : '') . $networkInfo['tfuel_stake_change_24h'] }} in staking
+                {{ ($networkInfo['tfuel_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_stake_change_24h'], 2, 'M') }} in staking
             </div>
             <canvas id="tfuelSupplyChartHolder"></canvas>
         </div>
