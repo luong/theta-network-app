@@ -4,3 +4,4 @@
 - Run: "docker-compose up"
 - In theta/app container, run "artisan key:generate", then "composer install"
 - Start: http://localhost:9000
+- ...
