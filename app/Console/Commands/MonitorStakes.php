@@ -137,7 +137,7 @@ class MonitorStakes extends Command
                         'id' => $stake['_id'],
                         'type' => 'withdraw',
                         'date' => date('Y-m-d H:i'),
-                        'from' => $stake['source']['address'],
+                        'from' => $stake['source'],
                         'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     $topTransactions[$stake['_id']] = $tx;
