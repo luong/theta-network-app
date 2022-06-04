@@ -72,7 +72,7 @@ class MonitorStakes extends Command
                         'type' => 'withdraw',
                         'date' => date('Y-m-d H:i'),
                         'from' => $stake['source'],
-                        'amount' => number_format($theta) . ' $THETA (' . Helper::formatPrice($usd, 0) . ')'
+                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     $topTransactions[$stake['_id']] = $tx;
                     $messageService->hasLargeTransaction($tx);
@@ -138,7 +138,7 @@ class MonitorStakes extends Command
                         'type' => 'withdraw',
                         'date' => date('Y-m-d H:i'),
                         'from' => $stake['source']['address'],
-                        'amount' => number_format($tfuel) . ' $TFUEL (' . Helper::formatPrice($usd, 0) . ')'
+                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     $topTransactions[$stake['_id']] = $tx;
                     $messageService->hasLargeTransaction($tx);

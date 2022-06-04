@@ -56,7 +56,7 @@ class OnChainService
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
-                        'amount' => number_format($theta) . ' $THETA (' . Helper::formatPrice($usd, 0) . ')'
+                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
@@ -73,7 +73,7 @@ class OnChainService
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
-                        'amount' => number_format($tfuel) . ' $TFUEL (' . Helper::formatPrice($usd, 0) . ')'
+                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
@@ -94,7 +94,7 @@ class OnChainService
                         'type' => 'stake',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
-                        'amount' => number_format($theta) . ' $THETA (' . Helper::formatPrice($usd, 0) . ')'
+                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
@@ -110,7 +110,7 @@ class OnChainService
                         'type' => 'state',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
-                        'amount' => number_format($tfuel) . ' $TFUEL (' . Helper::formatPrice($usd, 0) . ')'
+                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
                         $data[$transaction['_id']] = $tx;
