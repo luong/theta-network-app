@@ -63,18 +63,20 @@ class MonitorStakes extends Command
             if ($stake['withdrawn']) {
                 $theta = round($stake['amount'] / Constants::THETA_WEI);
                 $usd = $theta * $coins['THETA']['price'];
+                if (isset($cachedTopTransactions[$stake['_id']])) {
+                    continue;
+                }
+                $tx = [
+                    'id' => $stake['_id'],
+                    'type' => 'withdraw',
+                    'date' => date('Y-m-d H:i'),
+                    'from' => $stake['source'],
+                    'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
+                ];
                 if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                    if (isset($cachedTopTransactions[$stake['_id']])) {
-                        continue;
-                    }
-                    $tx = [
-                        'id' => $stake['_id'],
-                        'type' => 'withdraw',
-                        'date' => date('Y-m-d H:i'),
-                        'from' => $stake['source'],
-                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
-                    ];
                     $topTransactions[$stake['_id']] = $tx;
+                }
+                if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                     $messageService->hasLargeTransaction($tx);
                 }
             }
@@ -129,18 +131,20 @@ class MonitorStakes extends Command
                 }
                 $tfuel = round($stake['amount'] / Constants::THETA_WEI);
                 $usd = $tfuel * $coins['TFUEL']['price'];
+                if (isset($cachedTopTransactions[$stake['_id']])) {
+                    continue;
+                }
+                $tx = [
+                    'id' => $stake['_id'],
+                    'type' => 'withdraw',
+                    'date' => date('Y-m-d H:i'),
+                    'from' => $stake['source'],
+                    'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
+                ];
                 if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
-                    if (isset($cachedTopTransactions[$stake['_id']])) {
-                        continue;
-                    }
-                    $tx = [
-                        'id' => $stake['_id'],
-                        'type' => 'withdraw',
-                        'date' => date('Y-m-d H:i'),
-                        'from' => $stake['source'],
-                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
-                    ];
                     $topTransactions[$stake['_id']] = $tx;
+                }
+                if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                     $messageService->hasLargeTransaction($tx);
                 }
             }
