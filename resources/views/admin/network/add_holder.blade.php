@@ -1,7 +1,7 @@
-<x-admin_layout pageName="validators">
-    <div class="add-validator-page">
+<x-admin_layout pageName="holders">
+    <div class="add-holder-page">
         <x-slot name="header">
-            Add New Validator
+            Add New Holder
         </x-slot>
 
         <div class="container-sm ms-0 ps-0">
@@ -17,19 +17,15 @@
                 <div class="alert alert-success mt-4">{{ session('message') }}</div>
             @endif
 
-            <form method="post" action="{{ route('admin.validator.add') }}" class="col-lg-6">
+            <form method="post" action="{{ route('admin.holder.add') }}" class="col-lg-6">
                 @csrf
                 <div class="mb-3 mt-3">
-                    <label for="holder">Holder:</label>
-                    <input type="text" class="form-control" id="holder" placeholder="Enter holder" name="holder" value="{{ old('holder') }}"/>
+                    <label for="code">Code:</label>
+                    <input type="text" class="form-control" id="code" placeholder="Enter code" name="code" value="{{ old('code') }}"/>
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="name">Name:</label>
                     <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="{{ old('name') }}"/>
-                </div>
-                <div class="mb-3 mt-3">
-                    <label for="amount">Amount:</label>
-                    <input type="text" class="form-control" id="amount" placeholder="Enter amount" name="amount" value="{{ old('amount') }}"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

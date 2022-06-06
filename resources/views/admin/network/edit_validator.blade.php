@@ -1,5 +1,5 @@
 <x-admin_layout pageName="validators">
-    <div class="login-page">
+    <div class="edit-validator-page">
         <x-slot name="header">
             Edit Validator
         </x-slot>

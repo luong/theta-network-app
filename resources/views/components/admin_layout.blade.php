@@ -52,7 +52,7 @@
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.validators') }}" page="validators"><span class="bi-at"></span> Validators</a>
-                                <a class="nav-link" href="" page="holders"><span class="bi-diamond"></span> Holders</a>
+                                <a class="nav-link" href="{{ route('admin.holders') }}" page="holders"><span class="bi-diamond"></span> Holders</a>
                             </li>
                         </ul>
 
