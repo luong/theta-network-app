@@ -7,7 +7,7 @@ use App\Helpers\Helper;
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
 use App\Models\Holder;
-use App\Models\NodeValidator;
+use App\Models\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -171,7 +171,7 @@ class ThetaService
 
     public function cacheValidators()
     {
-        $validators = NodeValidator::all()->keyBy('holder')->toArray();
+        $validators = Validator::all()->keyBy('holder')->toArray();
         Cache::put('validators', $validators);
         return $validators;
     }

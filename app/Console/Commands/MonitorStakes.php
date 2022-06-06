@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Helpers\Constants;
 use App\Helpers\Helper;
 use App\Models\Holder;
-use App\Models\NodeValidator;
+use App\Models\Validator;
 use App\Services\ThetaService;
 use App\Services\MessageService;
 use Carbon\Carbon;
@@ -90,7 +90,7 @@ class MonitorStakes extends Command
 
         $holders = $thetaService->getHolders();
         if (!empty($validators)) {
-            NodeValidator::truncate();
+            Validator::truncate();
             $validatorCount = count($validators);
             $data = [];
             foreach ($validators as $holder => $props) {
@@ -115,7 +115,7 @@ class MonitorStakes extends Command
 
                 $data[] = $node;
             }
-            NodeValidator::insert($data);
+            Validator::insert($data);
 
             $thetaService->cacheValidators();
             $thetaService->updateDailyValidators($validatorCount);

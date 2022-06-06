@@ -1,6 +1,7 @@
 import 'bootstrap';
 
-import 'chart.js';
+window.$ = window.jQuery = require('jquery');
+
 import Chart from 'chart.js/auto';
 window.Chart = Chart;
 

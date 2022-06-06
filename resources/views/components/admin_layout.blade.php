@@ -11,6 +11,10 @@
     <link rel="icon" href="{{ asset('images/theta.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ mix('/css/admin.css') }}">
 
+    <script>
+        var pageName = '{{ $pageName }}';
+    </script>
+
     <script src="{{ mix('/js/app.js') }}"></script>
 
     @stack('scripts')
@@ -38,7 +42,17 @@
                     @auth('admin')
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ route('admin.home') }}"><span class="bi-house-door"></span> Home</a>
+                                <a class="nav-link" aria-current="page" href="{{ route('admin.home') }}" page="home"><span class="bi-house-door"></span> Home</a>
+                            </li>
+                        </ul>
+
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Networking</span>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.validators') }}" page="validators"><span class="bi-at"></span> Validators</a>
+                                <a class="nav-link" href="" page="holders"><span class="bi-diamond"></span> Holders</a>
                             </li>
                         </ul>
 
@@ -47,7 +61,7 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href=""><span class="bi-person"></span> Admins</a>
+                                <a class="nav-link" href="" page="admins"><span class="bi-person"></span> Admins</a>
                             </li>
                         </ul>
 
@@ -79,6 +93,16 @@
     </div>
 
 </div>
+
+<script>
+    $(function() {
+        let selectedPageObj = $('#sidebarMenu a.nav-link[page=' + pageName + ']');
+        if (pageName && selectedPageObj) {
+            $('#sidebarMenu a.nav-link').removeClass('active');
+            selectedPageObj.addClass('active');
+        }
+    });
+</script>
 
 </body>
 </html>
