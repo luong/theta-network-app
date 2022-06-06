@@ -62,6 +62,7 @@ class NetworkController extends Controller
     public function deleteValidator($id)
     {
         Validator::destroy($id);
+        $this->thetaService->cacheValidators();
         return back();
     }
 }
