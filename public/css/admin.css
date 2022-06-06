@@ -18033,87 +18033,53 @@ textarea.form-control-lg {
   content: "\f793";
 }
 
-.navbar {
-  box-shadow: 1px 1px #ccc;
+.admin-layout .sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 48px 0 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
-
-.donate-model .modal-body {
-  overflow-wrap: anywhere;
+.admin-layout .sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
 }
-
-.card {
-  height: auto;
+.admin-layout .sidebar .nav-link.active {
+  color: #2470dc;
 }
-.card.c1x {
-  width: 350px;
+.admin-layout .sidebar-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
 }
-.card.c2x {
-  width: 600px;
-  height: 320px;
+.admin-layout .navbar-brand {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
 }
-@media (max-width: 991.98px) {
-  .card.c2x {
-    width: 350px;
-  }
+.admin-layout .navbar .navbar-toggler {
+  top: 0.25rem;
+  right: 1rem;
 }
-.card .card-header {
-  height: 45px;
-  padding-top: 0px;
-  padding-bottom: 0px;
+.admin-layout .navbar .form-control {
+  padding: 0.75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
 }
-.card .card-header .name {
-  vertical-align: middle;
-  line-height: 45px;
+.admin-layout .page-header {
+  margin-bottom: 0px;
 }
-.card .card-header .icon {
-  font-size: 25px;
-  vertical-align: middle;
+.admin-layout .page-content {
+  margin-top: 20px;
 }
-.card .card-body {
-  font-size: 15px;
+.admin-layout .form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
-.card .card-body.scrollable {
-  overflow: auto;
-}
-.card .card-body .row {
-  line-height: 2;
-}
-.card .card-body .row .bullet {
-  color: #bcbebf;
-  border: 1px solid #bcbebf;
-  padding: 5px;
-  line-height: 0.5;
-  height: 20px !important;
-  margin-top: 5px;
-  margin-right: 7px;
-  width: 28px;
-  text-align: center;
-}
-.card .card-body .changes {
-  font-size: 90%;
-}
-.card .card-body .changes.up {
-  color: green;
-}
-.card .card-body .changes.down {
-  color: red;
-}
-.card.chart .card-body {
-  padding-right: 0px;
-}
-.card.chart .chart-title {
-  font-size: 15px;
-  margin-bottom: 5px;
-}
-@media (max-width: 991.98px) {
-  .card.chart .chart-title {
-    font-size: 12px;
-    margin-bottom: 7px;
-  }
-}
-.card.tdrop {
-  height: 290px;
-}
-.card.btc {
-  height: 290px;
+.admin-layout .form-control-dark.focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
