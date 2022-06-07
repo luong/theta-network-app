@@ -5,11 +5,20 @@
             <a class="btn btn-outline-primary" href="{{ route('admin.holder.add') }}">Add New Holder</a>
         </x-slot>
 
+        <div class="col-lg-6">
+            <form method="get">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" value="{{ $search }}" class="form-control" placeholder="Search by code or name">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Code</th>
+                    <th scope="col">Code ({{ $holders->total() }})</th>
                     <th scope="col">Name</th>
                     <th scope="col" class="text-center">Created At</th>
                     <th scope="col"></th>
@@ -36,7 +45,7 @@
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Code</th>
+                    <th scope="col">Code ({{ $holders->total() }})</th>
                     <th scope="col">Name</th>
                     <th scope="col"></th>
                 </tr>
@@ -54,6 +63,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $holders->links() }}
         </div>
 
     </div>

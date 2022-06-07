@@ -20,9 +20,15 @@ class NetworkController extends Controller
 
     public function validators()
     {
-        $validators = Validator::all()->sortByDesc('amount');
+        $search = request('search');
+        $query = Validator::query();
+        if (!empty($search)) {
+            $query->where('holder', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        }
+        $validators = $query->orderByDesc('amount')->get();
         return view('admin.network.validators', [
-            'validators' => $validators
+            'validators' => $validators,
+            'search' => $search
         ]);
     }
 
@@ -70,9 +76,15 @@ class NetworkController extends Controller
 
     public function holders()
     {
-        $holders = Holder::query()->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT);
+        $search = request('search');
+        $query = Holder::query();
+        if (!empty($search)) {
+            $query->where('code', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
+        }
+        $holders = $query->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('admin.network.holders', [
-            'holders' => $holders
+            'holders' => $holders,
+            'search' => $search
         ]);
     }
 

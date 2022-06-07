@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use App\Services\MessageService;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrapFive();
+        Paginator::useBootstrapFour();
     }
 }
