@@ -40,6 +40,7 @@ class UpdatePrices extends Command
     {
         $thetaService->cacheCoinList();
         $thetaService->cacheNetworkInfo();
+        $thetaService->setCommandTracker('UpdatePrices', 'last_run', time());
         $this->info('Done');
         return 0;
     }

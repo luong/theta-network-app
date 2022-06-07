@@ -154,6 +154,8 @@ class MonitorStakes extends Command
             $thetaService->addTopTransactions($topTransactions);
         }
 
+        $thetaService->setCommandTracker('MonitorStakes', 'last_run', time());
+
         $this->info('Done.');
         return 0;
     }

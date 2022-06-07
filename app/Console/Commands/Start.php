@@ -39,6 +39,7 @@ class Start extends Command
     public function handle(ThetaService $thetaService)
     {
         $thetaService->caching();
+        $thetaService->setCommandTracker('Start', 'last_run', time());
         return 0;
     }
 }

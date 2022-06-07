@@ -24,6 +24,39 @@ class ThetaService
         $this->cacheTfuelSupplyChartData();
         $this->cacheThetaStakeChartData();
         $this->cacheTfuelStakeChartData();
+        $this->cacheCommandTrackers();
+    }
+
+    public function cacheCommandTrackers()
+    {
+        if (!Cache::has('command_trackers')) {
+            $commandTrackers = [
+                'Start' => ['command' => 'theta:start', 'last_run' => null],
+                'UpdateDailyStats' => ['command' => 'theta:updateStats', 'last_run' => null],
+                'MonitorStakes' => ['command' => 'theta:monitorStakes', 'last_run' => null],
+                'UpdatePrices' => ['command' => 'theta:updatePrices', 'last_run' => null],
+                'MonitorTransactions' => ['command' => 'theta:monitorTransactions', 'last_run' => null],
+                'TweetDailyUpdates' => ['command' => 'theta:tweetDailyUpdates', 'last_run' => null]
+            ];
+            Cache::put('command_trackers', $commandTrackers);
+        }
+        return Cache::get('command_trackers');
+    }
+
+    public function getCommandTrackers()
+    {
+        $commandTrackers = Cache::get('command_trackers');
+        if (empty($commandTrackers)) {
+            $commandTrackers = $this->cacheCommandTrackers();
+        }
+        return $commandTrackers;
+    }
+
+    public function setCommandTracker($command, $property, $value)
+    {
+        $commands = $this->getCommandTrackers();
+        $commands[$command][$property] = $value;
+        Cache::put('command_trackers', $commands);
     }
 
     public function cacheThetaStakeChartData()

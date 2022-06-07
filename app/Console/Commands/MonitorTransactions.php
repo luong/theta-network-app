@@ -41,7 +41,7 @@ class MonitorTransactions extends Command
     {
         $latestTransactions = $onChainService->getLatestTransactions();
         $thetaService->addTopTransactions($latestTransactions);
-
+        $thetaService->setCommandTracker('MonitorTransactions', 'last_run', time());
         $this->info('Done');
         return 0;
     }

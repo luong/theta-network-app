@@ -53,6 +53,8 @@ class TweetDailyUpdates extends Command
         $tfuelSupply = Helper::formatNumber($networkInfo['tfuel_supply'], 0, 'M') . ' (' . ($networkInfo['tfuel_supply_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['tfuel_supply_change_24h'], 2, 'M') . ')';
         $messageService->sendDailyUpdates(compact(['tvl', 'thetaPrice', 'tfuelPrice', 'tdropPrice', 'ratio', 'thetaStakes', 'tfuelStakes', 'tfuelSupply']));
 
+        $thetaService->setCommandTracker('TweetDailyUpdates', 'last_run', time());
+
         $this->info('Done');
         return 0;
     }

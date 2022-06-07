@@ -78,6 +78,8 @@ class UpdateDailyStats extends Command
             $thetaService->cacheTfuelSupplyChartData();
             $thetaService->cacheTfuelStakeChartData();
             $thetaService->cacheThetaStakeChartData();
+
+            $thetaService->setCommandTracker('UpdateDailyStats', 'last_run', time());
         }
 
         $this->info('Done');
