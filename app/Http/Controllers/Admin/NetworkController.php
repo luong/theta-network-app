@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
 use App\Models\Holder;
 use App\Models\Validator;
@@ -69,7 +70,7 @@ class NetworkController extends Controller
 
     public function holders()
     {
-        $holders = Holder::all()->sortBy('name');
+        $holders = Holder::query()->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT);
         return view('admin.network.holders', [
             'holders' => $holders
         ]);

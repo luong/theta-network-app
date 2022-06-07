@@ -29,6 +29,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $holders->links() }}
         </div>
 
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-block d-lg-none">
@@ -44,7 +45,7 @@
                 @foreach ($holders as $holder)
                     <tr>
                         <td><a href="{{ Helper::makeThetaAccountURL($holder->code) }}" target="_blank">{{ Str::limit($holder->code, 10) }}</a></td>
-                        <td>{{ $holder->name }}</td>
+                        <td>{{ Str::limit($holder->name, 10) }}</td>
                         <td class="text-end">
                             <a href="{{ route('admin.holder.edit', ['id' => $holder->id]) }}">Edit</a>
                             <a href="javascript:void(0)" onclick="confirmDelete('{{ route('admin.holder.delete', ['id' => $holder->id]) }}')">Delete</a>
