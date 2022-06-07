@@ -2,7 +2,7 @@
     <div class="home-page">
         <x-slot name="header">Home</x-slot>
 
-        <div class="container-fluid ms-0 ps-0 col-lg-6">
+        <div class="container-fluid ms-0 ps-0 pe-0 col-lg-6">
             <table class="table">
                 <thead>
                     <tr>
