@@ -3,11 +3,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\NetworkController;
+use App\Http\Controllers\Admin\AdminController;
 
 Route::any('/login', [AuthController::class, 'login'])->name('admin.login');
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('admin.home');
+
+    Route::get('/admins', [AdminController::class, 'list'])->name('admin.admins');
+    Route::any('/admin/add', [AdminController::class, 'add'])->name('admin.admin.add');
+    Route::any('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.admin.edit');
+    Route::get('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.admin.delete');
 
     Route::get('/validators', [NetworkController::class, 'validators'])->name('admin.validators');
     Route::any('/validator/add', [NetworkController::class, 'addValidator'])->name('admin.validator.add');

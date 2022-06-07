@@ -19,7 +19,7 @@
                 <thead>
                 <tr>
                     <th scope="col" class="text-center">No</th>
-                    <th scope="col">Holder</th>
+                    <th scope="col">Holder ({{ count($validators) }})</th>
                     <th scope="col">Name</th>
                     <th scope="col" class="text-end">Amount (Theta)</th>
                     <th scope="col" class="text-center">Created At</th>
@@ -49,7 +49,7 @@
                 <thead>
                 <tr>
                     <th scope="col" class="text-center">No</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Name ({{ count($validators) }})</th>
                     <th scope="col" class="text-end">Amount</th>
                     <th scope="col"></th>
                 </tr>
