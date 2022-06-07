@@ -12,11 +12,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($command_trackers as $command => $tracker)
-                        <tr class="{{ date('Y-m-d', $tracker['last_run']) != date('Y-m-d') ? 'bg-warning' : '' }}">
-                            <td>{{ $command }}</td>
+                    @foreach ($command_trackers as $name => $tracker)
+                        <tr class="{{ !empty($tracker['last_run']) && date('Y-m-d', $tracker['last_run']) == date('Y-m-d') ? '' : 'bg-warning' }}" command_name="{{ $name }}">
+                            <td>{{ $name }}</td>
                             <td>{{ $tracker['last_run'] ? date('Y-m-d H:i:s', $tracker['last_run']) : '' }}</td>
-                            <td><a href="javascript:void(0)" onclick="runCommand('{{ $tracker['command'] }}')">Run</a></td>
+                            <td><span class="spinner spinner-border spinner-border-sm d-none"></span> <a class="link" href="javascript:void(0)" onclick="runCommand('{{ $name }}', '{{ $tracker['command'] }}')">Run</a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -25,13 +25,17 @@
     </div>
 
     <script>
-        function runCommand(command) {
+        function runCommand(name, command) {
+            let tr = $('tr[command_name=' + name + ']');
+            tr.find('.spinner').removeClass('d-none').addClass('d-inline-block');
+            tr.find('.link').removeClass('d-inline-block').addClass('d-none');
             $.ajax({
                 method: 'post',
                 url: '/admin/run',
                 data: { command: command }
             }).done(function( msg ) {
-                alert('Running done.');
+                tr.find('.link').removeClass('d-none').addClass('d-inline-block');
+                tr.find('.spinner').removeClass('d-inline-block').addClass('d-none');
             });
         }
     </script>
