@@ -26,7 +26,7 @@
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     pointStyle: 'circle',
-                    pointRadius: 5,
+                    pointRadius: 3,
                     data: @json($tfuelSupplyChartData),
                 }]
             },
