@@ -17,7 +17,9 @@
                 <tr>
                     <th scope="col">Account ({{ $activists->total() }})</th>
                     <th scope="col" class="text-center">Transaction Count</th>
-                    <th scope="col" class="text-end">In/Out Total</th>
+                    <th scope="col" class="text-end">In</th>
+                    <th scope="col" class="text-end">Out</th>
+                    <th scope="col" class="text-end">In+Out</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -29,6 +31,8 @@
                     <tr>
                         <td><a href="{{ Helper::makeThetaAccountURL($activist->account) }}" target="_blank">{{ $holder }}</a></td>
                         <td class="text-center">{{ $activist->times }}</td>
+                        <td class="text-end">${{ number_format($activist->usd_in, 2) }}</td>
+                        <td class="text-end">${{ number_format($activist->usd_out, 2) }}</td>
                         <td class="text-end">${{ number_format($activist->usd, 2) }}</td>
                     </tr>
                 @endforeach
@@ -43,7 +47,7 @@
                 <tr>
                     <th scope="col">Account ({{ $activists->total() }})</th>
                     <th scope="col" class="text-center">Transaction Count</th>
-                    <th scope="col" class="text-end">In/Out Total</th>
+                    <th scope="col" class="text-end">In+Out</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>

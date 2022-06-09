@@ -135,11 +135,11 @@ class NetworkController extends Controller
         $search = request('search');
         $holders = $this->thetaService->getHolders();
 
-        $query1 = DB::table('transactions')->select('from_account as account', 'usd')
-            ->union(DB::table('transactions')->select('to_account as account', 'usd'));
+        $query1 = DB::table('transactions')->select('from_account as account', DB::raw('0 as usd_in'), 'usd as usd_out', 'usd')
+            ->union(DB::table('transactions')->select('to_account as account', 'usd as usd_in', DB::raw('0 as usd_out'), 'usd'));
 
         $query2 = Transaction::query()->fromSub($query1, 't1')
-            ->selectRaw('account, count(*) as times, sum(usd) as usd')
+            ->selectRaw('account, count(*) as times, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd) as usd')
             ->groupBy('account');
 
         if (!empty($search)) {
