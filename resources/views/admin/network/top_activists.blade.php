@@ -2,11 +2,20 @@
     <div class="edit-validator-page">
         <x-slot name="header">Top Activists in 24H</x-slot>
 
+        <div class="col-lg-6">
+            <form method="get">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" value="{{ $search }}" class="form-control" placeholder="Search by account">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Account</th>
+                    <th scope="col">Account ({{ $activists->total() }})</th>
                     <th scope="col" class="text-center">Transaction Count</th>
                     <th scope="col" class="text-end">In/Out Total</th>
                     <th scope="col"></th>
@@ -25,13 +34,14 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $activists->links() }}
         </div>
 
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-block d-lg-none">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Account</th>
+                    <th scope="col">Account ({{ $activists->total() }})</th>
                     <th scope="col" class="text-center">Transaction Count</th>
                     <th scope="col" class="text-end">In/Out Total</th>
                     <th scope="col"></th>
@@ -50,6 +60,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $activists->links() }}
         </div>
 
     </div>

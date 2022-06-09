@@ -132,17 +132,28 @@ class NetworkController extends Controller
 
     public function topActivists()
     {
+        $search = request('search');
         $holders = $this->thetaService->getHolders();
 
-        $query = DB::table('transactions')->select('from_account as account', 'usd')
+        $query1 = DB::table('transactions')->select('from_account as account', 'usd')
             ->union(DB::table('transactions')->select('to_account as account', 'usd'));
 
-        $activists = Transaction::query()->fromSub($query, 't1')
+        $query2 = Transaction::query()->fromSub($query1, 't1')
             ->selectRaw('account, count(*) as times, sum(usd) as usd')
-            ->groupBy('account')
-            ->orderByDesc('usd')
-            ->get();
+            ->groupBy('account');
 
-        return view('admin.network.top_activists', ['activists' => $activists, 'holders' => $holders]);
+        if (!empty($search)) {
+            $query2->having('account', '=', $search);
+        }
+
+        $activists = $query2->orderByDesc('usd')
+            ->paginate(100)
+            ->withQueryString();
+
+        return view('admin.network.top_activists', [
+            'activists' => $activists,
+            'holders' => $holders,
+            'search' => $search
+        ]);
     }
 }
