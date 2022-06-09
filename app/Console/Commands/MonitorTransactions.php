@@ -111,7 +111,7 @@ class MonitorTransactions extends Command
                     }
                 }
 
-                if ($usd > 5) {
+                if ($usd > 0) {
                     $trackedData[] = $tx;
                 }
 
