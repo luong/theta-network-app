@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Helpers\Constants;
 use App\Helpers\Helper;
+use App\Models\Transaction;
 use App\Services\MessageService;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
@@ -78,6 +79,8 @@ class MonitorTransactions extends Command
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
                         'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                        'coins' => $theta,
+                        'currency' => 'theta',
                         'usd' => $usd
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
@@ -96,6 +99,8 @@ class MonitorTransactions extends Command
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
                         'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
+                        'coins' => $tfuel,
+                        'currency' => 'tfuel',
                         'usd' => $usd
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
@@ -106,7 +111,7 @@ class MonitorTransactions extends Command
                     }
                 }
 
-                if ($usd > 5) {
+                if ($usd > 10) {
                     $trackedData[] = $tx;
                 }
 
@@ -122,6 +127,8 @@ class MonitorTransactions extends Command
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
                         'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                        'coins' => $theta,
+                        'currency' => 'theta',
                         'usd' => $usd
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
@@ -139,6 +146,8 @@ class MonitorTransactions extends Command
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
                         'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
+                        'coins' => $tfuel,
+                        'currency' => 'tfuel',
                         'usd' => $usd
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
@@ -165,9 +174,7 @@ class MonitorTransactions extends Command
 
     private function trackActivities($trackedData)
     {
-        Cache::forget('top_activists');
-        Cache::forget('recent_transaction_ids');
-        exit;
+        Transaction::whereDate('date', '<=', now()->subHours(24))->delete();
 
         $newRecentTransactionIds = [];
         $recentTransactionIds = Cache::get('recent_transaction_ids');
@@ -175,41 +182,33 @@ class MonitorTransactions extends Command
             $recentTransactionIds = [];
         }
 
-        $activists = Cache::get('top_activists');
-        if (empty($activists)) {
-            $activists = [];
-        }
-
-        $minDate = date('Y-m-d H:i', strtotime('-24 hours'));
-        $newActivists = [];
-        foreach ($activists as $key => $count) {
-            [$date, $account] = explode('*', $key, 2);
-            if ($date >= $minDate) {
-                $newActivists[$key] = $count;
-            }
-        }
-
+        $data = [];
         foreach ($trackedData as $each) {
             $newRecentTransactionIds[] = $each['id'];
             if (in_array($each['id'], $recentTransactionIds)) {
                 continue;
             }
-            $key = $each['date'] . '*' . $each['from'];
-            if (!isset($newActivists[$key])) {
-                $newActivists[$key] = ['times' => 0, 'usd' => 0];
-            }
-            $newActivists[$key]['times']++;
-            $newActivists[$key]['usd'] += $each['usd'];
-
-            $key = $each['date'] . '*' . $each['to'];
-            if (!isset($newActivists[$key])) {
-                $newActivists[$key] = ['times' => 0, 'usd' => 0];
-            }
-            $newActivists[$key]['times']++;
-            $newActivists[$key]['usd'] += $each['usd'];
+            $data[] = [
+                'txn' => $each['id'],
+                'type' => $each['type'],
+                'from' => $each['from'],
+                'to' => $each['to'],
+                'amount' => $each['coins'],
+                'currency' => $each['currency'],
+                'usd' => $each['usd'],
+                'date' => $each['date']
+            ];
         }
 
-        Cache::put('top_activists', $newActivists);
+        if (!empty($data)) {
+            foreach ($data as $each) {
+                Transaction::updateOrCreate(
+                    ['txn' => $each['txn']],
+                    $each
+                );
+            }
+        }
+
         Cache::put('recent_transaction_ids', $newRecentTransactionIds);
     }
 }
