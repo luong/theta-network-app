@@ -111,7 +111,7 @@ class MonitorTransactions extends Command
                     }
                 }
 
-                if ($usd > 0) {
+                if ($usd > 1) {
                     $trackedData[] = $tx;
                 }
 
@@ -174,7 +174,7 @@ class MonitorTransactions extends Command
 
     private function trackActivities($trackedData)
     {
-        Transaction::whereDate('date', '<=', now()->subHours(24))->delete();
+        Transaction::whereDate('date', '<=', now()->subDays(7))->delete();
 
         $newRecentTransactionIds = [];
         $recentTransactionIds = Cache::get('recent_transaction_ids');
