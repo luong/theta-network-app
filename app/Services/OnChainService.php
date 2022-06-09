@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Helpers\Constants;
-use App\Helpers\Helper;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -23,106 +22,6 @@ class OnChainService
             'current_value' => $todayData,
             'change_24h' => round(($todayData - $prevData) / $prevData, 4)
         ];
-    }
-
-    public function getLatestTransactions()
-    {
-        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transactions/range?limit=' . Constants::TOP_TRANSACTION_LIMIT);
-        if (!$response->ok()) {
-            return false;
-        }
-
-        $data = [];
-        $transactions = $response->json()['body'];
-        $coins = $this->getCoinList();
-        $messageService = resolve(MessageService::class);
-        $thetaService = resolve(ThetaService::class);
-        $cachedTopTransactions = $thetaService->getTopTransactions();
-
-        foreach ($transactions as $transaction) {
-            if (isset($cachedTopTransactions[$transaction['_id']])) {
-                continue;
-            }
-
-            if ($transaction['type'] == 2) { // transfer
-                $usd = 0;
-                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI);
-                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI);
-                if ($theta > 0) {
-                    $usd = round($theta * $coins['THETA']['price'], 2);
-                    $tx = [
-                        'id' => $transaction['_id'],
-                        'type' => 'transfer',
-                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $transaction['data']['inputs'][0]['address'],
-                        'to' => $transaction['data']['outputs'][0]['address'],
-                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
-                    ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                        $messageService->hasLargeTransaction($tx);
-                    }
-
-                } else {
-                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
-                    $tx = [
-                        'id' => $transaction['_id'],
-                        'type' => 'transfer',
-                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $transaction['data']['inputs'][0]['address'],
-                        'to' => $transaction['data']['outputs'][0]['address'],
-                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
-                    ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                        $messageService->hasLargeTransaction($tx);
-                    }
-                }
-
-            } else if ($transaction['type'] == 10) { // stake
-                $usd = 0;
-                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
-                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI);
-                if ($theta > 0) {
-                    $usd = round($theta * $coins['THETA']['price'], 2);
-                    $tx = [
-                        'id' => $transaction['_id'],
-                        'type' => 'stake',
-                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $transaction['data']['source']['address'],
-                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')'
-                    ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                        $messageService->hasLargeTransaction($tx);
-                    }
-
-                } else {
-                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
-                    $tx = [
-                        'id' => $transaction['_id'],
-                        'type' => 'state',
-                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $transaction['data']['source']['address'],
-                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')'
-                    ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                        $messageService->hasLargeTransaction($tx);
-                    }
-                }
-            }
-        }
-
-        return $data;
     }
 
     public function getThetaMarketingData() {
