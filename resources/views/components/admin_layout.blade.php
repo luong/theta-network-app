@@ -53,6 +53,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.validators') }}" page="validators"><span class="bi-at"></span> Validators</a>
                                 <a class="nav-link" href="{{ route('admin.holders') }}" page="holders"><span class="bi-diamond"></span> Holders</a>
+                                <a class="nav-link" href="{{ route('admin.topActivists') }}" page="holders"><span class="bi-diamond"></span> Top Activists</a>
                             </li>
                         </ul>
 

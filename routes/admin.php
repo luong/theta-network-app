@@ -26,6 +26,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/holder/edit/{id}', [NetworkController::class, 'editHolder'])->name('admin.holder.edit');
     Route::get('/holder/delete/{id}', [NetworkController::class, 'deleteHolder'])->name('admin.holder.delete');
 
+    Route::get('/top-activists', [NetworkController::class, 'topActivists'])->name('admin.topActivists');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 });
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Holder;
 use App\Models\Validator;
 use App\Services\ThetaService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 
 class NetworkController extends Controller
@@ -125,5 +126,22 @@ class NetworkController extends Controller
         Holder::destroy($id);
         $this->thetaService->cacheHolders();
         return back();
+    }
+
+    public function topActivists()
+    {
+        $activists = Cache::get('top_activists');
+        $holders = $this->thetaService->getHolders();
+        if (empty($activists)) {
+            $activists = [];
+        }
+        uasort($activists, function($tx1, $tx2) {
+            if ($tx1['usd'] < $tx2['usd']) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+        return view('admin.network.top_activists', ['activists' => $activists, 'holders' => $holders]);
     }
 }
