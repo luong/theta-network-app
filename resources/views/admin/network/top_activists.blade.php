@@ -46,7 +46,9 @@
                 <thead>
                 <tr>
                     <th scope="col">Account ({{ $activists->total() }})</th>
-                    <th scope="col" class="text-center">Transaction Count</th>
+                    <th scope="col" class="text-center">Count</th>
+                    <th scope="col" class="text-end">In</th>
+                    <th scope="col" class="text-end">Out</th>
                     <th scope="col" class="text-end">In+Out</th>
                     <th scope="col"></th>
                 </tr>
@@ -57,9 +59,11 @@
                         $holder = isset($holders[$activist->account]) ? $holders[$activist->account]['name'] : $activist->account;
                     @endphp
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($activist->account) }}" target="_blank">{{ Str::limit($holder, 10) }}</a></td>
+                        <td><a href="{{ Helper::makeThetaAccountURL($activist->account) }}" target="_blank">{{ Str::limit($holder, 6) }}</a></td>
                         <td class="text-center">{{ $activist->times }}</td>
-                        <td class="text-end">${{ number_format($activist->usd, 2) }}</td>
+                        <td class="text-end">{{ Helper::formatPrice($activist->usd_in, 0, 'K') }}</td>
+                        <td class="text-end">{{ Helper::formatPrice($activist->usd_out, 0, 'K') }}</td>
+                        <td class="text-end">{{ Helper::formatPrice($activist->usd, 0, 'K') }}</td>
                     </tr>
                 @endforeach
                 </tbody>

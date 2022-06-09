@@ -26,8 +26,12 @@ class Helper
 
     public static function formatNumber($number, $decimals = 4, $unit = '')
     {
-        if ($unit == 'M') {
+        if ($unit == 'B') {
+            $number = $number / 1000000000;
+        } else if ($unit == 'M') {
             $number = $number / 1000000;
+        } else if ($unit == 'K') {
+            $number = $number / 1000;
         }
         $n = number_format($number, $decimals);
         if (str_contains($n, '.')) {

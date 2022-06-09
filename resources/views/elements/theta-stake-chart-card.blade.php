@@ -5,7 +5,7 @@
     </h6>
     <div class="card-body">
         <div class="container">
-            <div class="chart-title text-center">Supply: {{ Helper::formatNumber($networkInfo['theta_supply'], 0, 'M') }} # Staked: {{ $networkInfo['theta_stake_rate'] * 100 }}% ({{ ($networkInfo['theta_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['theta_stake_change_24h'], 2, 'M') }})</div>
+            <div class="chart-title text-center">Supply: {{ Helper::formatNumber($networkInfo['theta_supply'], 0, 'B') }} # Staked: {{ $networkInfo['theta_stake_rate'] * 100 }}% ({{ ($networkInfo['theta_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['theta_stake_change_24h'], 2, 'M') }})</div>
             <canvas id="thetaStakeChartHolder"></canvas>
         </div>
     </div>
