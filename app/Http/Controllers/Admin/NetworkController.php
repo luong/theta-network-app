@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
 use App\Models\Holder;
+use App\Models\Transaction;
 use App\Models\Validator;
 use App\Services\ThetaService;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class NetworkController extends Controller
@@ -130,18 +132,17 @@ class NetworkController extends Controller
 
     public function topActivists()
     {
-        $activists = Cache::get('top_activists');
         $holders = $this->thetaService->getHolders();
-        if (empty($activists)) {
-            $activists = [];
-        }
-        uasort($activists, function($tx1, $tx2) {
-            if ($tx1['usd'] < $tx2['usd']) {
-                return 1;
-            } else {
-                return -1;
-            }
-        });
+
+        $query = DB::table('transactions')->select('from_account as account', 'usd')
+            ->union(DB::table('transactions')->select('to_account as account', 'usd'));
+
+        $activists = Transaction::query()->fromSub($query, 't1')
+            ->selectRaw('account, count(*) as times, sum(usd) as usd')
+            ->groupBy('account')
+            ->orderByDesc('usd')
+            ->get();
+
         return view('admin.network.top_activists', ['activists' => $activists, 'holders' => $holders]);
     }
 }

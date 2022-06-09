@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('txn', 255)->unique();
             $table->string('type');
-            $table->string('from', 255);
-            $table->string('to', 255);
+            $table->string('from_account', 255);
+            $table->string('to_account', 255);
             $table->double('amount');
             $table->string('currency');
             $table->string('usd');

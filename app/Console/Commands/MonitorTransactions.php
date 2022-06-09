@@ -191,8 +191,8 @@ class MonitorTransactions extends Command
             $data[] = [
                 'txn' => $each['id'],
                 'type' => $each['type'],
-                'from' => $each['from'],
-                'to' => $each['to'],
+                'from_account' => $each['from'],
+                'to_account' => $each['to'],
                 'amount' => $each['coins'],
                 'currency' => $each['currency'],
                 'usd' => $each['usd'],

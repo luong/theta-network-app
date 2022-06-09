@@ -13,15 +13,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($activists as $key => $props)
+                @foreach ($activists as $activist)
                     @php
-                        $account = explode('*', $key)[1];
-                        $holder = isset($holders[$account]) ? $holders[$account]['name'] : $account;
+                        $holder = isset($holders[$activist->account]) ? $holders[$activist->account]['name'] : $activist->account;
                     @endphp
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($account) }}" target="_blank">{{ $holder }}</a></td>
-                        <td class="text-center">{{ $props['times'] }}</td>
-                        <td class="text-end">${{ number_format($props['usd'], 2) }}</td>
+                        <td><a href="{{ Helper::makeThetaAccountURL($activist->account) }}" target="_blank">{{ $holder }}</a></td>
+                        <td class="text-center">{{ $activist->times }}</td>
+                        <td class="text-end">${{ number_format($activist->usd, 2) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -39,15 +38,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($activists as $key => $props)
+                @foreach ($activists as $activist)
                     @php
-                        $account = explode('*', $key)[1];
-                        $holder = isset($holders[$account]) ? $holders[$account]['name'] : $account;
+                        $holder = isset($holders[$activist->account]) ? $holders[$activist->account]['name'] : $activist->account;
                     @endphp
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($account) }}" target="_blank">{{ Str::limit($holder, 10) }}</a></td>
-                        <td class="text-center">{{ $props['times'] }}</td>
-                        <td class="text-end">${{ number_format($props['usd'], 2) }}</td>
+                        <td><a href="{{ Helper::makeThetaAccountURL($activist->account) }}" target="_blank">{{ Str::limit($holder, 10) }}</a></td>
+                        <td class="text-center">{{ $activist->times }}</td>
+                        <td class="text-end">${{ number_format($activist->usd, 2) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
