@@ -165,6 +165,10 @@ class MonitorTransactions extends Command
 
     private function trackActivities($trackedData)
     {
+        Cache::forget('top_activists');
+        Cache::forget('recent_transaction_ids');
+        exit;
+
         $newRecentTransactionIds = [];
         $recentTransactionIds = Cache::get('recent_transaction_ids');
         if (empty($recentTransactionIds)) {
