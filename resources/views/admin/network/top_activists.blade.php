@@ -1,6 +1,6 @@
 <x-admin_layout pageName="validators">
     <div class="edit-validator-page">
-        <x-slot name="header">Top Activists in 24H</x-slot>
+        <x-slot name="header">Top Activists in 7 Days</x-slot>
 
         <div class="col-lg-6">
             <form method="get">
