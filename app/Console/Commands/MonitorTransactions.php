@@ -11,6 +11,7 @@ use App\Services\ThetaService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MonitorTransactions extends Command
 {
@@ -51,6 +52,7 @@ class MonitorTransactions extends Command
 
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transactions/range?limit=' . Constants::TOP_TRANSACTION_LIMIT);
         if (!$response->ok()) {
+            Log::channel('db')->error('Request failed: theta/api/transactions');
             return false;
         }
 

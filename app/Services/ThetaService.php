@@ -10,6 +10,7 @@ use App\Models\Holder;
 use App\Models\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ThetaService
 {
@@ -57,6 +58,10 @@ class ThetaService
         $commands = $this->getCommandTrackers();
         $commands[$command][$property] = $value;
         Cache::put('command_trackers', $commands);
+
+        if (in_array($command, ['Start', 'TweetDailyUpdates'])) {
+            Log::channel('db')->info("Command {$command} started");
+        }
     }
 
     public function cacheThetaStakeChartData()

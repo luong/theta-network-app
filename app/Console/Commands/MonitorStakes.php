@@ -11,6 +11,7 @@ use App\Services\MessageService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MonitorStakes extends Command
 {
@@ -47,7 +48,7 @@ class MonitorStakes extends Command
     {
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/all');
         if (!$response->ok()) {
-            $this->error('Request failed.');
+            Log::channel('db')->error('Request failed: theta/api/stake/all');
             return 0;
         }
 
@@ -148,6 +149,9 @@ class MonitorStakes extends Command
                     $messageService->hasLargeTransaction($tx);
                 }
             }
+
+        } else {
+            Log::channel('db')->error('Request failed: theta/api/stake/all?types[]=eenp');
         }
 
         if ($topTransactions) {

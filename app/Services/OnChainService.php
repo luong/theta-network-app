@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\Constants;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class OnChainService
@@ -13,6 +14,7 @@ class OnChainService
     public function getTVL() {
         $response = Http::get(Constants::DL_API_URL . '/charts/theta');
         if (!$response->ok()) {
+            Log::channel('db')->error('Request failed: llama/charts/theta');
             return false;
         }
         $data = $response->json();
@@ -33,6 +35,8 @@ class OnChainService
                 'guardian_nodes' => $data['totals']['gn'],
                 'validators' => $data['totals']['validator']
             ];
+        } else {
+            Log::channel('db')->error('Request failed: theta/v1/nodes/locations/optimized');
         }
         return false;
     }
@@ -42,6 +46,8 @@ class OnChainService
         if ($response->ok()) {
             $data = $response->json();
             return $data['circulation_supply'];
+        } else {
+            Log::channel('db')->error('Request failed: theta/api/supply/tfuel');
         }
         return false;
     }
@@ -67,6 +73,7 @@ class OnChainService
             $data = $response->json();
             $thetaSupply = $data['circulation_supply'];
         } else {
+            Log::channel('db')->error('Request failed: theta/api/supply/theta');
             return false;
         }
 
@@ -77,6 +84,7 @@ class OnChainService
             $thetaTotalStakes = substr($data['body']['totalAmount'], 0, -18);
             $thetaStakedNodes = $data['body']['totalNodes'];
         } else {
+            Log::channel('db')->error('Request failed: theta/api/stake/totalAmount?type=theta');
             return false;
         }
 
@@ -93,6 +101,7 @@ class OnChainService
             $tfuelTotalStakes = substr($data['body']['totalAmount'], 0, -18);
             $tfuelStakedNodes = $data['body']['totalNodes'];
         } else {
+            Log::channel('db')->error('Request failed: theta/api/stake/totalAmount?type=tfuel');
             return false;
         }
 
@@ -102,6 +111,7 @@ class OnChainService
             $data = $response->json();
             $onchainWallets = $data['total_number_account'];
         } else {
+            Log::channel('db')->error('Request failed: theta/api/account/total/number');
             return false;
         }
 
@@ -111,6 +121,7 @@ class OnChainService
             $data = $response->json();
             $activeWallets = $data['body']['amount'];
         } else {
+            Log::channel('db')->error('Request failed: theta/api/activeAccount/latest');
             return false;
         }
 
@@ -130,6 +141,7 @@ class OnChainService
                 }
             }
         } else {
+            Log::channel('db')->error('Request failed: theta/api/price/all');
             return false;
         }
 
@@ -190,6 +202,8 @@ class OnChainService
                 ];
             }
             return $coins;
+        } else {
+            Log::channel('db')->error('Request failed: coingecko/api/v3/coins/markets');
         }
         return false;
     }
@@ -216,6 +230,8 @@ class OnChainService
                 ];
             }
             return $coins;
+        } else {
+            Log::channel('db')->error('Request failed: cmc/v2/cryptocurrency/quotes/latest');
         }
         return false;
     }
