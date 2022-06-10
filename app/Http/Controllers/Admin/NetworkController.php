@@ -158,6 +158,22 @@ class NetworkController extends Controller
         ]);
     }
 
+    public function topTransactions()
+    {
+        $search = request('search');
+        $holders = $this->thetaService->getHolders();
+        $transactions = Transaction::query();
+        if (!empty($search)) {
+            $transactions->where('from_account', 'LIKE', "%{$search}%")->orWhere('to_account', 'LIKE', "%{$search}%");
+        }
+        $transactions = $transactions->orderByDesc('usd')->paginate(100)->withQueryString();
+        return view('admin.network.top_transactions', [
+            'transactions' => $transactions,
+            'holders' => $holders,
+            'search' => $search
+        ]);
+    }
+
     public function logs()
     {
         $logs = Log::query()->orderByDesc('created_at')->paginate(100)->withQueryString();

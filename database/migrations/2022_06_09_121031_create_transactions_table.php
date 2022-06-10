@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('to_account', 255);
             $table->double('amount');
             $table->string('currency');
-            $table->string('usd');
+            $table->double('usd');
             $table->timestamp('date');
             $table->timestamps();
         });
