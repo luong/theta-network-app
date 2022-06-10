@@ -1,6 +1,6 @@
 <x-admin_layout pageName="logs">
     <div class="logs-page">
-        <x-slot name="header">Logs 7 Days</x-slot>
+        <x-slot name="header">Logs in 7 Days</x-slot>
 
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
