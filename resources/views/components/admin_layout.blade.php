@@ -53,7 +53,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.validators') }}" page="validators"><span class="bi-at"></span> Validators</a>
                                 <a class="nav-link" href="{{ route('admin.holders') }}" page="holders"><span class="bi-diamond"></span> Holders</a>
-                                <a class="nav-link" href="{{ route('admin.topActivists') }}" page="holders"><span class="bi-broadcast"></span> Top Activists</a>
+                                <a class="nav-link" href="{{ route('admin.topActivists') }}" page="top_activists"><span class="bi-broadcast"></span> Top Activists</a>
                             </li>
                         </ul>
 
@@ -63,6 +63,7 @@
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.admins') }}" page="admins"><span class="bi-person"></span> Admins</a>
+                                <a class="nav-link" href="{{ route('admin.logs') }}" page="logs"><span class="bi-bug"></span> Logs</a>
                             </li>
                         </ul>
 

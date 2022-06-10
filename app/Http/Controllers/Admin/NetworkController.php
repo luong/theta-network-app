@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
 use App\Models\Holder;
+use App\Models\Log;
 use App\Models\Transaction;
 use App\Models\Validator;
 use App\Services\ThetaService;
@@ -154,6 +155,14 @@ class NetworkController extends Controller
             'activists' => $activists,
             'holders' => $holders,
             'search' => $search
+        ]);
+    }
+
+    public function logs()
+    {
+        $logs = Log::query()->orderByDesc('created_at')->paginate(100)->withQueryString();
+        return view('admin.network.logs', [
+            'logs' => $logs
         ]);
     }
 }

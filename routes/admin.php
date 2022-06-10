@@ -27,6 +27,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/holder/delete/{id}', [NetworkController::class, 'deleteHolder'])->name('admin.holder.delete');
 
     Route::get('/top-activists', [NetworkController::class, 'topActivists'])->name('admin.topActivists');
+    Route::get('/logs', [NetworkController::class, 'logs'])->name('admin.logs');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 });

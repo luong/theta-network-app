@@ -1,5 +1,5 @@
-<x-admin_layout pageName="validators">
-    <div class="edit-validator-page">
+<x-admin_layout pageName="top_activists">
+    <div class="top-activist-page">
         <x-slot name="header">Top Activists in 7 Days</x-slot>
 
         <div class="col-lg-6">
