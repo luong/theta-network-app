@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 class Constants
 {
+    const SITE_URL = 'https://thetanetwork.app';
+
     const THETA_EXPLORER_URL = 'https://explorer.thetatoken.org';
     const THETA_EXPLORER_API_URL = 'https://explorer.thetatoken.org:8443';
     const THETA_MARKETING_API_URL = 'https://marketing-api.thetatoken.org';

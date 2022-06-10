@@ -30,7 +30,7 @@
                 @foreach ($validators as $validator)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td><a href="{{ Helper::makeThetaAccountURL($validator->holder) }}" target="_blank">{{ $validator->holder }}</a></td>
+                        <td><a href="/account/{{ $validator->holder }}">{{ $validator->holder }}</a></td>
                         <td>{{ $validator->name }}</td>
                         <td class="text-end">{{ number_format($validator->amount, 0) }}</td>
                         <td class="text-center">{{ $validator->created_at->format('Y-m-d') }}</td>
@@ -58,7 +58,7 @@
                 @foreach ($validators as $validator)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
-                        <td><a href="{{ Helper::makeThetaAccountURL($validator->holder) }}" target="_blank">{{ $validator->name }}</a></td>
+                        <td><a href="/account/{{ $validator->holder }}">{{ $validator->name }}</a></td>
                         <td class="text-end">{{ number_format($validator->amount, 0) }}</td>
                         <td class="text-end">
                             <a href="{{ route('admin.validator.edit', ['id' => $validator->id]) }}">Edit</a>

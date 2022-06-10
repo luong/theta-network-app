@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\Constants;
+use App\Helpers\Helper;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -232,6 +233,79 @@ class OnChainService
             return $coins;
         } else {
             Log::channel('db')->error('Request failed: cmc/v2/cryptocurrency/quotes/latest');
+        }
+        return false;
+    }
+
+    public function getAccount($id)
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/' . $id);
+        if ($response->ok()) {
+            $data = $response->json();
+            $theta = round($data['body']['balance']['thetawei'] / Constants::THETA_WEI, 2);
+            $tfuel = round($data['body']['balance']['tfuelwei'] / Constants::THETA_WEI, 2);
+            return [
+                'id' => $id,
+                'balance' => [
+                    'theta' => $theta,
+                    'tfuel' => $tfuel
+                ]
+            ];
+        } else {
+            Log::channel('db')->error('Request failed: theta/api/account');
+        }
+        return false;
+    }
+
+    public function getAccountDetails($id)
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/accounttx/' . $id . '?type=-1&pageNumber=1&limitNumber=100&isEqualType=true&types=["2"]');
+        if ($response->ok()) {
+            $coins = $this->getCoinList();
+            $account = $this->getAccount($id);
+            $account['transactions'] = [];
+
+            $data = $response->json();
+            foreach ($data['body'] as $transaction) {
+                $txn = [];
+                $usd = 0;
+                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI, 2);
+                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
+
+                if ($theta > 0) {
+                    $usd = round($theta * $coins['THETA']['price'], 2);
+                    $txn = [
+                        'id' => $transaction['_id'],
+                        'type' => 'transfer',
+                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                        'from' => $transaction['data']['inputs'][0]['address'],
+                        'to' => $transaction['data']['outputs'][0]['address'],
+                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                        'coins' => $theta,
+                        'currency' => 'theta',
+                        'usd' => $usd
+                    ];
+
+                } else {
+                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    $txn = [
+                        'id' => $transaction['_id'],
+                        'type' => 'transfer',
+                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                        'from' => $transaction['data']['inputs'][0]['address'],
+                        'to' => $transaction['data']['outputs'][0]['address'],
+                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
+                        'coins' => $tfuel,
+                        'currency' => 'tfuel',
+                        'usd' => $usd
+                    ];
+                }
+
+                $account['transactions'][] = $txn;
+            }
+            return $account;
+        } else {
+            Log::channel('db')->error('Request failed: theta/api/accounttx');
         }
         return false;
     }

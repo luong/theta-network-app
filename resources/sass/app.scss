@@ -6,96 +6,112 @@
     box-shadow: 1px 1px #ccc;
 }
 
-.donate-model {
-    .modal-body {
-        overflow-wrap: anywhere;
+.homepage {
+    .donate-model {
+        .modal-body {
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .card {
+        height: auto;
+
+        &.c1x {
+            width: 350px;
+        }
+
+        &.c2x {
+            width: 600px;
+            height: 320px;
+            @include media-breakpoint-down(lg) {
+                width: 350px;
+            }
+        }
+
+        .card-header {
+            height: 45px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            .name {
+                vertical-align: middle;
+                line-height: 45px;
+            }
+            .icon {
+                font-size: 25px;
+                vertical-align: middle;
+            }
+        }
+
+        .card-body {
+            font-size: 15px;
+            &.scrollable {
+                overflow: auto;
+            }
+            .row {
+                line-height: 2;
+                .bullet {
+                    color: #bcbebf;
+                    border: 1px solid #bcbebf;
+                    padding: 5px;
+                    line-height: 0.5;
+                    height: 20px !important;
+                    margin-top: 5px;
+                    margin-right: 7px;
+                    width: 28px;
+                    text-align: center;
+                }
+            }
+            .changes {
+                font-size: 90%;
+                &.up {
+                    color: green;
+                }
+                &.down {
+                    color: red;
+                }
+            }
+        }
+
+        &.top-transactions {
+            .row {
+            }
+        }
+
+        &.chart {
+            .card-body {
+                padding-right: 0px;
+            }
+            .chart-title {
+                font-size: 15px;
+                margin-bottom: 5px;
+                @include media-breakpoint-down(lg) {
+                    font-size: 12px;
+                    margin-bottom: 7px;
+                }
+            }
+        }
+
+        &.tdrop {
+            height: 290px;
+        }
+
+        &.btc {
+            height: 290px;
+        }
     }
 }
 
-.card {
-    height: auto;
-
-    &.c1x {
-        width: 350px;
-    }
-
-    &.c2x {
-        width: 600px;
-        height: 320px;
-        @include media-breakpoint-down(lg) {
-            width: 350px;
-        }
-    }
-
-    .card-header {
-        height: 45px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        .name {
-            vertical-align: middle;
-            line-height: 45px;
-        }
-        .icon {
-            font-size: 25px;
+.account-page {
+    .card {
+        .card-header {
             vertical-align: middle;
         }
-    }
-
-    .card-body {
-        font-size: 15px;
-        &.scrollable {
-            overflow: auto;
-        }
-        .row {
-            line-height: 2;
-            .bullet {
-                color: #bcbebf;
-                border: 1px solid #bcbebf;
-                padding: 5px;
-                line-height: 0.5;
-                height: 20px !important;
-                margin-top: 5px;
-                margin-right: 7px;
-                width: 28px;
-                text-align: center;
-            }
-        }
-        .changes {
-            font-size: 90%;
-            &.up {
-                color: green;
-            }
-            &.down {
-                color: red;
-            }
-        }
-    }
-
-    &.top-transactions {
-        .row {
-        }
-    }
-
-    &.chart {
         .card-body {
-            padding-right: 0px;
-        }
-        .chart-title {
-            font-size: 15px;
-            margin-bottom: 5px;
-            @include media-breakpoint-down(lg) {
-                font-size: 12px;
-                margin-bottom: 7px;
+            line-height: 2.2;
+            img {
+                vertical-align: text-bottom;
             }
         }
-    }
-
-    &.tdrop {
-        height: 290px;
-    }
-
-    &.btc {
-        height: 290px;
     }
 }
 

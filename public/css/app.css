@@ -18037,48 +18037,47 @@ textarea.form-control-lg {
   box-shadow: 1px 1px #ccc;
 }
 
-.donate-model .modal-body {
+.homepage .donate-model .modal-body {
   overflow-wrap: anywhere;
 }
-
-.card {
+.homepage .card {
   height: auto;
 }
-.card.c1x {
+.homepage .card.c1x {
   width: 350px;
 }
-.card.c2x {
+.homepage .card.c2x {
   width: 600px;
   height: 320px;
 }
 @media (max-width: 991.98px) {
-  .card.c2x {
+  .homepage .card.c2x {
     width: 350px;
   }
 }
-.card .card-header {
+.homepage .card .card-header {
   height: 45px;
   padding-top: 0px;
   padding-bottom: 0px;
 }
-.card .card-header .name {
+.homepage .card .card-header .name {
   vertical-align: middle;
   line-height: 45px;
 }
-.card .card-header .icon {
+.homepage .card .card-header .icon {
   font-size: 25px;
   vertical-align: middle;
 }
-.card .card-body {
+.homepage .card .card-body {
   font-size: 15px;
 }
-.card .card-body.scrollable {
+.homepage .card .card-body.scrollable {
   overflow: auto;
 }
-.card .card-body .row {
+.homepage .card .card-body .row {
   line-height: 2;
 }
-.card .card-body .row .bullet {
+.homepage .card .card-body .row .bullet {
   color: #bcbebf;
   border: 1px solid #bcbebf;
   padding: 5px;
@@ -18089,31 +18088,41 @@ textarea.form-control-lg {
   width: 28px;
   text-align: center;
 }
-.card .card-body .changes {
+.homepage .card .card-body .changes {
   font-size: 90%;
 }
-.card .card-body .changes.up {
+.homepage .card .card-body .changes.up {
   color: green;
 }
-.card .card-body .changes.down {
+.homepage .card .card-body .changes.down {
   color: red;
 }
-.card.chart .card-body {
+.homepage .card.chart .card-body {
   padding-right: 0px;
 }
-.card.chart .chart-title {
+.homepage .card.chart .chart-title {
   font-size: 15px;
   margin-bottom: 5px;
 }
 @media (max-width: 991.98px) {
-  .card.chart .chart-title {
+  .homepage .card.chart .chart-title {
     font-size: 12px;
     margin-bottom: 7px;
   }
 }
-.card.tdrop {
+.homepage .card.tdrop {
   height: 290px;
 }
-.card.btc {
+.homepage .card.btc {
   height: 290px;
+}
+
+.account-page .card .card-header {
+  vertical-align: middle;
+}
+.account-page .card .card-body {
+  line-height: 2.2;
+}
+.account-page .card .card-body img {
+  vertical-align: text-bottom;
 }

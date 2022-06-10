@@ -5,6 +5,11 @@ namespace App\Helpers;
 class Helper
 {
 
+    public static function makeSiteAccountURL($accountId)
+    {
+        return Constants::SITE_URL . '/account/' . $accountId;
+    }
+
     public static function makeThetaTransactionURL($transactionId)
     {
         return Constants::THETA_EXPLORER_URL . '/txs/' . $transactionId;

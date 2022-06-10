@@ -30,8 +30,8 @@
                         $toAccount = isset($holders[$transaction->to_account]) ? $holders[$transaction->to_account]['name'] : $transaction->to_account;
                     @endphp
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($transaction->from_account) }}" target="_blank">{{ $fromAccount }}</a></td>
-                        <td><a href="{{ Helper::makeThetaAccountURL($transaction->to_account) }}" target="_blank">{{ $toAccount }}</a></td>
+                        <td><a href="/account/{{ $transaction->from_account }}">{{ $fromAccount }}</a></td>
+                        <td><a href="/account/{{ $transaction->to_account }}">{{ $toAccount }}</a></td>
                         <td class="text-end">{{ number_format($transaction->amount, 0) }}</td>
                         <td class="text-center">{{ $transaction->currency }}</td>
                         <td class="text-end">${{ number_format($transaction->usd, 2) }}</td>
@@ -59,8 +59,8 @@
                         $toAccount = isset($holders[$transaction->to_account]) ? $holders[$transaction->to_account]['name'] : $transaction->to_account;
                     @endphp
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($transaction->from_account) }}" target="_blank">{{ Str::limit($fromAccount, 6) }}</a></td>
-                        <td><a href="{{ Helper::makeThetaAccountURL($transaction->to_account) }}" target="_blank">{{ Str::limit($toAccount, 6) }}</a></td>
+                        <td><a href="/account/{{ $transaction->from_account }}">{{ Str::limit($fromAccount, 6) }}</a></td>
+                        <td><a href="/account/{{ $transaction->to_account }}">{{ Str::limit($toAccount, 6) }}</a></td>
                         <td class="text-end">${{ number_format($transaction->usd, 2) }}</td>
                     </tr>
                 @endforeach

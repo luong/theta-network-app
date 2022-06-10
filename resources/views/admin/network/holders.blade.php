@@ -27,7 +27,7 @@
                 <tbody>
                 @foreach ($holders as $holder)
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($holder->code) }}" target="_blank">{{ $holder->code }}</a></td>
+                        <td><a href="/account/{{ $holder->code }}">{{ $holder->code }}</a></td>
                         <td>{{ $holder->name }}</td>
                         <td class="text-center">{{ $holder->created_at->format('Y-m-d') }}</td>
                         <td class="text-end">
@@ -53,7 +53,7 @@
                 <tbody>
                 @foreach ($holders as $holder)
                     <tr>
-                        <td><a href="{{ Helper::makeThetaAccountURL($holder->code) }}" target="_blank">{{ Str::limit($holder->code, 10) }}</a></td>
+                        <td><a href="/account/{{ $holder->code }}">{{ Str::limit($holder->code, 10) }}</a></td>
                         <td>{{ Str::limit($holder->name, 10) }}</td>
                         <td class="text-end">
                             <a href="{{ route('admin.holder.edit', ['id' => $holder->id]) }}">Edit</a>
