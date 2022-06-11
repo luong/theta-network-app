@@ -9,7 +9,6 @@ use App\Models\Log;
 use App\Models\Transaction;
 use App\Models\Validator;
 use App\Services\ThetaService;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -148,7 +147,7 @@ class NetworkController extends Controller
         }
 
         $activists = $query2->orderByDesc('usd')
-            ->paginate(100)
+            ->paginate(Constants::PAGINATION_PAGE_LIMIT)
             ->withQueryString();
 
         return view('admin.network.top_activists', [
@@ -164,22 +163,24 @@ class NetworkController extends Controller
         $search = request('search');
         $holders = $this->thetaService->getHolders();
         $transactions = DB::table('transactions');
+        $transactions->leftJoin('holders AS holders_1', 'transactions.from_account', '=', 'holders_1.code');
+        $transactions->leftJoin('holders AS holders_2', 'transactions.to_account', '=', 'holders_2.code');
+        $transactions->selectRaw('transactions.*, holders_1.name AS from_name, holders_2.name AS to_name, COALESCE(holders_1.id, holders_2.id) AS has_holder');
         if (!empty($search)) {
-            $transactions->where('from_account', 'LIKE', "%{$search}%")->orWhere('to_account', 'LIKE', "%{$search}%");
+            $transactions->whereRaw("from_account LIKE '%{$search}%' OR holders_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR holders_2.name LIKE '%{$search}%'");
         }
         if (!empty($sort)) {
             if ($sort == 'large_value') {
                 $transactions->orderByDesc('usd');
             } else if ($sort == 'latest_date') {
                 $transactions->orderByDesc('date');
-            } else if ($sort == 'verified_accounts') {
-                $transactions->leftJoin('holders AS holders_1', 'transactions.from_account', '=', 'holders_1.code');
-                $transactions->leftJoin('holders AS holders_2', 'transactions.to_account', '=', 'holders_2.code');
-                $transactions->selectRaw('transactions.*, COALESCE(holders_1.id, holders_2.id) AS has_holder');
+            } else if ($sort == 'verified_accounts_large_value') {
+                $transactions->orderByDesc('has_holder')->orderByDesc('usd');
+            } else if ($sort == 'verified_accounts_latest_date') {
                 $transactions->orderByDesc('has_holder')->orderByDesc('date');
             }
         }
-        $transactions = $transactions->paginate(100)->withQueryString();
+        $transactions = $transactions->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('admin.network.transactions', [
             'transactions' => $transactions,
             'holders' => $holders,
@@ -190,7 +191,7 @@ class NetworkController extends Controller
 
     public function logs()
     {
-        $logs = Log::query()->orderByDesc('created_at')->paginate(100)->withQueryString();
+        $logs = Log::query()->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('admin.network.logs', [
             'logs' => $logs
         ]);

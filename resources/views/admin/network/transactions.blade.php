@@ -8,7 +8,8 @@
                 <select name="sort" class="form-select" onchange="this.form.submit()">
                     <option value="large_value" {{ $sort == 'large_value' ? 'selected' : '' }}>Large value</option>
                     <option value="latest_date" {{ $sort == 'latest_date' ? 'selected' : '' }}>Latest date</option>
-                    <option value="verified_accounts" {{ $sort == 'verified_accounts' ? 'selected' : '' }}>Verified accounts</option>
+                    <option value="verified_accounts_large_value" {{ $sort == 'verified_accounts_large_value' ? 'selected' : '' }}>Verified + Large value</option>
+                    <option value="verified_accounts_latest_date" {{ $sort == 'verified_accounts_latest_date' ? 'selected' : '' }}>Verified + Latest date</option>
                 </select>
             </div>
             <div class="col col-7">
