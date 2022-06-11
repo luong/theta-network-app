@@ -22,19 +22,19 @@ class MessageService
             } else if (isset($holders[$tx['to']])) {
                 $fromTo = 'to ' . $holders[$tx['to']]['name'];
             }
-            $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeThetaTransactionURL($tx['id']);
+            $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'stake') {
             $from = 'from unknown wallet';
             if (isset($holders[$tx['from']])) {
                 $from = 'from ' . $holders[$tx['from']]['name'];
             }
-            $text = "{$tx['amount']} staked {$from} " . Helper::makeThetaTransactionURL($tx['id']);
+            $text = "{$tx['amount']} staked {$from} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'withdraw') {
             $from = 'from unknown wallet';
             if (isset($holders[$tx['from']])) {
                 $from = 'from ' . $holders[$tx['from']]['name'];
             }
-            $text = "{$tx['amount']} withdrawn {$from} " . Helper::makeThetaAccountURL($tx['from']);
+            $text = "{$tx['amount']} withdrawn {$from} " . Helper::makeSiteAccountURL($tx['from']);
         }
         if (!empty($text)) {
             return $this->tweetText($text);
