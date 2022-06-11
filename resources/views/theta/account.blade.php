@@ -63,7 +63,7 @@
                     <tr>
                         <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ $transaction['from'] == $account['id'] ? 'Me' : (isset($holders[$transaction['from']]) ? $holders[$transaction['from']]['name'] : Str::limit($transaction['from'], 5)) }}</a></td>
                         <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ $transaction['to'] == $account['id'] ? 'Me' : (isset($holders[$transaction['to']]) ? $holders[$transaction['to']]['name'] : Str::limit($transaction['to'], 5)) }}</a></td>
-                        <td class="text-end">{{ Helper::formatNumber($transaction['coins'], 0) }} {{ ucfirst($transaction['currency']) }}</td>
+                        <td class="text-end"><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 0) }} {{ ucfirst($transaction['currency']) }}</a></td>
                         <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 0) }}</td>
                     </tr>
                 @endforeach

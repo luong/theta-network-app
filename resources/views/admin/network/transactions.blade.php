@@ -43,7 +43,7 @@
                     <tr>
                         <td><a href="/account/{{ $transaction->from_account }}">{{ $fromAccount }}</a></td>
                         <td><a href="/account/{{ $transaction->to_account }}">{{ $toAccount }}</a></td>
-                        <td class="text-end">{{ number_format($transaction->amount, 0) }}</td>
+                        <td class="text-end"><a href="/transaction/{{ $transaction->txn }}">{{ number_format($transaction->amount, 0) }}</a></td>
                         <td class="text-center">{{ $transaction->currency }}</td>
                         <td class="text-end">${{ number_format($transaction->usd, 2) }}</td>
                         <td class="text-center">{{ $transaction->date }}</td>

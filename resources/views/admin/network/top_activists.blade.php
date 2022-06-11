@@ -29,7 +29,7 @@
                         $holder = isset($holders[$activist->account]) ? $holders[$activist->account]['name'] : $activist->account;
                     @endphp
                     <tr>
-                        <td><a href="/account/{{ $activist->account }}" target="_blank">{{ $holder }}</a></td>
+                        <td><a href="/account/{{ $activist->account }}">{{ $holder }}</a></td>
                         <td class="text-center">{{ $activist->times }}</td>
                         <td class="text-end">${{ number_format($activist->usd_in, 2) }}</td>
                         <td class="text-end">${{ number_format($activist->usd_out, 2) }}</td>

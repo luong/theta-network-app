@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                     <th>Amount</th>
-                    <td>{{ $transaction['coins'] }} {{ ucfirst($transaction['currency']) }} ({{ Helper::formatPrice($transaction['coins'] * ($transaction['currency'] == 'theta' ? $coins['THETA']['price'] : $coins['TFUEL']['price']), 2) }})</td>
+                    <td>{{ Helper::formatNumber($transaction['coins'], 4) }} {{ ucfirst($transaction['currency']) }} ({{ Helper::formatPrice($transaction['coins'] * ($transaction['currency'] == 'theta' ? $coins['THETA']['price'] : $coins['TFUEL']['price']), 2) }})</td>
                 </tr>
                 <tr>
                     <th>Fee</th>
