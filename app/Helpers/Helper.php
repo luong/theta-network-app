@@ -49,4 +49,12 @@ class Helper
         }
         return $n . $unit;
     }
+
+    public static function getNodeName($code) {
+        return match ($code) {
+            'gcp' => 'Guardian',
+            'vcp'=> 'Validator',
+            'eenp' => 'Elite Edge'
+        };
+    }
 }

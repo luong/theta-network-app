@@ -111,8 +111,22 @@
         line-height: 2.2;
     }
 
+    .stakes {
+        &.mobile {
+            th {
+                padding: 2px;
+            }
+            td {
+                padding: 2px;
+            }
+        }
+    }
+
     .transactions {
         &.mobile {
+            th {
+                padding: 2px;
+            }
             td {
                 padding: 2px;
             }

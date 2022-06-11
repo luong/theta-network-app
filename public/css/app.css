@@ -18125,6 +18125,15 @@ textarea.form-control-lg {
 .account-page .information {
   line-height: 2.2;
 }
+.account-page .stakes.mobile th {
+  padding: 2px;
+}
+.account-page .stakes.mobile td {
+  padding: 2px;
+}
+.account-page .transactions.mobile th {
+  padding: 2px;
+}
 .account-page .transactions.mobile td {
   padding: 2px;
 }

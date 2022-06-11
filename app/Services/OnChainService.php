@@ -259,11 +259,17 @@ class OnChainService
 
     public function getAccountDetails($id)
     {
-        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/accounttx/' . $id . '?type=-1&pageNumber=1&limitNumber=100&isEqualType=true&types=["2","9","10"]');
+        $account = $this->getAccount($id);
+        $account['transactions'] = $this->getAccountTransactions($id);
+        $account['stakes'] = $this->getAccountStakes($id);
+        return $account;
+    }
+
+    public function getAccountTransactions($accountId) {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/accounttx/' . $accountId . '?type=-1&pageNumber=1&limitNumber=100&isEqualType=true&types=["2","9","10"]');
         if ($response->ok()) {
             $coins = $this->getCoinList();
-            $account = $this->getAccount($id);
-            $account['transactions'] = [];
+            $transactions = [];
 
             $data = $response->json();
             foreach ($data['body'] as $transaction) {
@@ -349,14 +355,81 @@ class OnChainService
                     ];
                 }
 
-                $account['transactions'][] = $txn;
+                $transactions[] = $txn;
             }
-            return $account;
+
+            return $transactions;
+
         } else {
             Log::channel('db')->error('Request failed: theta/api/accounttx');
         }
         return false;
     }
+
+    public function getAccountStakes($accountId) {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/' . $accountId . '?types[]=vcp&types[]=gcp&types[]=eenp');
+        if ($response->ok()) {
+            $stakes = [];
+            $data = $response->json();
+            $list = $data['body']['holderRecords'];
+            $role = 'holder';
+            if (empty($data['body']['holderRecords'])) {
+                $list = $data['body']['sourceRecords'];
+                $role = 'source';
+            }
+            foreach ($list as $each) {
+                if ($each['type'] == 'gcp') {
+                    $theta = round($each['amount'] / Constants::THETA_WEI, 2);
+                    $stakes[] = [
+                        'id' => $each['_id'],
+                        'role' => $role,
+                        'type' => 'gcp',
+                        'holder' => $each['holder'],
+                        'source' => $each['source'],
+                        'coins' => $theta,
+                        'currency' => 'theta',
+                        'status' => $each['withdrawn'] ? 'withdrawing' : 'staking',
+                        'return_height' => $each['return_height']
+                    ];
+
+                } else if ($each['type'] == 'eenp') {
+                    $tfuel = round($each['amount'] / Constants::THETA_WEI, 2);
+                    $stakes[] = [
+                        'id' => $each['_id'],
+                        'role' => $role,
+                        'type' => 'eenp',
+                        'holder' => $each['holder'],
+                        'source' => $each['source'],
+                        'coins' => $tfuel,
+                        'currency' => 'tfuel',
+                        'status' => $each['withdrawn'] ? 'withdrawing' : 'staking',
+                        'return_height' => $each['return_height']
+                    ];
+
+                } else if ($each['type'] == 'vcp') {
+                    $theta = round($each['amount'] / Constants::THETA_WEI, 2);
+                    $stakes[] = [
+                        'id' => $each['_id'],
+                        'role' => $role,
+                        'type' => 'vcp',
+                        'holder' => $each['holder'],
+                        'source' => $each['source'],
+                        'coins' => $theta,
+                        'currency' => 'theta',
+                        'status' => $each['withdrawn'] ? 'withdrawing' : 'staking',
+                        'return_height' => $each['return_height']
+                    ];
+                }
+            }
+            return $stakes;
+
+        } else {
+            Log::channel('db')->error('Request failed: theta/api/stake');
+        }
+
+        return false;
+    }
+
 
     public function getTransactionDetails($id)
     {
