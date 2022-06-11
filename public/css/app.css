@@ -18117,12 +18117,9 @@ textarea.form-control-lg {
   height: 290px;
 }
 
-.account-page .card .card-header {
-  vertical-align: middle;
-}
-.account-page .card .card-body {
+.account-page .information {
   line-height: 2.2;
 }
-.account-page .card .card-body img {
+.account-page .information img {
   vertical-align: text-bottom;
 }

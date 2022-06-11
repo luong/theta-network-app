@@ -102,15 +102,10 @@
 }
 
 .account-page {
-    .card {
-        .card-header {
-            vertical-align: middle;
-        }
-        .card-body {
-            line-height: 2.2;
-            img {
-                vertical-align: text-bottom;
-            }
+    .information {
+        line-height: 2.2;
+        img {
+            vertical-align: text-bottom;
         }
     }
 }

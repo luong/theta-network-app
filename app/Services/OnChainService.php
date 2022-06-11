@@ -310,4 +310,57 @@ class OnChainService
         return false;
     }
 
+    public function getTransactionDetails($id)
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transaction/' . $id);
+        if ($response->ok()) {
+            $data = $response->json()['body'];
+            $transaction = [
+                'id' => $id,
+                'block_height' => $data['block_height'],
+                'timestamp' => $data['timestamp'],
+                'status' => $data['status']
+            ];
+
+            if ($data['type'] == 2) { // transfer
+                $transaction['type'] = 'transfer';
+                $transaction['from_account'] = $data['data']['inputs'][0]['address'];
+                $transaction['to_account'] = $data['data']['outputs'][0]['address'];
+                $transaction['fee'] = round($data['data']['fee']['tfuelwei'] / Constants::THETA_WEI, 3);
+
+                $theta = round($data['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI, 3);
+                $tfuel = round($data['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI, 3);
+                if ($theta > 0) {
+                    $transaction['coins'] = $theta;
+                    $transaction['currency'] = 'theta';
+                } else {
+                    $transaction['coins'] = $tfuel;
+                    $transaction['currency'] = 'tfuel';
+                }
+
+            } else if ($data['type'] == 10) { // stake
+                $transaction['type'] = 'stake';
+                $transaction['from_account'] = $data['data']['source']['address'];
+                $transaction['to_account'] = $data['data']['holder']['address'];
+                $transaction['fee'] = round($data['data']['fee']['tfuelwei'] / Constants::THETA_WEI, 3);
+
+                $theta = round($data['data']['source']['coins']['thetawei'] / Constants::THETA_WEI, 3);
+                $tfuel = round($data['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI, 3);
+                if ($theta > 0) {
+                    $transaction['coins'] = $theta;
+                    $transaction['currency'] = 'theta';
+                } else {
+                    $transaction['coins'] = $tfuel;
+                    $transaction['currency'] = 'tfuel';
+                }
+            }
+
+            return $transaction;
+
+        } else {
+            Log::channel('db')->error('Request failed: theta/api/transaction');
+        }
+        return false;
+    }
+
 }

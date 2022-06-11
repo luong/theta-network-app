@@ -39,4 +39,16 @@ class ThetaController extends Controller
             'coins' => $coins
         ]);
     }
+
+    public function transaction($id)
+    {
+        $transaction = $this->onChainService->getTransactionDetails($id);
+        $holders = $this->thetaService->getHolders();
+        $coins = $this->thetaService->getCoinList();
+        return view('theta.transaction', [
+            'transaction' => $transaction,
+            'holders' => $holders,
+            'coins' => $coins
+        ]);
+    }
 }
