@@ -259,7 +259,7 @@ class OnChainService
 
     public function getAccountDetails($id)
     {
-        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/accounttx/' . $id . '?type=-1&pageNumber=1&limitNumber=100&isEqualType=true&types=["2","9"]');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/accounttx/' . $id . '?type=-1&pageNumber=1&limitNumber=100&isEqualType=true&types=["2","9","10"]');
         if ($response->ok()) {
             $coins = $this->getCoinList();
             $account = $this->getAccount($id);
@@ -295,6 +295,39 @@ class OnChainService
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $transaction['data']['inputs'][0]['address'],
                             'to' => $transaction['data']['outputs'][0]['address'],
+                            'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
+                            'coins' => $tfuel,
+                            'currency' => 'tfuel',
+                            'usd' => $usd
+                        ];
+                    }
+
+                } else if ($transaction['type'] == 10) { // stake
+                    $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI, 2);
+                    $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
+
+                    if ($theta > 0) {
+                        $usd = round($theta * $coins['THETA']['price'], 2);
+                        $txn = [
+                            'id' => $transaction['_id'],
+                            'type' => 'stake',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $transaction['data']['source']['address'],
+                            'to' => $transaction['data']['holder']['address'],
+                            'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                            'coins' => $theta,
+                            'currency' => 'theta',
+                            'usd' => $usd
+                        ];
+
+                    } else {
+                        $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                        $txn = [
+                            'id' => $transaction['_id'],
+                            'type' => 'stake',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $transaction['data']['source']['address'],
+                            'to' => $transaction['data']['holder']['address'],
                             'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
                             'coins' => $tfuel,
                             'currency' => 'tfuel',
