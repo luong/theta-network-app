@@ -368,6 +368,14 @@ class OnChainService
                     $transaction['coins'] = $tfuel;
                     $transaction['currency'] = 'tfuel';
                 }
+
+            } else if ($data['type'] == 9) { // withdraw
+                $transaction['type'] = 'withdraw';
+                $transaction['from_account'] = $data['data']['holder']['address'];
+                $transaction['to_account'] = $data['data']['source']['address'];
+                $transaction['fee'] = round($data['data']['fee']['tfuelwei'] / Constants::THETA_WEI, 3);
+                $transaction['coins'] = 0;
+                $transaction['currency'] = 'theta';
             }
 
             return $transaction;
