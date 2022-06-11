@@ -176,7 +176,7 @@ class MonitorTransactions extends Command
 
     private function trackActivities($trackedData)
     {
-        Transaction::whereDate('date', '<=', now()->subDays(7))->delete();
+        Transaction::whereDate('date', '<=', now()->subDays(Constants::TRANSACTION_LIFETIME_DAYS))->delete();
 
         $newRecentTransactionIds = [];
         $recentTransactionIds = Cache::get('recent_transaction_ids');
