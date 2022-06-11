@@ -34,7 +34,7 @@
                     @foreach ($account['stakes'] as $stake)
                         <tr>
                             <td>{{ Helper::getNodeName($stake['type']) }}</td>
-                            <td class="text-end">{{ Helper::formatNumber($stake['coins']) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/></td>
+                            <td class="text-end">{{ Helper::formatNumber($stake['coins'], 0) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/></td>
                             <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($holders[$stake['source']]) ? $holders[$stake['source']]['name'] : $stake['source']) }}</a></td>
                             <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($holders[$stake['holder']]) ? $holders[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
                             <td>{{ ucfirst($stake['status']) }}</td>
