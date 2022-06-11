@@ -18037,6 +18037,11 @@ textarea.form-control-lg {
   box-shadow: 1px 1px #ccc;
 }
 
+.currency-ico {
+  vertical-align: text-bottom;
+  width: 18px;
+}
+
 .homepage .donate-model .modal-body {
   overflow-wrap: anywhere;
 }
@@ -18119,7 +18124,4 @@ textarea.form-control-lg {
 
 .account-page .information {
   line-height: 2.2;
-}
-.account-page .information img {
-  vertical-align: text-bottom;
 }

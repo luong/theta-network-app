@@ -6,6 +6,11 @@
     box-shadow: 1px 1px #ccc;
 }
 
+.currency-ico {
+    vertical-align: text-bottom;
+    width: 18px;
+}
+
 .homepage {
     .donate-model {
         .modal-body {
@@ -104,9 +109,6 @@
 .account-page {
     .information {
         line-height: 2.2;
-        img {
-            vertical-align: text-bottom;
-        }
     }
 }
 

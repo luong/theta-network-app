@@ -72,7 +72,7 @@
                     <tr>
                         <td><a href="/account/{{ $transaction->from_account }}">{{ Str::limit($fromAccount, 6) }}</a></td>
                         <td><a href="/account/{{ $transaction->to_account }}">{{ Str::limit($toAccount, 6) }}</a></td>
-                        <td class="text-end">${{ number_format($transaction->usd, 2) }}</td>
+                        <td class="text-end"><a href="/transaction/{{ $transaction->txn }}">${{ number_format($transaction->usd, 2) }}</a></td>
                     </tr>
                 @endforeach
                 </tbody>

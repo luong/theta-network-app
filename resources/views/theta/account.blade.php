@@ -10,8 +10,8 @@
                 <tr>
                     <th>Balance</th>
                     <td class="text-break">
-                        <div><img src="/images/theta_flat.png" width="20"/> {{ Helper::formatNumber($account['balance']['theta'], 2) }} Theta [{{ Helper::formatPrice($account['balance']['theta'] * $coins['THETA']['price'], 2) }}]</div>
-                        <div><img src="/images/tfuel_flat.png" width="20"/> {{ Helper::formatNumber($account['balance']['tfuel'], 2) }} Tfuel [{{ Helper::formatPrice($account['balance']['tfuel'] * $coins['TFUEL']['price'], 2) }}]</div>
+                        <div>{{ Helper::formatNumber($account['balance']['theta'], 2) }} <img class="currency-ico" src="/images/theta_flat.png"/> [{{ Helper::formatPrice($account['balance']['theta'] * $coins['THETA']['price'], 2) }}]</div>
+                        <div>{{ Helper::formatNumber($account['balance']['tfuel'], 2) }} <img class="currency-ico" src="/images/tfuel_flat.png"/> [{{ Helper::formatPrice($account['balance']['tfuel'] * $coins['TFUEL']['price'], 2) }}]</div>
                     </td>
                 </tr>
             </table>
@@ -26,7 +26,6 @@
                     <th scope="col">From</th>
                     <th scope="col">To</th>
                     <th scope="col" class="text-end">Amount</th>
-                    <th scope="col" class="text-center">Currency</th>
                     <th scope="col" class="text-end">Value</th>
                     <th scope="col" class="text-center">Date</th>
                 </tr>
@@ -38,8 +37,7 @@
                         <td><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Str::limit($transaction['id'], 10) }}</a></td>
                         <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ $transaction['from'] == $account['id'] ? 'Me' : (isset($holders[$transaction['from']]) ? $holders[$transaction['from']]['name'] : Str::limit($transaction['from'], 10)) }}</a></td>
                         <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ $transaction['to'] == $account['id'] ? 'Me' : (isset($holders[$transaction['to']]) ? $holders[$transaction['to']]['name'] : Str::limit($transaction['to'], 10)) }}</a></td>
-                        <td class="text-end">{{ Helper::formatNumber($transaction['coins'], 2) }}</td>
-                        <td class="text-center">{{ ucfirst($transaction['currency']) }}</td>
+                        <td class="text-end">{{ Helper::formatNumber($transaction['coins'], 2) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/></td>
                         <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 2) }}</td>
                         <td class="text-center">{{ $transaction['date'] }}</td>
                     </tr>
@@ -61,9 +59,9 @@
                 <tbody>
                 @foreach ($account['transactions'] as $transaction)
                     <tr>
-                        <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ $transaction['from'] == $account['id'] ? 'Me' : (isset($holders[$transaction['from']]) ? $holders[$transaction['from']]['name'] : Str::limit($transaction['from'], 5)) }}</a></td>
-                        <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ $transaction['to'] == $account['id'] ? 'Me' : (isset($holders[$transaction['to']]) ? $holders[$transaction['to']]['name'] : Str::limit($transaction['to'], 5)) }}</a></td>
-                        <td class="text-end"><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 0) }} {{ ucfirst($transaction['currency']) }}</a></td>
+                        <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ $transaction['from'] == $account['id'] ? 'Me' : (isset($holders[$transaction['from']]) ? Str::limit($holders[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a></td>
+                        <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ $transaction['to'] == $account['id'] ? 'Me' : (isset($holders[$transaction['to']]) ? Str::limit($holders[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
+                        <td class="text-end"><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/></a></td>
                         <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 0) }}</td>
                     </tr>
                 @endforeach
