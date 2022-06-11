@@ -46,7 +46,7 @@
             </table>
         </div>
 
-        <div class="transactions d-block d-lg-none">
+        <div class="transactions mobile d-block d-lg-none">
             <table class="table table-striped">
                 <thead>
                 <tr>

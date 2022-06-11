@@ -110,5 +110,13 @@
     .information {
         line-height: 2.2;
     }
+
+    .transactions {
+        &.mobile {
+            td {
+                padding: 2px;
+            }
+        }
+    }
 }
 

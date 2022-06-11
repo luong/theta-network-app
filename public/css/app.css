@@ -18125,3 +18125,6 @@ textarea.form-control-lg {
 .account-page .information {
   line-height: 2.2;
 }
+.account-page .transactions.mobile td {
+  padding: 2px;
+}
