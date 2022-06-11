@@ -165,7 +165,7 @@ class NetworkController extends Controller
         $transactions = DB::table('transactions');
         $transactions->leftJoin('holders AS holders_1', 'transactions.from_account', '=', 'holders_1.code');
         $transactions->leftJoin('holders AS holders_2', 'transactions.to_account', '=', 'holders_2.code');
-        $transactions->selectRaw('transactions.*, holders_1.name AS from_name, holders_2.name AS to_name, COALESCE(holders_1.id, holders_2.id) AS has_holder');
+        $transactions->selectRaw('transactions.*, holders_1.name AS from_name, holders_2.name AS to_name, IF(holders_1.id IS NOT NULL OR holders_2.id IS NOT NULL, 1, 0) AS has_holder');
         if (!empty($search)) {
             $transactions->whereRaw("from_account LIKE '%{$search}%' OR holders_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR holders_2.name LIKE '%{$search}%'");
         }
