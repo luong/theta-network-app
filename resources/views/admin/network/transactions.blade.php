@@ -1,15 +1,25 @@
 <x-admin_layout pageName="top_transactions">
     <div class="top-transaction-page">
-        <x-slot name="header">Top Transactions in 7 Days</x-slot>
+        <x-slot name="header">Transactions</x-slot>
 
-        <div class="col-lg-6">
-            <form method="get">
+        <form method="get">
+        <div class="col-lg-6 row">
+            <div class="col col-5">
+                <select name="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="large_value" {{ $sort == 'large_value' ? 'selected' : '' }}>Large value</option>
+                    <option value="latest_date" {{ $sort == 'latest_date' ? 'selected' : '' }}>Latest date</option>
+                    <option value="verified_accounts" {{ $sort == 'verified_accounts' ? 'selected' : '' }}>Verified accounts</option>
+                </select>
+            </div>
+            <div class="col col-7">
                 <div class="input-group mb-3">
                     <input type="text" name="search" value="{{ $search }}" class="form-control" placeholder="Search by account">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </div>
-            </form>
+            </div>
         </div>
+        </form>
+
 
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">

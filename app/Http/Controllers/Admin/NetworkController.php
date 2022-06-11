@@ -158,19 +158,33 @@ class NetworkController extends Controller
         ]);
     }
 
-    public function topTransactions()
+    public function transactions()
     {
+        $sort = request('sort', 'large_value');
         $search = request('search');
         $holders = $this->thetaService->getHolders();
-        $transactions = Transaction::query();
+        $transactions = DB::table('transactions');
         if (!empty($search)) {
             $transactions->where('from_account', 'LIKE', "%{$search}%")->orWhere('to_account', 'LIKE', "%{$search}%");
         }
-        $transactions = $transactions->orderByDesc('usd')->paginate(100)->withQueryString();
-        return view('admin.network.top_transactions', [
+        if (!empty($sort)) {
+            if ($sort == 'large_value') {
+                $transactions->orderByDesc('usd');
+            } else if ($sort == 'latest_date') {
+                $transactions->orderByDesc('date');
+            } else if ($sort == 'verified_accounts') {
+                $transactions->leftJoin('holders AS holders_1', 'transactions.from_account', '=', 'holders_1.code');
+                $transactions->leftJoin('holders AS holders_2', 'transactions.to_account', '=', 'holders_2.code');
+                $transactions->selectRaw('transactions.*, COALESCE(holders_1.id, holders_2.id) AS has_holder');
+                $transactions->orderByDesc('has_holder')->orderByDesc('date');
+            }
+        }
+        $transactions = $transactions->paginate(100)->withQueryString();
+        return view('admin.network.transactions', [
             'transactions' => $transactions,
             'holders' => $holders,
-            'search' => $search
+            'search' => $search,
+            'sort' => $sort
         ]);
     }
 
