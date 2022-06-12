@@ -28,7 +28,8 @@ class MessageService
             if (isset($holders[$tx['from']])) {
                 $from = 'from ' . $holders[$tx['from']]['name'];
             }
-            $text = "{$tx['amount']} staked {$from} " . Helper::makeSiteTransactionURL($tx['id']);
+            $purpose = !empty($tx['node']) && $tx['node'] == 'validator' ? 'staked as a validator' : 'staked';
+            $text = "{$tx['amount']} {$purpose} {$from} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'withdraw') {
             $from = 'from unknown wallet';
             if (isset($holders[$tx['from']])) {

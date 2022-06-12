@@ -81,6 +81,7 @@ class MonitorStakes extends Command
                     $messageService->hasLargeTransaction($tx);
                 }
             }
+
             if ($stake['type'] == 'vcp') {
                 if (!isset($validators[$stake['holder']])) {
                     $validators[$stake['holder']] = ['amount' => 0];

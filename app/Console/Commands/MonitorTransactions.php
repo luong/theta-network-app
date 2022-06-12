@@ -77,6 +77,8 @@ class MonitorTransactions extends Command
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
+                        'type_number' => $transaction['type'],
+                        'node' => '',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
@@ -97,6 +99,8 @@ class MonitorTransactions extends Command
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
+                        'type_number' => $transaction['type'],
+                        'node' => '',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
@@ -117,7 +121,7 @@ class MonitorTransactions extends Command
                     $trackedData[] = $tx;
                 }
 
-            } else if ($transaction['type'] == 10) { // stake
+            } else if ($transaction['type'] == 10) { // stake as guardian
                 $usd = 0;
                 $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
                 $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI);
@@ -126,8 +130,11 @@ class MonitorTransactions extends Command
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'stake',
+                        'type_number' => $transaction['type'],
+                        'node' => '',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
+                        'to' => $transaction['data']['holder']['address'],
                         'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
                         'coins' => $theta,
                         'currency' => 'theta',
@@ -145,8 +152,11 @@ class MonitorTransactions extends Command
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'state',
+                        'type_number' => $transaction['type'],
+                        'node' => '',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
+                        'to' => $transaction['data']['holder']['address'],
                         'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
                         'coins' => $tfuel,
                         'currency' => 'tfuel',
@@ -159,6 +169,33 @@ class MonitorTransactions extends Command
                         $messageService->hasLargeTransaction($tx);
                     }
                 }
+
+                $trackedData[] = $tx;
+
+            } else if ($transaction['type'] == 8) { // stake as validator
+                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
+                $usd = round($theta * $coins['THETA']['price'], 2);
+                $tx = [
+                    'id' => $transaction['_id'],
+                    'type' => 'stake',
+                    'type_number' => $transaction['type'],
+                    'node' => 'validator',
+                    'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                    'from' => $transaction['data']['source']['address'],
+                    'to' => $transaction['data']['holder']['address'],
+                    'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                    'coins' => $theta,
+                    'currency' => 'theta',
+                    'usd' => $usd
+                ];
+                if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
+                    $data[$transaction['_id']] = $tx;
+                }
+                if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
+                    $messageService->hasLargeTransaction($tx);
+                }
+
+                $trackedData[] = $tx;
             }
         }
 
