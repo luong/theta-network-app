@@ -92,7 +92,6 @@ class MonitorStakes extends Command
 
         $holders = $thetaService->getHolders();
         if (!empty($validators)) {
-            Validator::truncate();
             $validatorCount = count($validators);
             $data = [];
             foreach ($validators as $holder => $props) {
@@ -120,7 +119,11 @@ class MonitorStakes extends Command
 
                 $data[] = $node;
             }
-            Validator::insert($data);
+
+            if (!empty($data)) {
+                Validator::truncate();
+                Validator::insert($data);
+            }
 
             $thetaService->cacheValidators();
             $thetaService->updateDailyValidators($validatorCount);
