@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(UpdateDailyStats::class)->everySixHours();
-        $schedule->command(MonitorStakes::class)->everyTenMinutes();
+        $schedule->command(MonitorStakes::class)->everyFiveMinutes();
         $schedule->command(UpdatePrices::class)->everyFiveMinutes();
         $schedule->command(MonitorTransactions::class)->everyTwoMinutes();
         $schedule->command(TweetDailyUpdates::class)->dailyAt('00:30');

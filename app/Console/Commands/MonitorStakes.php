@@ -52,10 +52,10 @@ class MonitorStakes extends Command
             return 0;
         }
 
-        $stakes = $response->json()['body'];
-        $cachedValidators = $thetaService->getValidators();
+        $cachedValidators = $thetaService->cacheValidators();
         $coins = $thetaService->getCoinList();
         $cachedTopTransactions = $thetaService->getTopTransactions();
+        $stakes = $response->json()['body'];
 
         $validators = [];
         $topTransactions = [];
@@ -95,23 +95,26 @@ class MonitorStakes extends Command
             $validatorCount = count($validators);
             $data = [];
             foreach ($validators as $holder => $props) {
-                $node = ['holder' => $holder, 'name' => '*', 'chain' => 'theta', 'amount' => round($props['amount']), 'coin' => 'theta', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
+                $node = ['holder' => $holder, 'name' => 'Validator', 'amount' => round($props['amount']), 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()];
                 if (isset($holders[$holder])) {
                     $node['name'] = $holders[$holder]['name'];
                 }
 
-                if (!isset($cachedValidators[$holder])) {  // New validator
-                    $messageService->hasNewValidator($holder, number_format($node['amount']));
+                if (!empty($cachedValidators)) {
+                    if (!isset($cachedValidators[$holder])) {  // New validator
+                        $messageService->hasNewValidator($holder, number_format($node['amount']));
 
-                    Holder::updateOrCreate(
-                        ['code' => $holder, 'chain' => 'theta'],
-                        ['name' => 'Validator']
-                    );
-                    $thetaService->cacheHolders();
-                }
+                        Holder::updateOrCreate(
+                            ['code' => $holder, 'chain' => 'theta'],
+                            ['name' => 'Validator']
+                        );
+                        $thetaService->cacheHolders();
 
-                if (round($node['amount']) != round($cachedValidators[$holder]['amount'])) {
-                    $messageService->validatorChangesStakes($holder, number_format($cachedValidators[$holder]['amount']), number_format($node['amount']));
+                    } else {
+                        if (abs($node['amount'] - $cachedValidators[$holder]['amount']) > 50) {
+                            $messageService->validatorChangesStakes($holder, number_format($cachedValidators[$holder]['amount']), number_format($node['amount']));
+                        }
+                    }
                 }
 
                 $data[] = $node;
