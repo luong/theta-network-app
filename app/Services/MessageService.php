@@ -44,7 +44,7 @@ class MessageService
 
     public function hasNewValidator($address, $amount)
     {
-        $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$theta => " . Helper::makeThetaAccountURL($address);
+        $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$theta => " . Helper::makeSiteAccountURL($address);
         return $this->tweetText($tweet);
     }
 
@@ -55,7 +55,7 @@ class MessageService
         if (isset($holders[$address])) {
             $accountName = 'The validator ' .  $holders[$address]['name'];
         }
-        $tweet = "{$accountName} updated its \$theta amount from {$oldAmount} to {$newAmount} => " . Helper::makeThetaAccountURL($address);
+        $tweet = "{$accountName} updated its \$theta amount from {$oldAmount} to {$newAmount} => " . Helper::makeSiteAccountURL($address);
         return $this->tweetText($tweet);
     }
 
@@ -76,7 +76,7 @@ class MessageService
 
     private function canPost()
     {
-        return App::environment('production');
+        return false; //App::environment('production');
     }
 
     private function getTwitterClient()
