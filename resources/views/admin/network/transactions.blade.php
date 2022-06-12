@@ -26,6 +26,7 @@
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
+                    <th scope="col">Type</th>
                     <th scope="col">From ({{ $transactions->total() }})</th>
                     <th scope="col">To</th>
                     <th scope="col" class="text-end">Amount</th>
@@ -41,6 +42,7 @@
                         $toAccount = isset($holders[$transaction->to_account]) ? $holders[$transaction->to_account]['name'] : $transaction->to_account;
                     @endphp
                     <tr>
+                        <td>{{ ucfirst($transaction->type) }}</td>
                         <td><a href="/account/{{ $transaction->from_account }}">{{ $fromAccount }}</a></td>
                         <td><a href="/account/{{ $transaction->to_account }}">{{ $toAccount }}</a></td>
                         <td class="text-end"><a href="/transaction/{{ $transaction->txn }}">{{ number_format($transaction->amount, 0) }}</a></td>
@@ -58,6 +60,7 @@
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">From ({{ $transactions->total() }})</th>
                     <th scope="col">To</th>
                     <th scope="col" class="text-end">USD</th>
@@ -70,6 +73,7 @@
                         $toAccount = isset($holders[$transaction->to_account]) ? $holders[$transaction->to_account]['name'] : $transaction->to_account;
                     @endphp
                     <tr>
+                        <td>{{ Str::limit(ucfirst($transaction->type), 1, '-') }}</td>
                         <td><a href="/account/{{ $transaction->from_account }}">{{ Str::limit($fromAccount, 6) }}</a></td>
                         <td><a href="/account/{{ $transaction->to_account }}">{{ Str::limit($toAccount, 6) }}</a></td>
                         <td class="text-end"><a href="/transaction/{{ $transaction->txn }}">${{ number_format($transaction->usd, 2) }}</a></td>
