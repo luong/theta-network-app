@@ -77,7 +77,7 @@ class MessageService
 
     private function canPost()
     {
-        return false; //App::environment('production');
+        return App::environment('production');
     }
 
     private function getTwitterClient()
