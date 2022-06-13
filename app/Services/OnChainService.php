@@ -494,7 +494,7 @@ class OnChainService
 
     public function getStakeBySourceAndHolder($source, $holder)
     {
-        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/' . $source);
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/' . $source . '?types[]=vcp&types[]=gcp&types[]=eenp');
         if ($response->ok()) {
             $data = $response->json()['body'];
             foreach ($data['sourceRecords'] as $each) {
