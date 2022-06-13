@@ -113,6 +113,7 @@ class NetworkController extends Controller
 
     public function transactions()
     {
+        $type = request('type');
         $sort = request('sort', 'large_value');
         $search = request('search');
         $accounts = $this->thetaService->getAccounts();
@@ -121,7 +122,10 @@ class NetworkController extends Controller
         $transactions->leftJoin('accounts AS accounts_2', 'transactions.to_account', '=', 'accounts_2.code');
         $transactions->selectRaw('transactions.*, accounts_1.name AS from_name, accounts_2.name AS to_name, IF(accounts_1.id IS NOT NULL OR accounts_2.id IS NOT NULL, 1, 0) AS has_account');
         if (!empty($search)) {
-            $transactions->whereRaw("from_account LIKE '%{$search}%' OR accounts_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR accounts_2.name LIKE '%{$search}%'");
+            $transactions->whereRaw("(from_account LIKE '%{$search}%' OR accounts_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR accounts_2.name LIKE '%{$search}%')");
+        }
+        if (!empty($type)) {
+            $transactions->where('type', $type);
         }
         if (!empty($sort)) {
             if ($sort == 'large_value') {
@@ -139,7 +143,8 @@ class NetworkController extends Controller
             'transactions' => $transactions,
             'accounts' => $accounts,
             'search' => $search,
-            'sort' => $sort
+            'sort' => $sort,
+            'type' => $type
         ]);
     }
 

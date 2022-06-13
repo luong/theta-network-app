@@ -3,8 +3,16 @@
         <x-slot name="header">Transactions</x-slot>
 
         <form method="get">
-        <div class="col-lg-6 row">
-            <div class="col col-5">
+        <div class="col col-lg-7 row">
+            <div class="col-6 col-lg-3">
+                <select name="type" class="form-select" onchange="this.form.submit()">
+                    <option value="">Type</option>
+                    <option value="transfer" {{ $type == 'transfer' ? 'selected' : '' }}>Transfer</option>
+                    <option value="stake" {{ $type == 'stake' ? 'selected' : '' }}>Stake</option>
+                    <option value="withdraw" {{ $type == 'withdraw' ? 'selected' : '' }}>Withdraw</option>
+                </select>
+            </div>
+            <div class="col-6 col-lg-3">
                 <select name="sort" class="form-select" onchange="this.form.submit()">
                     <option value="large_value" {{ $sort == 'large_value' ? 'selected' : '' }}>Large value</option>
                     <option value="latest_date" {{ $sort == 'latest_date' ? 'selected' : '' }}>Latest date</option>
@@ -12,7 +20,7 @@
                     <option value="verified_accounts_latest_date" {{ $sort == 'verified_accounts_latest_date' ? 'selected' : '' }}>Verified + Latest date</option>
                 </select>
             </div>
-            <div class="col col-7">
+            <div class="col-12 col-lg-6 mt-3 mt-lg-0">
                 <div class="input-group mb-3">
                     <input type="text" name="search" value="{{ $search }}" class="form-control" placeholder="Search by account">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
