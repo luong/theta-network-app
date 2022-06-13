@@ -185,37 +185,44 @@ class Transactions extends Command
                 $trackedData[] = $tx;
 
             } else if ($transaction['type'] == 9) { // withdraw
-                if ($transaction['data']['purpose'] == 1) { // guardian
-                    $tx = [
-                        'id' => $transaction['_id'],
-                        'type' => 'withdraw',
-                        'type_number' => $transaction['type'],
-                        'node' => '',
-                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $transaction['data']['holder']['address'],
-                        'to' => $transaction['data']['source']['address'],
-                        'amount' => '0 $theta ($0)',
-                        'coins' => 0,
-                        'currency' => 'theta',
-                        'usd' => 0
-                    ];
-                    $trackedData[] = $tx;
+                $stakeInfo = $onChainService->getStakeBySourceAndHolder($transaction['data']['source']['address'], $transaction['data']['holder']['address']);
+                if (!empty($stakeInfo)) {
+                    if ($transaction['data']['purpose'] == 1) { // guardian
+                        $theta = round($stakeInfo['amount'] / Constants::THETA_WEI, 2);
+                        $usd = round($theta * $coinList['THETA']['price'], 2);
+                        $tx = [
+                            'id' => $transaction['_id'],
+                            'type' => 'withdraw',
+                            'type_number' => $transaction['type'],
+                            'node' => '',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $transaction['data']['holder']['address'],
+                            'to' => $transaction['data']['source']['address'],
+                            'amount' => $theta . ' $theta (' . Helper::formatPrice($usd) . ')',
+                            'coins' => $theta,
+                            'currency' => 'theta',
+                            'usd' => $usd
+                        ];
+                        $trackedData[] = $tx;
 
-                } else if ($transaction['data']['purpose'] == 2) { // elite
-                    $tx = [
-                        'id' => $transaction['_id'],
-                        'type' => 'withdraw',
-                        'type_number' => $transaction['type'],
-                        'node' => '',
-                        'date' => date('Y-m-d H:i', $transaction['timestamp']),
-                        'from' => $transaction['data']['holder']['address'],
-                        'to' => $transaction['data']['source']['address'],
-                        'amount' => '0 $tfuel ($0)',
-                        'coins' => 0,
-                        'currency' => 'tfuel',
-                        'usd' => 0
-                    ];
-                    $trackedData[] = $tx;
+                    } else if ($transaction['data']['purpose'] == 2) { // elite
+                        $tfuel = round($stakeInfo['amount'] / Constants::THETA_WEI, 2);
+                        $usd = round($tfuel * $coinList['TFUEL']['price'], 2);
+                        $tx = [
+                            'id' => $transaction['_id'],
+                            'type' => 'withdraw',
+                            'type_number' => $transaction['type'],
+                            'node' => '',
+                            'date' => date('Y-m-d H:i', $transaction['timestamp']),
+                            'from' => $transaction['data']['holder']['address'],
+                            'to' => $transaction['data']['source']['address'],
+                            'amount' => $tfuel . ' $tfuel (' . Helper::formatPrice($usd) . ')',
+                            'coins' => $tfuel,
+                            'currency' => 'tfuel',
+                            'usd' => $usd
+                        ];
+                        $trackedData[] = $tx;
+                    }
                 }
             }
         }

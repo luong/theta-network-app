@@ -492,4 +492,20 @@ class OnChainService
         return false;
     }
 
+    public function getStakeBySourceAndHolder($source, $holder)
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/stake/' . $source);
+        if ($response->ok()) {
+            $data = $response->json()['body'];
+            foreach ($data['sourceRecords'] as $each) {
+                if ($each['holder'] == $holder) {
+                    return $each;
+                }
+            }
+        } else {
+            Log::channel('db')->error('Request failed (getStakeBySourceAndHolder): theta/api/stake');
+        }
+        return false;
+    }
+
 }
