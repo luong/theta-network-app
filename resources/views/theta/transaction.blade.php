@@ -21,11 +21,11 @@
                 </tr>
                 <tr>
                     <th>From</th>
-                    <td class="text-break"><a href="/account/{{ $transaction['from_account'] }}">{{ $transaction['from_account'] }}</a> {{ isset($holders[$transaction['from_account']]) ? '(' . $holders[$transaction['from_account']]['name'] . ')' : '' }}</td>
+                    <td class="text-break"><a href="/account/{{ $transaction['from_account'] }}">{{ $transaction['from_account'] }}</a> {{ isset($accounts[$transaction['from_account']]) ? '(' . $accounts[$transaction['from_account']]['name'] . ')' : '' }}</td>
                 </tr>
                 <tr>
                     <th>To</th>
-                    <td class="text-break"><a href="/account/{{ $transaction['to_account'] }}">{{ $transaction['to_account'] }}</a> {{ isset($holders[$transaction['to_account']]) ? '(' . $holders[$transaction['to_account']]['name'] . ')' : '' }}</td>
+                    <td class="text-break"><a href="/account/{{ $transaction['to_account'] }}">{{ $transaction['to_account'] }}</a> {{ isset($accounts[$transaction['to_account']]) ? '(' . $accounts[$transaction['to_account']]['name'] . ')' : '' }}</td>
                 </tr>
                 <tr>
                     <th>Amount</th>

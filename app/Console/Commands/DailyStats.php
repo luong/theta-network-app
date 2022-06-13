@@ -9,21 +9,21 @@ use App\Services\ThetaService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class UpdateDailyStats extends Command
+class DailyStats extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:updateStats';
+    protected $signature = 'theta:dailyStats';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update stats';
+    protected $description = 'Update daily stats';
 
     /**
      * Create a new command instance.
@@ -42,7 +42,7 @@ class UpdateDailyStats extends Command
      */
     public function handle(OnChainService $onChainService, ThetaService $thetaService)
     {
-        if (DailyChain::where('date', Carbon::today())->where('chain', 'theta')->exists()) {
+        if (DailyChain::where('date', Carbon::today())->exists()) {
             $this->info('Existed');
             return 0;
         }
@@ -65,7 +65,6 @@ class UpdateDailyStats extends Command
 
             $chain = new DailyChain([
                 'date' => Carbon::today(),
-                'chain' => 'theta',
                 'validators' => $networkInfo['validators'],
                 'onchain_wallets' => $stats['network']['onchain_wallets'],
                 'active_wallets' => $stats['network']['active_wallets'],
@@ -79,7 +78,7 @@ class UpdateDailyStats extends Command
             $thetaService->cacheTfuelStakeChartData();
             $thetaService->cacheThetaStakeChartData();
 
-            $thetaService->setCommandTracker('UpdateDailyStats', 'last_run', time());
+            $thetaService->setCommandTracker('DailyStats', 'last_run', time());
         }
 
         $this->info('Done');

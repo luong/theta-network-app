@@ -38,14 +38,14 @@
                 <tbody>
                 @foreach ($transactions as $transaction)
                     @php
-                        $fromAccount = isset($holders[$transaction->from_account]) ? $holders[$transaction->from_account]['name'] : $transaction->from_account;
-                        $toAccount = isset($holders[$transaction->to_account]) ? $holders[$transaction->to_account]['name'] : $transaction->to_account;
+                        $fromAccount = isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account;
+                        $toAccount = isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account;
                     @endphp
                     <tr>
                         <td>{{ ucfirst($transaction->type) }}</td>
                         <td><a href="/account/{{ $transaction->from_account }}">{{ $fromAccount }}</a></td>
                         <td><a href="/account/{{ $transaction->to_account }}">{{ $toAccount }}</a></td>
-                        <td class="text-end"><a href="/transaction/{{ $transaction->txn }}">{{ number_format($transaction->amount, 0) }}</a></td>
+                        <td class="text-end"><a href="/transaction/{{ $transaction->txn }}">{{ number_format($transaction->coins, 0) }}</a></td>
                         <td class="text-center">{{ $transaction->currency }}</td>
                         <td class="text-end">${{ number_format($transaction->usd, 2) }}</td>
                         <td class="text-center">{{ $transaction->date }}</td>
@@ -69,8 +69,8 @@
                 <tbody>
                 @foreach ($transactions as $transaction)
                     @php
-                        $fromAccount = isset($holders[$transaction->from_account]) ? $holders[$transaction->from_account]['name'] : $transaction->from_account;
-                        $toAccount = isset($holders[$transaction->to_account]) ? $holders[$transaction->to_account]['name'] : $transaction->to_account;
+                        $fromAccount = isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account;
+                        $toAccount = isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account;
                     @endphp
                     <tr>
                         <td>{{ Str::limit(ucfirst($transaction->type), 1, '-') }}</td>

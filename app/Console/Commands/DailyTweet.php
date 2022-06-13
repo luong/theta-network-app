@@ -7,14 +7,14 @@ use App\Services\ThetaService;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
 
-class TweetDailyUpdates extends Command
+class DailyTweet extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:tweetDailyUpdates';
+    protected $signature = 'theta:dailyTweet';
 
     /**
      * The console command description.
@@ -53,7 +53,7 @@ class TweetDailyUpdates extends Command
         $tfuelSupply = Helper::formatNumber($networkInfo['tfuel_supply'], 3, 'B') . ' (' . ($networkInfo['tfuel_supply_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['tfuel_supply_change_24h'], 2, 'M') . ')';
         $messageService->sendDailyUpdates(compact(['tvl', 'thetaPrice', 'tfuelPrice', 'tdropPrice', 'ratio', 'thetaStakes', 'tfuelStakes', 'tfuelSupply']));
 
-        $thetaService->setCommandTracker('TweetDailyUpdates', 'last_run', time());
+        $thetaService->setCommandTracker('DailyTweet', 'last_run', time());
 
         $this->info('Done');
         return 0;

@@ -16,17 +16,13 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.admin.edit');
     Route::get('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.admin.delete');
 
-    Route::get('/validators', [NetworkController::class, 'validators'])->name('admin.validators');
-    Route::any('/validator/add', [NetworkController::class, 'addValidator'])->name('admin.validator.add');
-    Route::any('/validator/edit/{id}', [NetworkController::class, 'editValidator'])->name('admin.validator.edit');
-    Route::get('/validator/delete/{id}', [NetworkController::class, 'deleteValidator'])->name('admin.validator.delete');
-
-    Route::get('/holders', [NetworkController::class, 'holders'])->name('admin.holders');
-    Route::any('/holder/add', [NetworkController::class, 'addHolder'])->name('admin.holder.add');
-    Route::any('/holder/edit/{id}', [NetworkController::class, 'editHolder'])->name('admin.holder.edit');
-    Route::get('/holder/delete/{id}', [NetworkController::class, 'deleteHolder'])->name('admin.holder.delete');
+    Route::get('/accounts', [NetworkController::class, 'accounts'])->name('admin.accounts');
+    Route::any('/account/add', [NetworkController::class, 'addAccount'])->name('admin.account.add');
+    Route::any('/account/edit/{id}', [NetworkController::class, 'editAccount'])->name('admin.account.edit');
+    Route::get('/account/delete/{id}', [NetworkController::class, 'deleteAccount'])->name('admin.account.delete');
 
     Route::get('/top-activists', [NetworkController::class, 'topActivists'])->name('admin.topActivists');
+    Route::get('/validators', [NetworkController::class, 'validators'])->name('admin.validators');
     Route::get('/transactions', [NetworkController::class, 'transactions'])->name('admin.transactions');
 
     Route::get('/logs', [NetworkController::class, 'logs'])->name('admin.logs');

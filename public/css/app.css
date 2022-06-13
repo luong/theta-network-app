@@ -18102,6 +18102,9 @@ textarea.form-control-lg {
 .homepage .card .card-body .changes.down {
   color: red;
 }
+.homepage .card.top-transactions {
+  height: 320px;
+}
 .homepage .card.chart .card-body {
   padding-right: 0px;
 }

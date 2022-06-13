@@ -26,10 +26,10 @@
                 <tbody>
                 @foreach ($activists as $activist)
                     @php
-                        $holder = isset($holders[$activist->account]) ? $holders[$activist->account]['name'] : $activist->account;
+                        $account = isset($accounts[$activist->account]) ? $accounts[$activist->account]['name'] : $activist->account;
                     @endphp
                     <tr>
-                        <td><a href="/account/{{ $activist->account }}">{{ $holder }}</a></td>
+                        <td><a href="/account/{{ $activist->account }}">{{ $account }}</a></td>
                         <td class="text-center">{{ $activist->times }}</td>
                         <td class="text-end">${{ number_format($activist->usd_in, 2) }}</td>
                         <td class="text-end">${{ number_format($activist->usd_out, 2) }}</td>
@@ -56,10 +56,10 @@
                 <tbody>
                 @foreach ($activists as $activist)
                     @php
-                        $holder = isset($holders[$activist->account]) ? $holders[$activist->account]['name'] : $activist->account;
+                        $account = isset($accounts[$activist->account]) ? $accounts[$activist->account]['name'] : $activist->account;
                     @endphp
                     <tr>
-                        <td><a href="/account/{{ $activist->account }}">{{ Str::limit($holder, 6) }}</a></td>
+                        <td><a href="/account/{{ $activist->account }}">{{ Str::limit($account, 6) }}</a></td>
                         <td class="text-center">{{ $activist->times }}</td>
                         <td class="text-end">{{ Helper::formatPrice($activist->usd_in, 0, 'K') }}</td>
                         <td class="text-end">{{ Helper::formatPrice($activist->usd_out, 0, 'K') }}</td>

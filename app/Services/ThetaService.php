@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\Helpers\Constants;
-use App\Helpers\Helper;
+use App\Models\Account;
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
-use App\Models\Holder;
-use App\Models\Validator;
+use App\Models\Stake;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +17,7 @@ class ThetaService
 
     public function caching()
     {
-        $this->cacheHolders();
+        $this->cacheAccounts();
         $this->cacheValidators();
         $this->cacheCoinList();
         $this->cacheTopTransactions();
@@ -33,11 +33,11 @@ class ThetaService
         if (!Cache::has('command_trackers')) {
             $commandTrackers = [
                 'Start' => ['command' => 'theta:start', 'last_run' => null],
-                'UpdateDailyStats' => ['command' => 'theta:updateStats', 'last_run' => null],
-                'MonitorStakes' => ['command' => 'theta:monitorStakes', 'last_run' => null],
-                'UpdatePrices' => ['command' => 'theta:updatePrices', 'last_run' => null],
-                'MonitorTransactions' => ['command' => 'theta:monitorTransactions', 'last_run' => null],
-                'TweetDailyUpdates' => ['command' => 'theta:tweetDailyUpdates', 'last_run' => null]
+                'DailyStats' => ['command' => 'theta:dailyStats', 'last_run' => null],
+                'Stakes' => ['command' => 'theta:stakes', 'last_run' => null],
+                'Prices' => ['command' => 'theta:prices', 'last_run' => null],
+                'Transactions' => ['command' => 'theta:transactions', 'last_run' => null],
+                'DailyTweet' => ['command' => 'theta:dailyTweet', 'last_run' => null]
             ];
             Cache::put('command_trackers', $commandTrackers);
         }
@@ -174,9 +174,8 @@ class ThetaService
 
     public function cacheTopTransactions()
     {
-        $transactions = Cache::get('top_transactions');
-        if (empty($transactions)) {
-            $transactions = [];
+        $transactions = Transaction::whereDate('date', '>=', now()->subHours(24))->orderByDesc('usd')->take(Constants::TOP_TRANSACTION_LIMIT)->get()->toArray();
+        if (!empty($transactions)) {
             Cache::put('top_transactions', $transactions);
         }
         return $transactions;
@@ -191,27 +190,42 @@ class ThetaService
         return $transactions;
     }
 
-    public function cacheHolders()
+    public function cacheAccounts()
     {
-        $holders = Holder::all()->keyBy('code')->toArray();
-        Cache::put('holders', $holders);
-        return $holders;
+        $accounts = Account::all()->keyBy('code')->toArray();
+        Cache::put('accounts', $accounts);
+        return $accounts;
     }
 
-    public function getHolders()
+    public function getAccounts()
     {
-        $holders = Cache::get('holders');
-        if (empty($holders)) {
-            $holders = $this->cacheHolders();
+        $accounts = Cache::get('accounts');
+        if (empty($accounts)) {
+            $accounts = $this->cacheAccounts();
         }
-        return $holders;
+        return $accounts;
     }
 
     public function cacheValidators()
     {
-        $validators = Validator::all()->keyBy('holder')->toArray();
-        Cache::put('validators', $validators);
-        return $validators;
+        $stakes = Stake::where('type', '=', 'vcp')->get();
+        $holders = [];
+        foreach ($stakes as $stake) {
+            if (!isset($holders[$stake->holder])) {
+                $holders[$stake->holder] = ['coins' => 0, 'stakers' => []];
+            }
+            $holders[$stake->holder]['coins'] += $stake->coins;
+            $holders[$stake->holder]['stakers'][] = $stake->toArray();
+        }
+        uasort($holders, function($a, $b) {
+            if ($a['coins'] < $b['coins']) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+        Cache::put('validators', $holders);
+        return $holders;
     }
 
     public function getValidators()
@@ -242,28 +256,11 @@ class ThetaService
 
     public function updateDailyValidators(int $validators)
     {
-        $chain = DailyChain::where('date', Carbon::today())->where('chain', 'theta')->first();
+        $chain = DailyChain::where('date', Carbon::today())->first();
         if (!empty($chain)) {
             $chain->validators = $validators;
             $chain->save();
         }
     }
 
-    public function addTopTransactions($transactions) {
-        $topTransactions = $this->getTopTransactions();
-        if (!empty($transactions)) {
-            $topTransactions = $transactions + $topTransactions;
-            uasort($topTransactions, function($tx1, $tx2) {
-                if ($tx1['date'] < $tx2['date']) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            });
-        }
-        if (count($topTransactions) > Constants::TOP_TRANSACTION_LIMIT) {
-            $topTransactions = array_slice($topTransactions, 0, Constants::TOP_TRANSACTION_LIMIT);
-        }
-        Cache::put('top_transactions', $topTransactions);
-    }
 }

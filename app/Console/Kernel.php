@@ -2,11 +2,12 @@
 
 namespace App\Console;
 
-use App\Console\Commands\MonitorTransactions;
-use App\Console\Commands\TweetDailyUpdates;
-use App\Console\Commands\UpdatePrices;
+use App\Console\Commands\Transactions;
+use App\Console\Commands\Stakes;
+use App\Console\Commands\DailyTweet;
+use App\Console\Commands\Prices;
 use App\Console\Commands\MonitorStakes;
-use App\Console\Commands\UpdateDailyStats;
+use App\Console\Commands\DailyStats;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -20,11 +21,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(UpdateDailyStats::class)->everySixHours();
-        $schedule->command(MonitorStakes::class)->everyFiveMinutes();
-        $schedule->command(UpdatePrices::class)->everyFiveMinutes();
-        $schedule->command(MonitorTransactions::class)->everyTwoMinutes();
-        $schedule->command(TweetDailyUpdates::class)->dailyAt('00:30');
+        $schedule->command(DailyStats::class)->everySixHours();
+        $schedule->command(Stakes::class)->everyFiveMinutes();
+        $schedule->command(Prices::class)->everyFiveMinutes();
+        $schedule->command(Transactions::class)->everyTwoMinutes();
+        $schedule->command(DailyTweet::class)->dailyAt('00:30');
     }
 
     /**

@@ -31,11 +31,11 @@ class ThetaController extends Controller
     public function account($id)
     {
         $account = $this->onChainService->getAccountDetails($id);
-        $holders = $this->thetaService->getHolders();
+        $accounts = $this->thetaService->getAccounts();
         $coins = $this->thetaService->getCoinList();
         return view('theta.account', [
             'account' => $account,
-            'holders' => $holders,
+            'accounts' => $accounts,
             'coins' => $coins
         ]);
     }
@@ -43,11 +43,11 @@ class ThetaController extends Controller
     public function transaction($id)
     {
         $transaction = $this->onChainService->getTransactionDetails($id);
-        $holders = $this->thetaService->getHolders();
+        $accounts = $this->thetaService->getAccounts();
         $coins = $this->thetaService->getCoinList();
         return view('theta.transaction', [
             'transaction' => $transaction,
-            'holders' => $holders,
+            'accounts' => $accounts,
             'coins' => $coins
         ]);
     }

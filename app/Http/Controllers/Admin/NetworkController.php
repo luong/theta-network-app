@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
-use App\Models\Holder;
+use App\Models\Account;
 use App\Models\Log;
 use App\Models\Transaction;
 use App\Models\Validator;
@@ -23,117 +23,70 @@ class NetworkController extends Controller
 
     public function validators()
     {
-        $search = request('search');
-        $query = Validator::query();
-        if (!empty($search)) {
-            $query->where('holder', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
-        }
-        $validators = $query->orderByDesc('amount')->get();
+        $validators = $this->thetaService->getValidators();
+        $accounts = $this->thetaService->getAccounts();
         return view('admin.network.validators', [
             'validators' => $validators,
-            'search' => $search
+            'accounts' => $accounts
         ]);
     }
 
-    public function addValidator()
-    {
-        if (request()->isMethod('post')) {
-            request()->validate([
-                'holder' => ['bail', 'required', 'string', 'unique:validators'],
-                'name' => ['bail', 'required', 'string'],
-                'amount' => ['bail', 'required', 'numeric']
-            ]);
-            $data = request()->only('holder', 'name', 'amount');
-            $data['chain'] = 'theta';
-            $data['coin'] = 'theta';
-            Validator::create($data);
-            $this->thetaService->cacheValidators();
-            return back()->with('message', 'Added successfully.');
-        }
-        return view('admin.network.add_validator');
-    }
-
-    public function editValidator($id)
-    {
-        $validator = Validator::find($id);
-        if (request()->isMethod('post')) {
-            request()->validate([
-                'holder' => ['bail', 'required', 'string', Rule::unique('validators')->ignore($validator->holder, 'holder')],
-                'name' => ['bail', 'required', 'string'],
-                'amount' => ['bail', 'required', 'numeric']
-            ]);
-            $data = request()->only('holder', 'name', 'amount');
-            $validator->update($data);
-            $this->thetaService->cacheValidators();
-            return back()->with('message', 'Edited successfully.');
-        }
-        return view('admin.network.edit_validator', ['validator' => $validator]);
-    }
-
-    public function deleteValidator($id)
-    {
-        Validator::destroy($id);
-        $this->thetaService->cacheValidators();
-        return back();
-    }
-
-    public function holders()
+    public function accounts()
     {
         $search = request('search');
-        $query = Holder::query();
+        $query = Account::query();
         if (!empty($search)) {
             $query->where('code', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
         }
-        $holders = $query->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
-        return view('admin.network.holders', [
-            'holders' => $holders,
+        $accounts = $query->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
+        return view('admin.network.accounts', [
+            'accounts' => $accounts,
             'search' => $search
         ]);
     }
 
-    public function addHolder()
+    public function addAccount()
     {
         if (request()->isMethod('post')) {
             request()->validate([
-                'code' => ['bail', 'required', 'string', 'unique:holders'],
+                'code' => ['bail', 'required', 'string', 'unique:accounts'],
                 'name' => ['bail', 'required', 'string'],
             ]);
             $data = request()->only('code', 'name');
-            $data['chain'] = 'theta';
-            Holder::create($data);
-            $this->thetaService->cacheHolders();
+            Account::create($data);
+            $this->thetaService->cacheAccounts();
             return back()->with('message', 'Added successfully.');
         }
-        return view('admin.network.add_holder');
+        return view('admin.network.add_account');
     }
 
-    public function editHolder($id)
+    public function editAccount($id)
     {
-        $holder = Holder::find($id);
+        $account = Account::find($id);
         if (request()->isMethod('post')) {
             request()->validate([
-                'code' => ['bail', 'required', 'string', Rule::unique('holders')->ignore($holder->code, 'code')],
+                'code' => ['bail', 'required', 'string', Rule::unique('accounts')->ignore($account->code, 'code')],
                 'name' => ['bail', 'required', 'string'],
             ]);
             $data = request()->only('code', 'name');
-            $holder->update($data);
-            $this->thetaService->cacheHolders();
+            $account->update($data);
+            $this->thetaService->cacheAccounts();
             return back()->with('message', 'Edited successfully.');
         }
-        return view('admin.network.edit_holder', ['holder' => $holder]);
+        return view('admin.network.edit_account', ['account' => $account]);
     }
 
-    public function deleteHolder($id)
+    public function deleteAccount($id)
     {
-        Holder::destroy($id);
-        $this->thetaService->cacheHolders();
+        Account::destroy($id);
+        $this->thetaService->cacheAccounts();
         return back();
     }
 
     public function topActivists()
     {
         $search = request('search');
-        $holders = $this->thetaService->getHolders();
+        $accounts = $this->thetaService->getAccounts();
 
         $query1 = DB::table('transactions')->select('from_account as account', DB::raw('0 as usd_in'), 'usd as usd_out', 'usd')
             ->union(DB::table('transactions')->select('to_account as account', 'usd as usd_in', DB::raw('0 as usd_out'), 'usd'));
@@ -152,7 +105,7 @@ class NetworkController extends Controller
 
         return view('admin.network.top_activists', [
             'activists' => $activists,
-            'holders' => $holders,
+            'accounts' => $accounts,
             'search' => $search
         ]);
     }
@@ -161,13 +114,13 @@ class NetworkController extends Controller
     {
         $sort = request('sort', 'large_value');
         $search = request('search');
-        $holders = $this->thetaService->getHolders();
+        $accounts = $this->thetaService->getAccounts();
         $transactions = DB::table('transactions');
-        $transactions->leftJoin('holders AS holders_1', 'transactions.from_account', '=', 'holders_1.code');
-        $transactions->leftJoin('holders AS holders_2', 'transactions.to_account', '=', 'holders_2.code');
-        $transactions->selectRaw('transactions.*, holders_1.name AS from_name, holders_2.name AS to_name, IF(holders_1.id IS NOT NULL OR holders_2.id IS NOT NULL, 1, 0) AS has_holder');
+        $transactions->leftJoin('accounts AS accounts_1', 'transactions.from_account', '=', 'accounts_1.code');
+        $transactions->leftJoin('accounts AS accounts_2', 'transactions.to_account', '=', 'accounts_2.code');
+        $transactions->selectRaw('transactions.*, accounts_1.name AS from_name, accounts_2.name AS to_name, IF(accounts_1.id IS NOT NULL OR accounts_2.id IS NOT NULL, 1, 0) AS has_account');
         if (!empty($search)) {
-            $transactions->whereRaw("from_account LIKE '%{$search}%' OR holders_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR holders_2.name LIKE '%{$search}%'");
+            $transactions->whereRaw("from_account LIKE '%{$search}%' OR accounts_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR accounts_2.name LIKE '%{$search}%'");
         }
         if (!empty($sort)) {
             if ($sort == 'large_value') {
@@ -175,15 +128,15 @@ class NetworkController extends Controller
             } else if ($sort == 'latest_date') {
                 $transactions->orderByDesc('date');
             } else if ($sort == 'verified_accounts_large_value') {
-                $transactions->orderByDesc('has_holder')->orderByDesc('usd');
+                $transactions->orderByDesc('has_account')->orderByDesc('usd');
             } else if ($sort == 'verified_accounts_latest_date') {
-                $transactions->orderByDesc('has_holder')->orderByDesc('date');
+                $transactions->orderByDesc('has_account')->orderByDesc('date');
             }
         }
         $transactions = $transactions->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('admin.network.transactions', [
             'transactions' => $transactions,
-            'holders' => $holders,
+            'accounts' => $accounts,
             'search' => $search,
             'sort' => $sort
         ]);

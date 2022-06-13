@@ -11,29 +11,29 @@ class MessageService
 
     public function hasLargeTransaction($tx)
     {
-        $holders = resolve(ThetaService::class)->getHolders();
+        $accounts = resolve(ThetaService::class)->getAccounts();
         $text = '';
         if ($tx['type'] == 'transfer') {
             $fromTo = 'from unknown wallet';
-            if (isset($holders[$tx['from']]) && isset($holders[$tx['to']])) {
-                $fromTo = 'from ' . $holders[$tx['from']]['name'] . ' to ' . $holders[$tx['to']]['name'];
-            } else if (isset($holders[$tx['from']])) {
-                $fromTo = 'from ' . $holders[$tx['from']]['name'];
-            } else if (isset($holders[$tx['to']])) {
-                $fromTo = 'to ' . $holders[$tx['to']]['name'];
+            if (isset($accounts[$tx['from']]) && isset($accounts[$tx['to']])) {
+                $fromTo = 'from ' . $accounts[$tx['from']]['name'] . ' to ' . $accounts[$tx['to']]['name'];
+            } else if (isset($accounts[$tx['from']])) {
+                $fromTo = 'from ' . $accounts[$tx['from']]['name'];
+            } else if (isset($accounts[$tx['to']])) {
+                $fromTo = 'to ' . $accounts[$tx['to']]['name'];
             }
             $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'stake') {
             $from = 'from unknown wallet';
-            if (isset($holders[$tx['from']])) {
-                $from = 'from ' . $holders[$tx['from']]['name'];
+            if (isset($accounts[$tx['from']])) {
+                $from = 'from ' . $accounts[$tx['from']]['name'];
             }
             $purpose = !empty($tx['node']) && $tx['node'] == 'validator' ? 'staked as a validator' : 'staked';
             $text = "{$tx['amount']} {$purpose} {$from} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'withdraw') {
             $from = 'from unknown wallet';
-            if (isset($holders[$tx['from']])) {
-                $from = 'from ' . $holders[$tx['from']]['name'];
+            if (isset($accounts[$tx['from']])) {
+                $from = 'from ' . $accounts[$tx['from']]['name'];
             }
             $text = "{$tx['amount']} withdrawn {$from} " . Helper::makeSiteAccountURL($tx['from']);
         }
@@ -51,10 +51,10 @@ class MessageService
 
     public function validatorChangesStakes($address, $oldAmount, $newAmount)
     {
-        $holders = resolve(ThetaService::class)->getHolders();
+        $accounts = resolve(ThetaService::class)->getAccounts();
         $accountName = 'A validator';
-        if (isset($holders[$address])) {
-            $accountName = 'The validator ' .  $holders[$address]['name'];
+        if (isset($accounts[$address])) {
+            $accountName = 'The validator ' .  $accounts[$address]['name'];
         }
         $tweet = "{$accountName} updated its \$theta amount from {$oldAmount} to {$newAmount} => " . Helper::makeSiteAccountURL($address);
         return $this->tweetText($tweet);
@@ -77,7 +77,7 @@ class MessageService
 
     private function canPost()
     {
-        return App::environment('production');
+        return false; //App::environment('production');
     }
 
     private function getTwitterClient()

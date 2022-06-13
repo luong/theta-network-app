@@ -13,21 +13,21 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class MonitorTransactions extends Command
+class Transactions extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:monitorTransactions';
+    protected $signature = 'theta:transactions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Monitor transactions';
+    protected $description = 'Update transactions';
 
     /**
      * Create a new command instance.
@@ -56,14 +56,16 @@ class MonitorTransactions extends Command
             return false;
         }
 
-        $data = [];
+        $coinList = $onChainService->getCoinList();
+        $oldTransactionIds = Cache::get('old_transaction_ids', []);
+        $newTransactionIds = [];
+
         $trackedData = [];
         $transactions = $response->json()['body'];
-        $coins = $onChainService->getCoinList();
-        $cachedTopTransactions = $thetaService->getTopTransactions();
 
         foreach ($transactions as $transaction) {
-            if (isset($cachedTopTransactions[$transaction['_id']])) {
+            if (in_array($transaction['_id'], $oldTransactionIds)) {
+                $newTransactionIds[] = $transaction['_id'];
                 continue;
             }
 
@@ -73,7 +75,7 @@ class MonitorTransactions extends Command
                 $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI);
 
                 if ($theta > 0) {
-                    $usd = round($theta * $coins['THETA']['price'], 2);
+                    $usd = round($theta * $coinList['THETA']['price'], 2);
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
@@ -87,15 +89,12 @@ class MonitorTransactions extends Command
                         'currency' => 'theta',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
 
                 } else {
-                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    $usd = round($tfuel * $coinList['TFUEL']['price'], 2);
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'transfer',
@@ -109,9 +108,6 @@ class MonitorTransactions extends Command
                         'currency' => 'tfuel',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
@@ -126,7 +122,7 @@ class MonitorTransactions extends Command
                 $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
                 $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI);
                 if ($theta > 0) {
-                    $usd = round($theta * $coins['THETA']['price'], 2);
+                    $usd = round($theta * $coinList['THETA']['price'], 2);
                     $tx = [
                         'id' => $transaction['_id'],
                         'type' => 'stake',
@@ -140,18 +136,15 @@ class MonitorTransactions extends Command
                         'currency' => 'theta',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
 
                 } else {
-                    $usd = round($tfuel * $coins['TFUEL']['price'], 2);
+                    $usd = round($tfuel * $coinList['TFUEL']['price'], 2);
                     $tx = [
                         'id' => $transaction['_id'],
-                        'type' => 'state',
+                        'type' => 'stake',
                         'type_number' => $transaction['type'],
                         'node' => '',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
@@ -162,9 +155,6 @@ class MonitorTransactions extends Command
                         'currency' => 'tfuel',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT) {
-                        $data[$transaction['_id']] = $tx;
-                    }
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
@@ -174,7 +164,7 @@ class MonitorTransactions extends Command
 
             } else if ($transaction['type'] == 8) { // stake as validator
                 $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
-                $usd = round($theta * $coins['THETA']['price'], 2);
+                $usd = round($theta * $coinList['THETA']['price'], 2);
                 $tx = [
                     'id' => $transaction['_id'],
                     'type' => 'stake',
@@ -188,9 +178,6 @@ class MonitorTransactions extends Command
                     'currency' => 'theta',
                     'usd' => $usd
                 ];
-                if ($usd >= Constants::TOP_TRANSACTION_MIN_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
-                    $data[$transaction['_id']] = $tx;
-                }
                 if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
                     $messageService->hasLargeTransaction($tx);
                 }
@@ -199,55 +186,36 @@ class MonitorTransactions extends Command
             }
         }
 
-        if (!empty($data)) {
-            $thetaService->addTopTransactions($data);
-        }
         if (!empty($trackedData)) {
-            $this->trackActivities($trackedData);
+            Transaction::whereDate('date', '<=', now()->subDays(Constants::TRANSACTION_LIFETIME_DAYS))->delete();
+            foreach ($trackedData as $each) {
+                $data = [
+                    'txn' => $each['id'],
+                    'type' => $each['type'],
+                    'from_account' => $each['from'],
+                    'to_account' => $each['to'],
+                    'coins' => $each['coins'],
+                    'currency' => $each['currency'],
+                    'usd' => $each['usd'],
+                    'date' => $each['date']
+                ];
+
+                Transaction::updateOrCreate(
+                    ['txn' => $data['txn']],
+                    $data
+                );
+
+                $newTransactionIds[] = $data['txn'];
+            }
+
+            $thetaService->cacheTopTransactions();
         }
 
-        $thetaService->setCommandTracker('MonitorTransactions', 'last_run', time());
+        Cache::put('old_transaction_ids', $newTransactionIds);
+
+        $thetaService->setCommandTracker('Transactions', 'last_run', time());
         $this->info('Done');
         return 0;
     }
 
-    private function trackActivities($trackedData)
-    {
-        Transaction::whereDate('date', '<=', now()->subDays(Constants::TRANSACTION_LIFETIME_DAYS))->delete();
-
-        $newRecentTransactionIds = [];
-        $recentTransactionIds = Cache::get('recent_transaction_ids');
-        if (empty($recentTransactionIds)) {
-            $recentTransactionIds = [];
-        }
-
-        $data = [];
-        foreach ($trackedData as $each) {
-            $newRecentTransactionIds[] = $each['id'];
-            if (in_array($each['id'], $recentTransactionIds)) {
-                continue;
-            }
-            $data[] = [
-                'txn' => $each['id'],
-                'type' => $each['type'],
-                'from_account' => $each['from'],
-                'to_account' => $each['to'],
-                'amount' => $each['coins'],
-                'currency' => $each['currency'],
-                'usd' => $each['usd'],
-                'date' => $each['date']
-            ];
-        }
-
-        if (!empty($data)) {
-            foreach ($data as $each) {
-                Transaction::updateOrCreate(
-                    ['txn' => $each['txn']],
-                    $each
-                );
-            }
-        }
-
-        Cache::put('recent_transaction_ids', $newRecentTransactionIds);
-    }
 }

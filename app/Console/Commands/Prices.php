@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
 
-class UpdatePrices extends Command
+class Prices extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:updatePrices';
+    protected $signature = 'theta:prices';
 
     /**
      * The console command description.
@@ -40,7 +40,7 @@ class UpdatePrices extends Command
     {
         $thetaService->cacheCoinList();
         $thetaService->cacheNetworkInfo();
-        $thetaService->setCommandTracker('UpdatePrices', 'last_run', time());
+        $thetaService->setCommandTracker('Prices', 'last_run', time());
         $this->info('Done');
         return 0;
     }

@@ -5,7 +5,7 @@
             <table class="table mt-3">
                 <tr>
                     <th>ID</th>
-                    <td class="text-break">{{ $account['id'] }} {{ isset($holders[$account['id']]) ? '(' . $holders[$account['id']]['name'] . ')' : '' }}</td>
+                    <td class="text-break">{{ $account['id'] }} {{ isset($accounts[$account['id']]) ? '(' . $accounts[$account['id']]['name'] . ')' : '' }}</td>
                 </tr>
                 <tr>
                     <th>Balance</th>
@@ -35,8 +35,8 @@
                         <tr>
                             <td>{{ Helper::getNodeName($stake['type']) }}</td>
                             <td class="text-end">{{ Helper::formatNumber($stake['coins'], 0) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/></td>
-                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($holders[$stake['source']]) ? $holders[$stake['source']]['name'] : $stake['source']) }}</a></td>
-                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($holders[$stake['holder']]) ? $holders[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
+                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source']) }}</a></td>
+                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
                             <td>{{ ucfirst($stake['status']) }}</td>
                         </tr>
                     @endforeach
@@ -61,8 +61,8 @@
                         <tr>
                             <td>{{ Str::limit(Helper::getNodeName($stake['type']), 1, '-') }}</td>
                             <td class="text-end">{{ Helper::formatNumber($stake['coins'], 0) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/></td>
-                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($holders[$stake['source']]) ? $holders[$stake['source']]['name'] : $stake['source'], 4, '..') }}</a></td>
-                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($holders[$stake['holder']]) ? $holders[$stake['holder']]['name'] : $stake['holder'], 4, '..') }}</a></td>
+                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source'], 4, '..') }}</a></td>
+                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder'], 4, '..') }}</a></td>
                             <td>{{ ucfirst($stake['status']) }}</td>
                         </tr>
                     @endforeach
@@ -91,8 +91,8 @@
                         <tr>
                             <td class="text-center">{{ ucfirst($transaction['type']) }}</td>
                             <td><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Str::limit($transaction['id'], 10) }}</a></td>
-                            <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($holders[$transaction['from']]) ? $holders[$transaction['from']]['name'] : Str::limit($transaction['from'], 10)) }}</a></td>
-                            <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($holders[$transaction['to']]) ? $holders[$transaction['to']]['name'] : Str::limit($transaction['to'], 10)) }}</a></td>
+                            <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? $accounts[$transaction['from']]['name'] : Str::limit($transaction['from'], 10)) }}</a></td>
+                            <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? $accounts[$transaction['to']]['name'] : Str::limit($transaction['to'], 10)) }}</a></td>
                             <td class="text-end">{{ Helper::formatNumber($transaction['coins'], 2) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/></td>
                             <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 2) }}</td>
                             <td class="text-center">{{ $transaction['date'] }}</td>
@@ -118,8 +118,8 @@
                     @foreach ($account['transactions'] as $transaction)
                         <tr>
                             <td>{{ Str::limit(strtoupper($transaction['type']), '1', '-') }}</td>
-                            <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($holders[$transaction['from']]) ? Str::limit($holders[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a></td>
-                            <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($holders[$transaction['to']]) ? Str::limit($holders[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
+                            <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a></td>
+                            <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
                             <td class="text-end"><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/></a></td>
                             <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 0) }}</td>
                         </tr>
