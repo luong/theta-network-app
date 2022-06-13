@@ -18,7 +18,7 @@
         </div>
 
         @if (count($account['stakes']) > 0)
-            <div class="stakes col-lg-7 d-none d-lg-block mt-4">
+            <div class="stakes col-lg-8 d-none d-lg-block mt-4">
                 <h4>Stakes</h4>
                 <table class="table">
                     <thead>
