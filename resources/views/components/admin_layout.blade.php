@@ -75,6 +75,7 @@
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.logout') }}"><span class="bi-slash-circle"></span> Logout</a>
+                                <span class="nav-link"><span class="bi-clock"></span> {{ 'D' . date('d H:i:s') }}</span>
                             </li>
                         </ul>
                     @endauth

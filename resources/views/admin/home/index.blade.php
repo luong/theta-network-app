@@ -3,7 +3,6 @@
         <x-slot name="header">Home</x-slot>
 
         <div class="container-fluid ms-0 ps-0 pe-0 col-lg-6">
-            <div class="mb-2">Current time is <span class="text-decoration-underline">{{ date('Y-m-d H:i:s') }}</span></div>
             <table class="table">
                 <thead>
                     <tr>
