@@ -11,11 +11,13 @@
             </form>
         </div>
 
+        <div class="mb-2">Found: ({{ number_format($activists->total(), 0) }})</div>
+
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Account ({{ $activists->total() }})</th>
+                    <th scope="col">Account</th>
                     <th scope="col" class="text-center">Transaction Count</th>
                     <th scope="col" class="text-end">In</th>
                     <th scope="col" class="text-end">Out</th>
@@ -45,7 +47,7 @@
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Account ({{ $activists->total() }})</th>
+                    <th scope="col">Account</th>
                     <th scope="col" class="text-center">Count</th>
                     <th scope="col" class="text-end">In</th>
                     <th scope="col" class="text-end">Out</th>

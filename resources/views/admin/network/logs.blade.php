@@ -2,11 +2,13 @@
     <div class="logs-page">
         <x-slot name="header">Logs in 7 Days</x-slot>
 
+        <div class="mb-2">Found: ({{ number_format($logs->total(), 0) }})</div>
+
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col" class="text-center">Level ({{ $logs->total() }})</th>
+                    <th scope="col" class="text-center">Level</th>
                     <th scope="col">Message</th>
                     <th scope="col" class="text-center">Created</th>
                 </tr>
@@ -28,7 +30,7 @@
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col" class="text-center">Level ({{ $logs->total() }})</th>
+                    <th scope="col" class="text-center">Level</th>
                     <th scope="col">Message</th>
                     <th scope="col" class="text-center">Created</th>
                 </tr>

@@ -21,13 +21,14 @@
         </div>
         </form>
 
+        <div class="mb-2">Found: ({{ number_format($transactions->total(), 0) }})</div>
 
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
                     <th scope="col">Type</th>
-                    <th scope="col">From ({{ $transactions->total() }})</th>
+                    <th scope="col">From</th>
                     <th scope="col">To</th>
                     <th scope="col" class="text-end">Amount</th>
                     <th scope="col" class="text-center">Currency</th>
@@ -61,7 +62,7 @@
                 <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">From ({{ $transactions->total() }})</th>
+                    <th scope="col">From</th>
                     <th scope="col">To</th>
                     <th scope="col" class="text-end">USD</th>
                 </tr>

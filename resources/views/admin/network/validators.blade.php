@@ -2,12 +2,14 @@
     <div class="edit-validator-page">
         <x-slot name="header">Validators</x-slot>
 
+        <div class="mb-2">Found: ({{ number_format(count($validators), 0) }})</div>
+
         <div class="container-sm ms-0 ps-0 me-0 pe-0">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
                     <th scope="col" class="text-center">No</th>
-                    <th scope="col">Holder ({{ count($validators) }})</th>
+                    <th scope="col">Holder</th>
                     <th scope="col" class="text-end">Amount (Theta)</th>
                 </tr>
                 </thead>

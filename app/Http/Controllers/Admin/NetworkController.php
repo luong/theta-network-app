@@ -6,6 +6,7 @@ use App\Helpers\Constants;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Log;
+use App\Models\Stake;
 use App\Models\Transaction;
 use App\Models\Validator;
 use App\Services\ThetaService;
@@ -147,6 +148,37 @@ class NetworkController extends Controller
         $logs = Log::query()->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('admin.network.logs', [
             'logs' => $logs
+        ]);
+    }
+
+    public function stakes()
+    {
+        $type = request('type');
+        $withdrawn = request('withdrawn');
+        $search = request('search');
+
+        $query = DB::table('stakes');
+        $query->leftJoin('accounts AS accounts_1', 'stakes.holder', '=', 'accounts_1.code');
+        $query->leftJoin('accounts AS accounts_2', 'stakes.source', '=', 'accounts_2.code');
+        $query->selectRaw('stakes.*, accounts_1.name AS holder_name, accounts_2.name AS source_name');
+        if (!empty($type)) {
+            $query->where('type', $type);
+        }
+        if (!empty($withdrawn)) {
+            $query->where('withdrawn', $withdrawn == 'yes' ? 1 : 0);
+        }
+        if (!empty($search)) {
+            $query->whereRaw("(holder LIKE '%{$search}%' OR accounts_1.name LIKE '%{$search}%' OR source LIKE '%{$search}%' OR accounts_2.name LIKE '%{$search}%')");
+        }
+        $stakes = $query->orderByDesc('usd')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
+
+        $accounts = $this->thetaService->getAccounts();
+        return view('admin.network.stakes', [
+            'stakes' => $stakes,
+            'accounts' => $accounts,
+            'type' => $type,
+            'withdrawn' => $withdrawn,
+            'search' => $search
         ]);
     }
 }

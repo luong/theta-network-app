@@ -14,11 +14,13 @@
             </form>
         </div>
 
+        <div class="mb-2">Found: ({{ number_format($accounts->total(), 0) }})</div>
+
         <div class="container-sm ms-0 ps-0 me-0 pe-0 d-none d-lg-block">
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Code ({{ $accounts->total() }})</th>
+                    <th scope="col">Code</th>
                     <th scope="col">Name</th>
                     <th scope="col" class="text-center">Created At</th>
                     <th scope="col"></th>
@@ -45,7 +47,7 @@
             <table class="table table-striped table-sm align-middle">
                 <thead>
                 <tr>
-                    <th scope="col">Code ({{ $accounts->total() }})</th>
+                    <th scope="col">Code</th>
                     <th scope="col">Name</th>
                     <th scope="col"></th>
                 </tr>

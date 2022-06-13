@@ -24,6 +24,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/top-activists', [NetworkController::class, 'topActivists'])->name('admin.topActivists');
     Route::get('/validators', [NetworkController::class, 'validators'])->name('admin.validators');
     Route::get('/transactions', [NetworkController::class, 'transactions'])->name('admin.transactions');
+    Route::get('/stakes', [NetworkController::class, 'stakes'])->name('admin.stakes');
 
     Route::get('/logs', [NetworkController::class, 'logs'])->name('admin.logs');
 
