@@ -41,6 +41,7 @@
                     <th scope="col" class="text-center">Currency</th>
                     <th scope="col" class="text-end">USD</th>
                     <th scope="col" class="text-center">Withdrawn</th>
+                    <th scope="col" class="text-center">Returned At</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,6 +58,7 @@
                         <td class="text-center">{{ $stake->currency }}</td>
                         <td class="text-end">${{ number_format($stake->usd, 2) }}</td>
                         <td class="text-center">{{ $stake->withdrawn ? 'Yes' : 'No' }}</td>
+                        <td class="text-center">{{ $stake->returned_at }}</td>
                     </tr>
                 @endforeach
                 </tbody>

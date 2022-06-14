@@ -31,6 +31,7 @@ class Stakes extends Command
 
     private ThetaService $thetaService;
     private $coinList = null;
+    private $networkInfo = null;
 
     /**
      * Create a new command instance.
@@ -51,6 +52,7 @@ class Stakes extends Command
     {
         $this->thetaService = $thetaService;
         $this->coinList = $this->thetaService->getCoinList();
+        $this->networkInfo = $this->thetaService->getNetworkInfo();
 
         $oldValidators = $this->thetaService->cacheValidators();
         $oldWithdrawnStakeCodes = Stake::where('withdrawn', 1)->get()->pluck('code');
@@ -128,6 +130,13 @@ class Stakes extends Command
                 } else {
                     $usd = round($coins * $this->coinList['THETA']['price'], 2);
                 }
+
+                $seconds = round(((int)$stake['return_height'] - $this->networkInfo['block_height']) / $this->networkInfo['blocks_24h'] * 86400, 0);
+                $returnDate = null;
+                if ($seconds >= 0 && $seconds < 20 * 86400) {
+                    $returnDate = date('Y-m-d H:i', strtotime('+' . $seconds . ' seconds'));
+                }
+
                 $data[] = [
                     'code' => $stake['_id'],
                     'holder' => $stake['holder'],
@@ -137,6 +146,7 @@ class Stakes extends Command
                     'currency' => $currency,
                     'usd' => $usd,
                     'return_height' => $stake['return_height'],
+                    'returned_at' => $returnDate,
                     'withdrawn' => $stake['withdrawn'],
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')

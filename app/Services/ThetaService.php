@@ -139,6 +139,10 @@ class ThetaService
         $tfuelSupplyChange24h = round($lastestTfuelCoins[0]->supply - $lastestTfuelCoins[1]->supply);
         $tfuelStakeChange24h = round($lastestTfuelCoins[0]->total_stakes - $lastestTfuelCoins[1]->total_stakes);
 
+        $blocks24h = $onChainService->getBlocks24h();
+        $blockHeight = $onChainService->getBlockHeight();
+        $transactions24h = $onChainService->getTransactions24h();
+
         $info = [
             'validators' => $lastChain->validators,
             'edge_nodes' => $marketingData['edge_nodes'],
@@ -157,7 +161,11 @@ class ThetaService
             'tfuel_supply_change_24h' => $tfuelSupplyChange24h,
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
             'tvl_value' => $tvl['current_value'],
-            'tvl_change_24h' => $tvl['change_24h']
+            'tvl_change_24h' => $tvl['change_24h'],
+            'blocks_24h' => $blocks24h,
+            'block_height' => $blockHeight,
+            'transactions_24h' => $transactions24h
+
         ];
         Cache::put('network_info', $info);
         return $info;

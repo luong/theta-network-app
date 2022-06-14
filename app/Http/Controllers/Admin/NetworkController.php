@@ -183,7 +183,8 @@ class NetworkController extends Controller
             'accounts' => $accounts,
             'type' => $type,
             'withdrawn' => $withdrawn,
-            'search' => $search
+            'search' => $search,
+            'networkInfo' => $this->thetaService->getNetworkInfo()
         ]);
     }
 }

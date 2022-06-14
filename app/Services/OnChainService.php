@@ -508,4 +508,37 @@ class OnChainService
         return false;
     }
 
+    public function getBlockHeight()
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/blocks/top_blocks?pageNumber=1&limit=1');
+        if ($response->ok()) {
+            return $response->json()['body'][0]['height'];
+        } else {
+            Log::channel('db')->error('Request failed (getCurrentBlockHeight): theta/api/blocks/top_blocks');
+        }
+        return false;
+    }
+
+    public function getBlocks24h()
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/blocks/number/24');
+        if ($response->ok()) {
+            return $response->json()['body']['total_num_block'];
+        } else {
+            Log::channel('db')->error('Request failed (getBlocks24H): theta/api/blocks/number/24');
+        }
+        return false;
+    }
+
+    public function getTransactions24h()
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transactions/number/24');
+        if ($response->ok()) {
+            return $response->json()['body']['total_num_tx'];
+        } else {
+            Log::channel('db')->error('Request failed (getTransactions24H): theta/api/transactions/number/24');
+        }
+        return false;
+    }
+
 }
