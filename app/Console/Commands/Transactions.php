@@ -89,7 +89,7 @@ class Transactions extends Command
                         'currency' => 'theta',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
 
@@ -136,7 +136,7 @@ class Transactions extends Command
                         'currency' => 'theta',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                     }
 
@@ -178,7 +178,7 @@ class Transactions extends Command
                     'currency' => 'theta',
                     'usd' => $usd
                 ];
-                if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $theta >= Constants::THETA_VALIDATOR_MIN_AMOUNT) {
+                if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                     $messageService->hasLargeTransaction($tx);
                 }
 
