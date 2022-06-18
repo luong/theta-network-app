@@ -52,4 +52,27 @@ class ThetaController extends Controller
             'coins' => $coins
         ]);
     }
+
+    public function thetaStakeChart()
+    {
+        return view('theta.theta_stake_chart', [
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
+        ]);
+    }
+
+    public function tfuelStakeChart()
+    {
+        return view('theta.tfuel_stake_chart', [
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
+        ]);
+    }
+
+    public function tfuelFreeSupplyChart()
+    {
+        return view('theta.tfuel_free_supply_chart', [
+            'tfuelFreeSupplyChartData' => $this->thetaService->getTfuelFreeSupplyChartData(),
+        ]);
+    }
 }

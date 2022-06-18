@@ -1,6 +1,6 @@
 <div class="card c2x tfuel-stake-chart chart m-2 h-auto">
     <h6 class="card-header">
-        <span class="icon bi bi-graph-down"></span>
+        <a href="/chart/tfuel-stake"><span class="icon bi bi-graph-down"></span></a>
         <span class="name ms-1">TFUEL STAKE CHART</span>
     </h6>
     <div class="card-body">

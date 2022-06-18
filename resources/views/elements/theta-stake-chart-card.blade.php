@@ -1,6 +1,6 @@
 <div class="card c2x theta-stake-chart chart m-2 h-auto">
     <h6 class="card-header">
-        <span class="icon bi bi-graph-down"></span>
+        <a href="/chart/theta-stake"><span class="icon bi bi-graph-down"></span></a>
         <span class="name ms-1">THETA STAKE CHART</span>
     </h6>
     <div class="card-body">
