@@ -29,6 +29,12 @@ class ThetaService
         $this->cacheCommandTrackers();
     }
 
+    public function recaching()
+    {
+        Cache::forget('command_trackers');
+        $this->caching();
+    }
+
     public function cacheCommandTrackers()
     {
         if (!Cache::has('command_trackers')) {

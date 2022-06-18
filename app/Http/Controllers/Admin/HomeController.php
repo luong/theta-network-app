@@ -28,4 +28,10 @@ class HomeController extends Controller
         Artisan::call($command);
         return response()->json(['result' => 'success']);
     }
+
+    public function recaching()
+    {
+        $this->thetaService->recaching();
+        return back();
+    }
 }

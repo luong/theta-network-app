@@ -2,6 +2,8 @@
     <div class="home-page">
         <x-slot name="header">Home</x-slot>
 
+        <div class="mb-2"><a href="{{ route('admin.recaching') }}">Reload caching</a></div>
+
         <div class="container-fluid ms-0 ps-0 pe-0 col-lg-6">
             <table class="table">
                 <thead>

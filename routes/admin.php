@@ -9,7 +9,9 @@ Route::any('/login', [AuthController::class, 'login'])->name('admin.login');
 
 Route::middleware('auth:admin')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('admin.home');
+
     Route::post('/run', [HomeController::class, 'run'])->name('admin.run');
+    Route::get('/recaching', [HomeController::class, 'recaching'])->name('admin.recaching');
 
     Route::get('/admins', [AdminController::class, 'list'])->name('admin.admins');
     Route::any('/admin/add', [AdminController::class, 'add'])->name('admin.admin.add');
