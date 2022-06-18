@@ -19,6 +19,7 @@ class Constants
     const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
 
+    const TOP_TRANSACTION_BLOCK = 50;
     const TOP_TRANSACTION_LIMIT = 100;
     const TOP_TRANSACTION_TWEET_AMOUNT = 490000;
 
