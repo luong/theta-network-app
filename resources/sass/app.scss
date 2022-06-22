@@ -62,7 +62,7 @@
                     height: 20px !important;
                     margin-top: 5px;
                     margin-right: 7px;
-                    width: 28px;
+                    width: 70px;
                     text-align: center;
                 }
             }
@@ -79,6 +79,13 @@
 
         &.top-transactions {
             height: 320px;
+        }
+
+        &.top-withdrawals {
+            height: 320px;
+            .bullet {
+                width: 100px !important;
+            }
         }
 
         &.chart {

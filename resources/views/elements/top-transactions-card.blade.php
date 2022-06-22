@@ -8,11 +8,11 @@
             @foreach ($topTransactions as $transaction)
                 <div class="row">
                     @if ($transaction['type'] == 'transfer')
-                        <span class="bullet h-auto">T</span><a href="/transaction/{{ $transaction['txn'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) . ' ' . $transaction['currency'] . ' (' .  Helper::formatPrice($transaction['usd']) . ')' }}</a>
+                        <span class="bullet h-auto">Transfer</span><a href="/transaction/{{ $transaction['txn'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/> ({{ Helper::formatPrice($transaction['usd']) }})</a>
                     @elseif ($transaction['type'] == 'stake')
-                        <span class="bullet h-auto">S</span><a href="/transaction/{{ $transaction['txn'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) . ' ' . $transaction['currency'] . ' (' .  Helper::formatPrice($transaction['usd']) . ')' }}</a>
+                        <span class="bullet h-auto">Stake</span><a href="/transaction/{{ $transaction['txn'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/> ({{ Helper::formatPrice($transaction['usd']) }}</a>
                     @elseif ($transaction['type'] == 'withdraw')
-                        <span class="bullet h-auto">W</span><a href="/account/{{ $transaction['to_account'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) . ' ' . $transaction['currency'] . ' (' .  Helper::formatPrice($transaction['usd']) . ')' }}</a>
+                        <span class="bullet h-auto">Unstake</span><a href="/account/{{ $transaction['to_account'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/> ({{ Helper::formatPrice($transaction['usd']) }}</a>
                     @endif
                 </div>
             @endforeach

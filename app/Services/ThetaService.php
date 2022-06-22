@@ -227,6 +227,24 @@ class ThetaService
         return $transactions;
     }
 
+    public function cacheTopWithdrawals()
+    {
+        $data = Stake::where('withdrawn', 1)->orderByDesc('usd')->get()->toArray();
+        if (!empty($data)) {
+            Cache::put('top_withdrawals', $data);
+        }
+        return $data;
+    }
+
+    public function getTopWithdrawals()
+    {
+        $data = Cache::get('top_withdrawals');
+        if (empty($data)) {
+            $data = $this->cacheTopWithdrawals();
+        }
+        return $data;
+    }
+
     public function cacheAccounts()
     {
         $accounts = Account::all()->keyBy('code')->toArray();

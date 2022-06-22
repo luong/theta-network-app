@@ -18090,7 +18090,7 @@ textarea.form-control-lg {
   height: 20px !important;
   margin-top: 5px;
   margin-right: 7px;
-  width: 28px;
+  width: 70px;
   text-align: center;
 }
 .homepage .card .card-body .changes {
@@ -18104,6 +18104,12 @@ textarea.form-control-lg {
 }
 .homepage .card.top-transactions {
   height: 320px;
+}
+.homepage .card.top-withdrawals {
+  height: 320px;
+}
+.homepage .card.top-withdrawals .bullet {
+  width: 100px !important;
 }
 .homepage .card.chart .card-body {
   padding-right: 0px;
