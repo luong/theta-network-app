@@ -30,6 +30,15 @@
                     legend: {
                         display: false
                     }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return (value / 1000000).toFixed(2) + 'M';
+                            }
+                        }
+                    }
                 }
             }
         }
