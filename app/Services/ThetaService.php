@@ -45,7 +45,8 @@ class ThetaService
                 'Prices' => ['command' => 'theta:prices', 'last_run' => null],
                 'Transactions' => ['command' => 'theta:transactions', 'last_run' => null],
                 'DailyTweet' => ['command' => 'theta:dailyTweet', 'last_run' => null],
-                'Blocks' => ['command' => 'theta:blocks', 'last_run' => null]
+                'Blocks' => ['command' => 'theta:blocks', 'last_run' => null],
+                'Drops' => ['command' => 'theta:drops', 'last_run' => null]
             ];
             Cache::put('command_trackers', $commandTrackers);
         }

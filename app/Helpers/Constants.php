@@ -12,6 +12,7 @@ class Constants
     const THETA_WEI = 1000000000000000000;
     const THETA_VALIDATOR_MIN_AMOUNT = 199000;
 
+    const DROP_API_URL = 'https://api.thetadrop.com';
     const TDROP_CONTRACT_ID = '0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03';
 
     const COINGECKO_API_URL = 'https://api.coingecko.com';

@@ -3,10 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Helpers\Constants;
-use App\Helpers\Helper;
-use App\Models\DailyCoin;
-use App\Models\Transaction;
-use App\Services\MessageService;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
