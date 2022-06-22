@@ -35,5 +35,6 @@ class Constants
 
     const PAGINATION_PAGE_LIMIT = 100;
     const TRANSACTION_LIFETIME_DAYS = 30;
+    const DROP_LIFETIME_DAYS = 30;
     const LOG_LIFETIME_DAYS = 30;
 }

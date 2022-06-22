@@ -3,16 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Helpers\Constants;
-use App\Helpers\Helper;
-use App\Models\DailyCoin;
 use App\Models\Drop;
-use App\Models\Transaction;
-use App\Services\MessageService;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -122,6 +117,7 @@ class Drops extends Command
         }
 
         if (!empty($data)) {
+            Drop::whereDate('date', '<=', now()->subDays(Constants::DROP_LIFETIME_DAYS))->delete();
             foreach ($data as $each) {
                 Drop::updateOrCreate(
                     ['transaction_id' => $each['transaction_id']],
