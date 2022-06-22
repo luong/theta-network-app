@@ -49,6 +49,7 @@ class DailyStats extends Command
 
         $stats = $onChainService->getThetaStats();
         $networkInfo = $thetaService->getNetworkInfo();
+        $coinList = $thetaService->getCoinList();
 
         if ($stats !== false) {
             DailyCoin::updateOrCreate(
@@ -59,6 +60,11 @@ class DailyStats extends Command
             DailyCoin::updateOrCreate(
                 ['date' => Carbon::today(), 'coin' => 'tfuel'],
                 ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes']]
+            );
+
+            DailyCoin::updateOrCreate(
+                ['date' => Carbon::today(), 'coin' => 'tdrop'],
+                ['price' => $coinList['TDROP']['price'], 'market_cap' => $coinList['TDROP']['market_cap'], 'volume_24h' => $coinList['TDROP']['volume_24h'], 'supply' => $coinList['TDROP']['circulating_supply'], 'total_stakes' => null, 'staked_nodes' => null]
             );
 
             $marketingData = $onChainService->getThetaMarketingData();

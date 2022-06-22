@@ -53,6 +53,14 @@ class OnChainService
         return false;
     }
 
+    public function getTdropSupply() {
+        $response = $this->getContractSummary(Constants::TDROP_CONTRACT_ID);
+        if ($response !== false) {
+            return round($response['max_total_supply'] / Constants::THETA_WEI, 0);
+        }
+        return false;
+    }
+
     public function getThetaStats() {
         $thetaTotalStakes = null;
         $thetaStakedNodes = null;
@@ -67,6 +75,7 @@ class OnChainService
         $tfuelVolume24h = null;
         $onchainWallets = null;
         $activeWallets = null;
+        $tdropSupply = null;
 
         // theta supply
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/supply/theta');
@@ -105,6 +114,9 @@ class OnChainService
             Log::channel('db')->error('Request failed: theta/api/stake/totalAmount?type=tfuel');
             return false;
         }
+
+        // tdrop supply
+        $tdropSupply = $this->getTdropSupply();
 
         // onchain wallets
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/total/number');
@@ -149,6 +161,7 @@ class OnChainService
         return [
             'theta' => ['price' => $thetaPrice, 'market_cap' => $thetaMarketCap, 'volume_24h' => $thetaVolume24h, 'supply' => $thetaSupply, 'total_stakes' => $thetaTotalStakes, 'staked_nodes' => $thetaStakedNodes],
             'tfuel' => ['price' => $tfuelPrice, 'market_cap' => $tfuelMarketCap, 'volume_24h' => $tfuelVolume24h, 'supply' => $tfuelSupply, 'total_stakes' => $tfuelTotalStakes, 'staked_nodes' => $tfuelStakedNodes],
+            'tdrop' => ['price' => false, 'market_cap' => false, 'volume_24h' => false, 'supply' => $tdropSupply, 'total_stakes' => false, 'staked_nodes' => false],
             'network' => ['onchain_wallets' => $onchainWallets, 'active_wallets' => $activeWallets]
         ];
     }
@@ -167,6 +180,7 @@ class OnChainService
         $coins['TFUEL']['circulating_supply'] = $this->getTfuelSupply();
         $coins['TFUEL']['market_cap'] = $coinsFromCMC['TFUEL']['market_cap'];
         $coins['TFUEL']['market_cap_rank'] = $coinsFromCMC['TFUEL']['market_cap_rank'];
+        $coins['TDROP']['circulating_supply'] = $this->getTdropSupply();
         $coins['TDROP']['market_cap'] = $coinsFromCMC['TDROP']['market_cap'];
         $coins['TDROP']['market_cap_rank'] = $coinsFromCMC['TDROP']['market_cap_rank'];
 
@@ -537,6 +551,17 @@ class OnChainService
             return $response->json()['body']['total_num_tx'];
         } else {
             Log::channel('db')->error('Request failed (getTransactions24H): theta/api/transactions/number/24');
+        }
+        return false;
+    }
+
+    public function getContractSummary($contractId)
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/tokenSummary/' . $contractId);
+        if ($response->ok()) {
+            return $response->json()['body'];
+        } else {
+            Log::channel('db')->error('Request failed (getContractSummary): theta/api/tokenSummary');
         }
         return false;
     }
