@@ -26,7 +26,9 @@ class ThetaController extends Controller
             'tfuelFreeSupplyChartData' => $this->thetaService->getTfuelFreeSupplyChartData(),
             'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
             'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
-            'topWithdrawals' => $this->thetaService->getTopWithdrawals()
+            'topWithdrawals' => $this->thetaService->getTopWithdrawals(),
+            'validators' => $this->thetaService->getValidators(),
+            'accounts' => $this->thetaService->getAccounts()
         ]);
     }
 

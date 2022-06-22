@@ -88,6 +88,32 @@
             }
         }
 
+        &.validators {
+            width: 280px;
+            height: 320px;
+            .bullet {
+                width: 120px !important;
+            }
+            .row {
+                a {
+                    display: inline-block;
+                    width: 65px;
+                    text-align: right;
+                }
+                img {
+                    padding: 0px !important;
+                    width: 18px;
+                    height: 18px;
+                    vertical-align: top;
+                    margin-top: 6px;
+                    margin-left: 5px;
+                }
+            }
+            @include media-breakpoint-down(lg) {
+                width: 350px;
+            }
+        }
+
         &.chart {
             .card-body {
                 padding-right: 0px;

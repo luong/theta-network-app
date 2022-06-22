@@ -56,6 +56,7 @@ class NetworkController extends Controller
             $data = request()->only('code', 'name');
             Account::create($data);
             $this->thetaService->cacheAccounts();
+            $this->thetaService->cacheValidators();
             return back()->with('message', 'Added successfully.');
         }
         return view('admin.network.add_account');
@@ -72,6 +73,7 @@ class NetworkController extends Controller
             $data = request()->only('code', 'name');
             $account->update($data);
             $this->thetaService->cacheAccounts();
+            $this->thetaService->cacheValidators();
             return back()->with('message', 'Edited successfully.');
         }
         return view('admin.network.edit_account', ['account' => $account]);

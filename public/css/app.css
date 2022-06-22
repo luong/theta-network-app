@@ -18111,6 +18111,31 @@ textarea.form-control-lg {
 .homepage .card.top-withdrawals .bullet {
   width: 100px !important;
 }
+.homepage .card.validators {
+  width: 280px;
+  height: 320px;
+}
+.homepage .card.validators .bullet {
+  width: 120px !important;
+}
+.homepage .card.validators .row a {
+  display: inline-block;
+  width: 65px;
+  text-align: right;
+}
+.homepage .card.validators .row img {
+  padding: 0px !important;
+  width: 18px;
+  height: 18px;
+  vertical-align: top;
+  margin-top: 6px;
+  margin-left: 5px;
+}
+@media (max-width: 991.98px) {
+  .homepage .card.validators {
+    width: 350px;
+  }
+}
 .homepage .card.chart .card-body {
   padding-right: 0px;
 }

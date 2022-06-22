@@ -10,6 +10,7 @@
         @include('elements/tfuel-free-supply-chart-card')
         @include('elements/top-transactions-card')
         @include('elements/top-withdrawals-card')
+        @include('elements/validators-card')
     </div>
 </x-layout>
 
