@@ -113,7 +113,7 @@ class Drops extends Command
                 'usd' => $each['price'],
                 'tfuel' => $saleDatas[$id]['price'],
                 'currency' => $saleDatas[$id]['currency'],
-                'date' => date('Y-m-d H:i:s', strtotime($each['create_time']))
+                'date' => date('Y-m-d H:i:s', strtotime($saleDatas[$id]['create_time']))
             ];
         }
 
