@@ -47,7 +47,7 @@ class Drops extends Command
         $thetaService = resolve(ThetaService::class);
         $onChainService = resolve(OnChainService::class);
 
-        $response = Http::get(Constants::DROP_API_URL . '/sale_order/list_archived?number=200&page=1&&expand=content_id&expand=nft_id&expand=buyer_id&expand=buyer_id.tps_id&expand=user_id&expand=user_id.tps_id&expand=sale_data_id');
+        $response = Http::get(Constants::DROP_API_URL . '/sale_order/list_archived?number=100&page=1&&expand=content_id&expand=nft_id&expand=buyer_id&expand=buyer_id.tps_id&expand=user_id&expand=user_id.tps_id&expand=sale_data_id');
         if (!$response->ok()) {
             Log::channel('db')->error('Request failed: thetadrop/sale_order/list_archived');
             return false;
