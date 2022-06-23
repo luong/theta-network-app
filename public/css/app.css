@@ -18798,42 +18798,52 @@ textarea.form-control-lg {
   padding: 2px;
 }
 
-.nft-page .sizer {
+.nft-page .drops .sizer {
   width: 5%;
 }
-.nft-page .drop {
+.nft-page .drops .drop {
   width: 5%;
 }
-.nft-page .drop:hover {
+.nft-page .drops .drop:hover {
   cursor: pointer;
 }
-.nft-page .drop2 {
+.nft-page .drops .drop2 {
   width: 10%;
 }
-.nft-page .drop3 {
+.nft-page .drops .drop3 {
   width: 20%;
 }
-.nft-page img {
+.nft-page .drops .img {
   width: 100%;
 }
-.nft-page .host {
-  height: 250px;
+.nft-page .drops .host {
+  width: 380px;
+  height: 185px;
 }
-.nft-page .host .card {
+.nft-page .drops .host .card {
   width: 90%;
   height: 90%;
 }
+.nft-page .drops .host .row {
+  line-height: 2;
+}
+.nft-page .drops .host:hover {
+  cursor: default !important;
+}
 @media (max-width: 767.98px) {
-  .nft-page .sizer {
+  .nft-page .drops .host {
+    width: 100% !important;
+  }
+  .nft-page .drops .sizer {
     width: 10%;
   }
-  .nft-page .drop {
+  .nft-page .drops .drop {
     width: 10%;
   }
-  .nft-page .drop2 {
-    width: 20%;
+  .nft-page .drops .drop2 {
+    width: 15%;
   }
-  .nft-page .drop3 {
+  .nft-page .drops .drop3 {
     width: 30%;
   }
 }

@@ -77,7 +77,7 @@ class DailyStats extends Command
             ]);
             $chain->save();
             $chain->nodes = ['elites' => $nodeStats['elites'], 'guardians' => $nodeStats['guardians']];
-            $chain->drops = ['transactions' => $dropStats['transactions'], 'usd' => $dropStats['usd'], 'tfuel' => $dropStats['tfuel'], 'total' => $dropStats['total']];
+            $chain->drops = $dropStats;
             $chain->save();
 
             $thetaService->cacheNetworkInfo();

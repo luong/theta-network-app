@@ -59,29 +59,9 @@ class ThetaController extends Controller
 
     public function nft()
     {
-        $drops = DB::table('drops')->selectRaw('name, MAX(type) AS type, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
-        $totalUsd = 0;
-        foreach ($drops as $drop) {
-            $totalUsd += $drop->usd;
-        }
-        $data = [];
-        foreach ($drops as $drop) {
-            $class = 'drop';
-            $percent = ($drop->usd / $totalUsd) * 100;
-            if ($percent >= 3) {
-                $class = 'drop drop3';
-            } else if ($percent >= 1.5) {
-                $class = 'drop drop2';
-            }
-            $data[] = [
-                'name' => $drop->name,
-                'image' => $drop->image,
-                'class' => $class,
-                'type' => $drop->type
-            ];
-        }
         return view('theta.nft', [
-            'drops' => $data
+            'drops' => $this->thetaService->getDrops(),
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
         ]);
     }
 

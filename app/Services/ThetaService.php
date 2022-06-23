@@ -28,6 +28,7 @@ class ThetaService
         $this->cacheThetaStakeChartData();
         $this->cacheTfuelStakeChartData();
         $this->cacheCommandTrackers();
+        $this->cacheDrops();
     }
 
     public function recaching()
@@ -72,6 +73,43 @@ class ThetaService
         if (in_array($command, ['Start', 'TweetDailyUpdates'])) {
             Log::channel('db')->info("Command {$command} started");
         }
+    }
+
+    public function cacheDrops()
+    {
+        $data = [];
+        $drops = DB::table('drops')->whereDate('date', '>=', now()->subHours(24))->selectRaw('name, MAX(type) AS type, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
+        $totalUsd = 0;
+        foreach ($drops as $drop) {
+            $totalUsd += $drop->usd;
+        }
+        $data = [];
+        foreach ($drops as $drop) {
+            $class = 'drop';
+            $percent = ($drop->usd / $totalUsd) * 100;
+            if ($percent >= 3) {
+                $class = 'drop drop3';
+            } else if ($percent >= 1.5) {
+                $class = 'drop drop2';
+            }
+            $data[] = [
+                'name' => $drop->name,
+                'image' => $drop->image,
+                'class' => $class,
+                'type' => $drop->type
+            ];
+        }
+        Cache::put('drops', $data);
+        return $data;
+    }
+
+    public function getDrops()
+    {
+        $data = Cache::get('drops');
+        if (empty($data)) {
+            $data = $this->cacheDrops();
+        }
+        return $data;
     }
 
     public function cacheThetaStakeChartData()
@@ -161,6 +199,7 @@ class ThetaService
         $onChainService = resolve(OnChainService::class);
         $stats = $onChainService->getThetaStats();
         $nodeStats = $this->getNodeStats();
+        $dropStats24H = $this->getDropStats24H();
         $tvl = $onChainService->getTVL();
         $lastestTfuelCoins = DailyCoin::where('coin', 'tfuel')->latest()->take(2)->get();
         $lastestThetaCoins = DailyCoin::where('coin', 'theta')->latest()->take(2)->get();
@@ -194,7 +233,8 @@ class ThetaService
             'tvl_change_24h' => $tvl['change_24h'],
             'blocks_24h' => $blocks24h,
             'block_height' => $blockHeight,
-            'transactions_24h' => $transactions24h
+            'transactions_24h' => $transactions24h,
+            'drop_24h' => $dropStats24H
 
         ];
         Cache::put('network_info', $info);
@@ -331,11 +371,13 @@ class ThetaService
 
     public function getDropStats24H()
     {
-        $data = DB::table('drops')->whereDate('date', '>=', now()->subHours(24))->selectRaw("SUM(IF(currency = 'stable_coin', usd, 0)) AS usd, SUM(IF(currency = 'tfuel', tfuel, 0)) AS tfuel, SUM(usd) AS total, COUNT(*) AS transactions")->get();
+        $data = DB::table('drops')->whereDate('date', '>=', now()->subHours(24))->selectRaw("SUM(IF(currency = 'stable_coin', usd, 0)) AS total_usd, SUM(IF(currency = 'tfuel', tfuel, 0)) AS total_tfuel, SUM(usd) AS total, SUM(IF(currency = 'stable_coin', 1, 0)) AS times_usd, SUM(IF(currency = 'tfuel', 1, 0)) AS times_tfuel, COUNT(*) AS times")->get();
         return [
-            'transactions' => $data[0]->transactions,
-            'usd' => round($data[0]->usd, 2),
-            'tfuel' => round($data[0]->tfuel, 2),
+            'times_usd' => $data[0]->times_usd,
+            'times_tfuel' => $data[0]->times_tfuel,
+            'times' => $data[0]->times,
+            'total_usd' => round($data[0]->total_usd, 2),
+            'total_tfuel' => round($data[0]->total_tfuel, 2),
             'total' => round($data[0]->total, 2)
         ];
     }
