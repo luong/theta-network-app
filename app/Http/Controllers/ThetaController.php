@@ -74,6 +74,7 @@ class ThetaController extends Controller
                 $class = 'drop drop2';
             }
             $data[] = [
+                'name' => $drop->name,
                 'image' => $drop->image,
                 'class' => $class
             ];

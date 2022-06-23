@@ -2,6 +2,10 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
 
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bs-primary);
+}
+
 .navbar {
     box-shadow: 1px 1px #ccc;
 }
@@ -167,8 +171,16 @@
 }
 
 .nft-page {
-    .sizer, .drop {
+    .sizer {
         width: 5%;
+
+    }
+
+    .drop {
+        width: 5%;
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     .drop2 {
@@ -184,7 +196,11 @@
     }
 
     @include media-breakpoint-down(md) {
-        .sizer, .drop {
+        .sizer {
+            width: 10%;
+        }
+
+        .drop {
             width: 10%;
         }
 
