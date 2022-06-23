@@ -29,6 +29,11 @@ class Helper
         return "<a href='" . Constants::THETA_EXPLORER_URL . "/account/{$accountId}' target='_blank'>{$accountId}</a>";
     }
 
+    public static function makeDropContentURL($contentId)
+    {
+        return Constants::DROP_CONTENT_URL . '/' . $contentId;
+    }
+
     public static function formatPrice($price, $decimals = 4, $unit = '')
     {
         return '$' . self::formatNumber($price, $decimals, $unit);
