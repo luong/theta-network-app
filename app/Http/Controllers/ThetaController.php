@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Services\OnChainService;
 use App\Services\ThetaService;
+use Illuminate\Support\Facades\DB;
 
 class ThetaController extends Controller
 {
@@ -53,6 +54,32 @@ class ThetaController extends Controller
             'transaction' => $transaction,
             'accounts' => $accounts,
             'coins' => $coins
+        ]);
+    }
+
+    public function nft()
+    {
+        $drops = DB::table('drops')->selectRaw('name, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
+        $totalUsd = 0;
+        foreach ($drops as $drop) {
+            $totalUsd += $drop->usd;
+        }
+        $data = [];
+        foreach ($drops as $drop) {
+            $class = 'drop';
+            $percent = ($drop->usd / $totalUsd) * 100;
+            if ($percent >= 3) {
+                $class = 'drop drop3';
+            } else if ($percent >= 1.5) {
+                $class = 'drop drop2';
+            }
+            $data[] = [
+                'image' => $drop->image,
+                'class' => $class
+            ];
+        }
+        return view('theta.nft', [
+            'drops' => $data
         ]);
     }
 

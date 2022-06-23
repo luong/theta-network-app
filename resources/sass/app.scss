@@ -166,3 +166,35 @@
     }
 }
 
+.nft-page {
+    .sizer, .drop {
+        width: 5%;
+    }
+
+    .drop2 {
+        width: 10%;
+    }
+
+    .drop3 {
+        width: 20%;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    @include media-breakpoint-down(md) {
+        .sizer, .drop {
+            width: 10%;
+        }
+
+        .drop2 {
+            width: 20%;
+        }
+
+        .drop3 {
+            width: 30%;
+        }
+    }
+}
+

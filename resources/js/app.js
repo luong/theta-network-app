@@ -11,6 +11,9 @@ mixpanel.init('7ca7759b2c50126ea905f5b4598a14c2', {
     debug: false
 });
 
+import Masonry from 'masonry-layout';
+window.Masonry = Masonry;
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

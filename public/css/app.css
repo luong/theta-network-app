@@ -18171,3 +18171,27 @@ textarea.form-control-lg {
 .account-page .transactions.mobile td {
   padding: 2px;
 }
+
+.nft-page .sizer, .nft-page .drop {
+  width: 5%;
+}
+.nft-page .drop2 {
+  width: 10%;
+}
+.nft-page .drop3 {
+  width: 20%;
+}
+.nft-page img {
+  width: 100%;
+}
+@media (max-width: 767.98px) {
+  .nft-page .sizer, .nft-page .drop {
+    width: 10%;
+  }
+  .nft-page .drop2 {
+    width: 20%;
+  }
+  .nft-page .drop3 {
+    width: 30%;
+  }
+}
