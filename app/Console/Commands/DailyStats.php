@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Constants;
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
 use App\Services\OnChainService;
@@ -56,9 +57,10 @@ class DailyStats extends Command
                 ['price' => $stats['theta']['price'], 'market_cap' => $stats['theta']['market_cap'], 'volume_24h' => $stats['theta']['volume_24h'],  'supply' => $stats['theta']['supply'], 'total_stakes' => $stats['theta']['total_stakes'], 'staked_nodes' => $stats['theta']['staked_nodes']]
             );
 
+            $tbillAccount = $onChainService->getAccount(Constants::TBILL_ACCOUNT);
             DailyCoin::updateOrCreate(
                 ['date' => Carbon::today(), 'coin' => 'tfuel'],
-                ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes']]
+                ['price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes'], 'locked_supply' => ['tbill' => @$tbillAccount['balance']['tfuel']]]
             );
 
             DailyCoin::updateOrCreate(

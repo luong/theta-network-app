@@ -10,4 +10,8 @@ class DailyCoin extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'locked_supply' => 'array',
+    ];
 }
