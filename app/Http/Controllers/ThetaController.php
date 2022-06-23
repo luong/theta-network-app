@@ -59,7 +59,7 @@ class ThetaController extends Controller
 
     public function nft()
     {
-        $drops = DB::table('drops')->selectRaw('name, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
+        $drops = DB::table('drops')->selectRaw('name, MAX(type) AS type, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
         $totalUsd = 0;
         foreach ($drops as $drop) {
             $totalUsd += $drop->usd;
@@ -76,7 +76,8 @@ class ThetaController extends Controller
             $data[] = [
                 'name' => $drop->name,
                 'image' => $drop->image,
-                'class' => $class
+                'class' => $class,
+                'type' => $drop->type
             ];
         }
         return view('theta.nft', [

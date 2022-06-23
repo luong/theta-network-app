@@ -18816,6 +18816,13 @@ textarea.form-control-lg {
 .nft-page img {
   width: 100%;
 }
+.nft-page .host {
+  height: 250px;
+}
+.nft-page .host .card {
+  width: 90%;
+  height: 90%;
+}
 @media (max-width: 767.98px) {
   .nft-page .sizer {
     width: 10%;

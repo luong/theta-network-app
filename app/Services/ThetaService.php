@@ -10,6 +10,7 @@ use App\Models\Stake;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ThetaService
@@ -157,10 +158,9 @@ class ThetaService
 
     public function cacheNetworkInfo()
     {
-        $lastChain = DailyChain::latest()->first();
         $onChainService = resolve(OnChainService::class);
         $stats = $onChainService->getThetaStats();
-        $marketingData = $onChainService->getThetaMarketingData();
+        $nodeStats = $this->getNodeStats();
         $tvl = $onChainService->getTVL();
         $lastestTfuelCoins = DailyCoin::where('coin', 'tfuel')->latest()->take(2)->get();
         $lastestThetaCoins = DailyCoin::where('coin', 'theta')->latest()->take(2)->get();
@@ -174,9 +174,9 @@ class ThetaService
         $transactions24h = $onChainService->getTransactions24h();
 
         $info = [
-            'validators' => $lastChain->validators,
-            'edge_nodes' => $marketingData['edge_nodes'],
-            'guardian_nodes' => $marketingData['guardian_nodes'],
+            'validators' => $nodeStats['validators'],
+            'elite_nodes' => $nodeStats['elites'],
+            'guardian_nodes' => $nodeStats['guardians'],
             'onchain_wallets' => $stats['network']['onchain_wallets'],
             'active_wallets' => $stats['network']['active_wallets'],
             'theta_price' => $stats['theta']['price'],
@@ -317,6 +317,27 @@ class ThetaService
             $chain->validators = $validators;
             $chain->save();
         }
+    }
+
+    public function getNodeStats()
+    {
+        $data = DB::table('stakes')->selectRaw('type, COUNT(DISTINCT holder) AS nodes')->groupBy(['type'])->get()->keyBy('type');
+        return [
+            'validators' => $data['vcp']->nodes,
+            'guardians' => $data['gcp']->nodes,
+            'elites' => $data['eenp']->nodes,
+        ];
+    }
+
+    public function getDropStats24H()
+    {
+        $data = DB::table('drops')->whereDate('date', '>=', now()->subHours(24))->selectRaw("SUM(IF(currency = 'stable_coin', usd, 0)) AS usd, SUM(IF(currency = 'tfuel', tfuel, 0)) AS tfuel, SUM(usd) AS total, COUNT(*) AS transactions")->get();
+        return [
+            'transactions' => $data[0]->transactions,
+            'usd' => round($data[0]->usd, 2),
+            'tfuel' => round($data[0]->tfuel, 2),
+            'total' => round($data[0]->total, 2)
+        ];
     }
 
 }

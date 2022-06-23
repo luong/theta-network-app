@@ -12,6 +12,7 @@ class DailyChain extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'metadata' => 'array'
+        'nodes' => 'array',
+        'drops' => 'array'
     ];
 }

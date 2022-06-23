@@ -48,7 +48,6 @@ class DailyStats extends Command
         }
 
         $stats = $onChainService->getThetaStats();
-        $networkInfo = $thetaService->getNetworkInfo();
         $coinList = $thetaService->getCoinList();
 
         if ($stats !== false) {
@@ -67,16 +66,18 @@ class DailyStats extends Command
                 ['price' => $coinList['TDROP']['price'], 'market_cap' => $coinList['TDROP']['market_cap'], 'volume_24h' => $coinList['TDROP']['volume_24h'], 'supply' => $coinList['TDROP']['circulating_supply'], 'total_stakes' => null, 'staked_nodes' => null]
             );
 
-            $marketingData = $onChainService->getThetaMarketingData();
+            $nodeStats = $thetaService->getNodeStats();
+            $dropStats = $thetaService->getDropStats24H();
 
             $chain = new DailyChain([
                 'date' => Carbon::today(),
-                'validators' => $networkInfo['validators'],
+                'validators' => $nodeStats['validators'],
                 'onchain_wallets' => $stats['network']['onchain_wallets'],
                 'active_wallets' => $stats['network']['active_wallets'],
             ]);
             $chain->save();
-            $chain->metadata = ['edge_nodes' => $marketingData['edge_nodes'], 'guardian_nodes' => $marketingData['guardian_nodes']];
+            $chain->nodes = ['elites' => $nodeStats['elites'], 'guardians' => $nodeStats['guardians']];
+            $chain->drops = ['transactions' => $dropStats['transactions'], 'usd' => $dropStats['usd'], 'tfuel' => $dropStats['tfuel'], 'total' => $dropStats['total']];
             $chain->save();
 
             $thetaService->cacheNetworkInfo();

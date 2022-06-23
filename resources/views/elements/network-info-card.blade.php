@@ -42,8 +42,8 @@
                 <div class="col">{{ $networkInfo['validators'] }}</div>
             </div>
             <div class="row">
-                <div class="col">Edge Nodes</div>
-                <div class="col">{{ number_format($networkInfo['edge_nodes']) }}</div>
+                <div class="col">Elite Nodes</div>
+                <div class="col">{{ number_format($networkInfo['elite_nodes']) }}</div>
             </div>
             <div class="row">
                 <div class="col">Guardian Nodes</div>

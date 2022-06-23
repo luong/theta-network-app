@@ -195,6 +195,14 @@
         width: 100%;
     }
 
+    .host {
+        height: 250px;
+        .card {
+            width: 90%;
+            height: 90%;
+        }
+    }
+
     @include media-breakpoint-down(md) {
         .sizer {
             width: 10%;
