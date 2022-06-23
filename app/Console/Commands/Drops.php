@@ -107,6 +107,7 @@ class Drops extends Command
                 'buyer_displayname' => @$tps[$users[$each['buyer_id']]['tps_id']]['display_name'],
                 'seller_username' => $tps[$users[$each['user_id']]['tps_id']]['username'],
                 'seller_displayname' => @$tps[$users[$each['user_id']]['tps_id']]['display_name'],
+                'type' => $each['content_id'],
                 'image' => $image,
                 'name' => $name,
                 'usd' => $each['price'],
