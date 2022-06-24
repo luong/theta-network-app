@@ -10,8 +10,8 @@
                 <tr>
                     <th>Balance</th>
                     <td class="text-break">
-                        <div>{{ Helper::formatNumber($account['balance']['theta'], 2) }} <img class="currency-ico" src="/images/theta_flat.png"/> [{{ Helper::formatPrice($account['balance']['theta'] * $coins['THETA']['price'], 2) }}]</div>
-                        <div>{{ Helper::formatNumber($account['balance']['tfuel'], 2) }} <img class="currency-ico" src="/images/tfuel_flat.png"/> [{{ Helper::formatPrice($account['balance']['tfuel'] * $coins['TFUEL']['price'], 2) }}]</div>
+                        <div><x-currency type="theta"/> {{ Helper::formatNumber($account['balance']['theta'], 2) }} ({{ Helper::formatPrice($account['balance']['theta'] * $coins['THETA']['price'], 2) }})</div>
+                        <div><x-currency type="tfuel"/> {{ Helper::formatNumber($account['balance']['tfuel'], 2) }} ({{ Helper::formatPrice($account['balance']['tfuel'] * $coins['TFUEL']['price'], 2) }})</div>
                     </td>
                 </tr>
             </table>
@@ -34,7 +34,7 @@
                     @foreach ($account['stakes'] as $stake)
                         <tr>
                             <td>{{ Helper::getNodeName($stake['type']) }}</td>
-                            <td class="text-end">{{ Helper::formatNumber($stake['coins'], 0) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/></td>
+                            <td class="text-end"><x-currency type="{{ $stake['currency'] }}" top="2"/> <span>{{ Helper::formatNumber($stake['coins'], 0) }}</span></td>
                             <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source']) }}</a></td>
                             <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
                             <td>{{ ucfirst($stake['status']) }}</td>
@@ -60,7 +60,7 @@
                     @foreach ($account['stakes'] as $stake)
                         <tr>
                             <td>{{ Str::limit(Helper::getNodeName($stake['type']), 1, '-') }}</td>
-                            <td class="text-end">{{ Helper::formatNumber($stake['coins'], 0) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/></td>
+                            <td class="text-end"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 0) }}</td>
                             <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source'], 4, '..') }}</a></td>
                             <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder'], 4, '..') }}</a></td>
                             <td>{{ ucfirst($stake['status']) }}</td>
@@ -93,7 +93,7 @@
                             <td><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Str::limit($transaction['id'], 10) }}</a></td>
                             <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? $accounts[$transaction['from']]['name'] : Str::limit($transaction['from'], 10)) }}</a></td>
                             <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? $accounts[$transaction['to']]['name'] : Str::limit($transaction['to'], 10)) }}</a></td>
-                            <td class="text-end">{{ Helper::formatNumber($transaction['coins'], 2) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/></td>
+                            <td class="text-end"><x-currency type="{{ $transaction['currency'] }}" top="2"/> {{ Helper::formatNumber($transaction['coins'], 2) }}</td>
                             <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 2) }}</td>
                             <td class="text-center">{{ $transaction['date'] }}</td>
                         </tr>
@@ -120,7 +120,7 @@
                             <td>{{ Str::limit(strtoupper($transaction['type']), '1', '-') }}</td>
                             <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a></td>
                             <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
-                            <td class="text-end"><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/></a></td>
+                            <td class="text-end"><x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 0) }}</a></td>
                             <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 0) }}</td>
                         </tr>
                     @endforeach

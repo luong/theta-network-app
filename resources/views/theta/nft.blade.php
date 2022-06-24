@@ -15,7 +15,7 @@
                             </div>
                             <div class="row">
                                 <div class="col col-7">[{{ $networkInfo['drop_24h']['times_tfuel'] }}] Tfuel Sales</div>
-                                <div class="col col-5">{{ number_format($networkInfo['drop_24h']['total_tfuel'], 0) }} <img class="currency-ico" src="/images/tfuel_flat.png"/></div>
+                                <div class="col col-5"><x-currency type="tfuel"/> {{ number_format($networkInfo['drop_24h']['total_tfuel'], 0) }}</div>
                             </div>
                             <div class="row">
                                 <div class="col col-8">[{{ $networkInfo['drop_24h']['times'] }}] Total Sales</div>

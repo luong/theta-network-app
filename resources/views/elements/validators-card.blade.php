@@ -7,7 +7,7 @@
         <div class="container">
             @foreach ($validators as $holder => $props)
                 <div class="row">
-                    <span class="bullet">{{ $accounts[$holder]['name'] }}</span><a href="/account/{{ $holder }}" class="p-0">{{ Helper::formatNumber($props['coins'], 0, 'K') }}</a> <img class="currency-ico" src="/images/theta_flat.png"/>
+                    <span class="bullet">{{ $accounts[$holder]['name'] }}</span> <x-currency type="theta"/> <a href="/account/{{ $holder }}" class="w-auto ps-1">{{ Helper::formatNumber($props['coins'], 0, 'K') }}</a>
                 </div>
             @endforeach
         </div>

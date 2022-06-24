@@ -18664,8 +18664,11 @@ textarea.form-control-lg {
 }
 
 .currency-ico {
-  vertical-align: text-bottom;
+  vertical-align: top;
   width: 18px;
+  height: 18px;
+  padding: 0px;
+  margin-top: 7px;
 }
 
 .homepage .donate-model .modal-body {
@@ -18746,16 +18749,6 @@ textarea.form-control-lg {
 }
 .homepage .card.validators .row a {
   display: inline-block;
-  width: 65px;
-  text-align: right;
-}
-.homepage .card.validators .row img {
-  padding: 0px !important;
-  width: 18px;
-  height: 18px;
-  vertical-align: top;
-  margin-top: 6px;
-  margin-left: 5px;
 }
 @media (max-width: 991.98px) {
   .homepage .card.validators {

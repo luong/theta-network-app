@@ -11,8 +11,11 @@
 }
 
 .currency-ico {
-    vertical-align: text-bottom;
+    vertical-align: top;
     width: 18px;
+    height: 18px;
+    padding: 0px;
+    margin-top: 7px;
 }
 
 .homepage {
@@ -101,16 +104,6 @@
             .row {
                 a {
                     display: inline-block;
-                    width: 65px;
-                    text-align: right;
-                }
-                img {
-                    padding: 0px !important;
-                    width: 18px;
-                    height: 18px;
-                    vertical-align: top;
-                    margin-top: 6px;
-                    margin-left: 5px;
                 }
             }
             @include media-breakpoint-down(lg) {

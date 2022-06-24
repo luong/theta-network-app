@@ -7,7 +7,7 @@
         <div class="container">
             @foreach ($topWithdrawals as $stake)
                 <div class="row">
-                    <span class="bullet">{{ date('Y-m-d', strtotime($stake['returned_at'])) }}</span><a href="/account/{{ $stake['source'] }}" class="w-auto p-0">{{ number_format($stake['coins'], 0) }} <img class="currency-ico" src="/images/{{ $stake['currency'] }}_flat.png"/> ({{ Helper::formatPrice($stake['usd']) }})</a>
+                    <span class="bullet">{{ date('Y-m-d', strtotime($stake['returned_at'])) }}</span> <x-currency type="{{ $stake['currency'] }}"/> <a href="/account/{{ $stake['source'] }}" class="w-auto ps-1">{{ number_format($stake['coins'], 0) }} ({{ Helper::formatPrice($stake['usd']) }})</a>
                 </div>
             @endforeach
         </div>
