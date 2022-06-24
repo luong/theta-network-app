@@ -127,7 +127,7 @@ class Transactions extends Command
                         'id' => $transaction['_id'],
                         'type' => 'stake',
                         'type_number' => $transaction['type'],
-                        'node' => '',
+                        'node' => 'guardian',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
                         'to' => $transaction['data']['holder']['address'],
@@ -146,7 +146,7 @@ class Transactions extends Command
                         'id' => $transaction['_id'],
                         'type' => 'stake',
                         'type_number' => $transaction['type'],
-                        'node' => '',
+                        'node' => 'elite',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
                         'to' => $transaction['data']['holder']['address'],
@@ -181,7 +181,6 @@ class Transactions extends Command
                 if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                     $messageService->hasLargeTransaction($tx);
                 }
-
                 $trackedData[] = $tx;
 
             } else if ($transaction['type'] == 9) { // withdraw
@@ -203,6 +202,9 @@ class Transactions extends Command
                             'currency' => 'theta',
                             'usd' => $usd
                         ];
+                        if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                            $messageService->hasLargeTransaction($tx);
+                        }
                         $trackedData[] = $tx;
 
                     } else if ($transaction['data']['purpose'] == 2) { // elite
@@ -221,6 +223,9 @@ class Transactions extends Command
                             'currency' => 'tfuel',
                             'usd' => $usd
                         ];
+                        if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                            $messageService->hasLargeTransaction($tx);
+                        }
                         $trackedData[] = $tx;
                     }
                 }

@@ -53,9 +53,7 @@ class Stakes extends Command
         $this->thetaService = $thetaService;
         $this->coinList = $this->thetaService->getCoinList();
         $this->networkInfo = $this->thetaService->getNetworkInfo();
-
         $oldValidators = $this->thetaService->cacheValidators();
-        $oldWithdrawnStakeCodes = Stake::where('withdrawn', 1)->get()->pluck('code');
 
         $this->persistStakes('tfuel', '/api/stake/all?types[]=eenp');
         $this->persistStakes('theta', '/api/stake/all?types[]=gcp&types[]=vcp');
@@ -74,31 +72,11 @@ class Stakes extends Command
                     foreach ($props['stakers'] as $staker) {
                         Account::updateOrCreate(
                             ['code' => $staker['source']],
-                            ['name' => 'ValidatorMember']
+                            ['name' => 'Validator']
                         );
                     }
                     $thetaService->cacheAccounts();
-                } else if (abs($latestValidators[$holder]['coins'] - $oldValidators[$holder]['coins']) > 50) {
-                    $messageService->validatorChangesStakes($holder, number_format($oldValidators[$holder]['coins']), number_format($latestValidators[$holder]['coins']));
                 }
-            }
-        }
-
-        // Check withdrawn stakes
-        $largeWithdrawnStakes = Stake::where('withdrawn', 1)->where('usd', '>', Constants::TOP_TRANSACTION_TWEET_AMOUNT)->get();
-        if (!empty($largeWithdrawnStakes)) {
-            foreach ($largeWithdrawnStakes as $each) {
-                if ($oldWithdrawnStakeCodes->contains($each->code)) {
-                    continue;
-                }
-                $tx = [
-                    'id' => $each->code,
-                    'type' => 'unstake',
-                    'date' => date('Y-m-d H:i'),
-                    'from' => $each->source,
-                    'amount' => number_format($each->coins) . ' $' . $each->currency . ' (' . Helper::formatPrice($each->usd, 2) . ')'
-                ];
-                $messageService->hasLargeTransaction($tx);
             }
         }
 

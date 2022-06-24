@@ -24,18 +24,26 @@ class MessageService
             }
             $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'stake') {
-            $from = 'from unknown wallet';
-            if (isset($accounts[$tx['from']])) {
-                $from = 'from ' . $accounts[$tx['from']]['name'];
+            $fromTo = 'from unknown wallet';
+            if (isset($accounts[$tx['from']]) && isset($accounts[$tx['to']])) {
+                $fromTo = 'from ' . $accounts[$tx['from']]['name'] . ' to ' . $accounts[$tx['to']]['name'];
+            } else if (isset($accounts[$tx['from']])) {
+                $fromTo = 'from ' . $accounts[$tx['from']]['name'];
+            } else if (isset($accounts[$tx['to']])) {
+                $fromTo = 'to ' . $accounts[$tx['to']]['name'];
             }
-            $purpose = !empty($tx['node']) && $tx['node'] == 'validator' ? 'staked as a validator' : 'staked';
-            $text = "{$tx['amount']} {$purpose} {$from} " . Helper::makeSiteTransactionURL($tx['id']);
+            $stakeAs = !empty($tx['node']) ? ('staked as ' . $tx['node']) : 'staked';
+            $text = "{$tx['amount']} {$stakeAs} {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
         } else if ($tx['type'] == 'unstake') {
-            $from = 'from unknown wallet';
-            if (isset($accounts[$tx['from']])) {
-                $from = 'from ' . $accounts[$tx['from']]['name'];
+            $fromTo = 'from unknown wallet';
+            if (isset($accounts[$tx['from']]) && isset($accounts[$tx['to']])) {
+                $fromTo = 'from ' . $accounts[$tx['from']]['name'] . ' to ' . $accounts[$tx['to']]['name'];
+            } else if (isset($accounts[$tx['from']])) {
+                $fromTo = 'from ' . $accounts[$tx['from']]['name'];
+            } else if (isset($accounts[$tx['to']])) {
+                $fromTo = 'to ' . $accounts[$tx['to']]['name'];
             }
-            $text = "{$tx['amount']} unstaked {$from} " . Helper::makeSiteAccountURL($tx['from']);
+            $text = "{$tx['amount']} unstaked {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
         }
         if (!empty($text)) {
             return $this->tweetText($text);
@@ -46,17 +54,6 @@ class MessageService
     public function hasNewValidator($address, $amount)
     {
         $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$theta => " . Helper::makeSiteAccountURL($address);
-        return $this->tweetText($tweet);
-    }
-
-    public function validatorChangesStakes($address, $oldAmount, $newAmount)
-    {
-        $accounts = resolve(ThetaService::class)->getAccounts();
-        $accountName = 'A validator';
-        if (isset($accounts[$address])) {
-            $accountName = 'The validator ' .  $accounts[$address]['name'];
-        }
-        $tweet = "{$accountName} updated its \$theta amount from {$oldAmount} to {$newAmount} => " . Helper::makeSiteAccountURL($address);
         return $this->tweetText($tweet);
     }
 
