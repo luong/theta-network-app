@@ -21,7 +21,7 @@
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     pointStyle: 'circle',
-                    pointRadius: 3,
+                    pointRadius: 2,
                     data: @json($thetaStakeChartData),
                 }]
             },
