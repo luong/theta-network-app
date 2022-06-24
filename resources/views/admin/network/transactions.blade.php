@@ -9,7 +9,7 @@
                     <option value="">Type</option>
                     <option value="transfer" {{ $type == 'transfer' ? 'selected' : '' }}>Transfer</option>
                     <option value="stake" {{ $type == 'stake' ? 'selected' : '' }}>Stake</option>
-                    <option value="withdraw" {{ $type == 'withdraw' ? 'selected' : '' }}>Withdraw</option>
+                    <option value="unstake" {{ $type == 'unstake' ? 'selected' : '' }}>Unstake</option>
                 </select>
             </div>
             <div class="col-6 col-lg-3">
