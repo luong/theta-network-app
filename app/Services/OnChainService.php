@@ -358,7 +358,7 @@ class OnChainService
                 } else if ($transaction['type'] == 9) {
                     $txn = [
                         'id' => $transaction['_id'],
-                        'type' => 'withdraw',
+                        'type' => 'unstake',
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['holder']['address'],
                         'to' => $transaction['data']['source']['address'],
@@ -402,7 +402,7 @@ class OnChainService
                         'source' => $each['source'],
                         'coins' => $theta,
                         'currency' => 'theta',
-                        'status' => $each['withdrawn'] ? 'withdrawing' : 'staking',
+                        'status' => $each['withdrawn'] ? 'unstaking' : 'staking',
                         'return_height' => $each['return_height']
                     ];
 
@@ -416,7 +416,7 @@ class OnChainService
                         'source' => $each['source'],
                         'coins' => $tfuel,
                         'currency' => 'tfuel',
-                        'status' => $each['withdrawn'] ? 'withdrawing' : 'staking',
+                        'status' => $each['withdrawn'] ? 'unstaking' : 'staking',
                         'return_height' => $each['return_height']
                     ];
 
@@ -430,7 +430,7 @@ class OnChainService
                         'source' => $each['source'],
                         'coins' => $theta,
                         'currency' => 'theta',
-                        'status' => $each['withdrawn'] ? 'withdrawing' : 'staking',
+                        'status' => $each['withdrawn'] ? 'unstaking' : 'staking',
                         'return_height' => $each['return_height']
                     ];
                 }
@@ -490,7 +490,7 @@ class OnChainService
                 }
 
             } else if ($data['type'] == 9) { // withdraw
-                $transaction['type'] = 'withdraw';
+                $transaction['type'] = 'unstake';
                 $transaction['from_account'] = $data['data']['holder']['address'];
                 $transaction['to_account'] = $data['data']['source']['address'];
                 $transaction['fee'] = round($data['data']['fee']['tfuelwei'] / Constants::THETA_WEI, 3);

@@ -93,7 +93,7 @@ class Stakes extends Command
                 }
                 $tx = [
                     'id' => $each->code,
-                    'type' => 'withdraw',
+                    'type' => 'unstake',
                     'date' => date('Y-m-d H:i'),
                     'from' => $each->source,
                     'amount' => number_format($each->coins) . ' $' . $each->currency . ' (' . Helper::formatPrice($each->usd, 2) . ')'

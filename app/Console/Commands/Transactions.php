@@ -192,7 +192,7 @@ class Transactions extends Command
                         $usd = round($theta * $coinList['THETA']['price'], 2);
                         $tx = [
                             'id' => $transaction['_id'],
-                            'type' => 'withdraw',
+                            'type' => 'unstake',
                             'type_number' => $transaction['type'],
                             'node' => '',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
@@ -210,7 +210,7 @@ class Transactions extends Command
                         $usd = round($tfuel * $coinList['TFUEL']['price'], 2);
                         $tx = [
                             'id' => $transaction['_id'],
-                            'type' => 'withdraw',
+                            'type' => 'unstake',
                             'type_number' => $transaction['type'],
                             'node' => '',
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),

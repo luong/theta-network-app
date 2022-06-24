@@ -11,7 +11,7 @@
                         <span class="bullet h-auto">Transfer</span><a href="/transaction/{{ $transaction['txn'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/> ({{ Helper::formatPrice($transaction['usd']) }})</a>
                     @elseif ($transaction['type'] == 'stake')
                         <span class="bullet h-auto">Stake</span><a href="/transaction/{{ $transaction['txn'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/> ({{ Helper::formatPrice($transaction['usd']) }}</a>
-                    @elseif ($transaction['type'] == 'withdraw')
+                    @elseif ($transaction['type'] == 'unstake')
                         <span class="bullet h-auto">Unstake</span><a href="/account/{{ $transaction['to_account'] }}" class="w-auto p-0">{{ number_format($transaction['coins'], 0) }} <img class="currency-ico" src="/images/{{ $transaction['currency'] }}_flat.png"/> ({{ Helper::formatPrice($transaction['usd']) }}</a>
                     @endif
                 </div>

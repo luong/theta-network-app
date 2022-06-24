@@ -30,12 +30,12 @@ class MessageService
             }
             $purpose = !empty($tx['node']) && $tx['node'] == 'validator' ? 'staked as a validator' : 'staked';
             $text = "{$tx['amount']} {$purpose} {$from} " . Helper::makeSiteTransactionURL($tx['id']);
-        } else if ($tx['type'] == 'withdraw') {
+        } else if ($tx['type'] == 'unstake') {
             $from = 'from unknown wallet';
             if (isset($accounts[$tx['from']])) {
                 $from = 'from ' . $accounts[$tx['from']]['name'];
             }
-            $text = "{$tx['amount']} withdrawn {$from} " . Helper::makeSiteAccountURL($tx['from']);
+            $text = "{$tx['amount']} unstaked {$from} " . Helper::makeSiteAccountURL($tx['from']);
         }
         if (!empty($text)) {
             return $this->tweetText($text);
