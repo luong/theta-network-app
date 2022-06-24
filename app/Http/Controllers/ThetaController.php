@@ -25,6 +25,7 @@ class ThetaController extends Controller
             'topTransactions' => $this->thetaService->getTopTransactions(),
             'tfuelSupplyChartData' => $this->thetaService->getTfuelSupplyChartData(),
             'tfuelFreeSupplyChartData' => $this->thetaService->getTfuelFreeSupplyChartData(),
+            'eliteNodeChartData' => $this->thetaService->getEliteNodeChartData(),
             'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
             'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
             'topWithdrawals' => $this->thetaService->getTopWithdrawals(),
@@ -61,7 +62,7 @@ class ThetaController extends Controller
     {
         return view('theta.nft', [
             'drops' => $this->thetaService->getDrops(),
-            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'networkInfo' => $this->thetaService->getNetworkInfo()
         ]);
     }
 
@@ -69,7 +70,7 @@ class ThetaController extends Controller
     {
         return view('theta.theta_stake_chart', [
             'networkInfo' => $this->thetaService->getNetworkInfo(),
-            'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
+            'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData()
         ]);
     }
 
@@ -77,14 +78,21 @@ class ThetaController extends Controller
     {
         return view('theta.tfuel_stake_chart', [
             'networkInfo' => $this->thetaService->getNetworkInfo(),
-            'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
+            'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData()
         ]);
     }
 
     public function tfuelFreeSupplyChart()
     {
         return view('theta.tfuel_free_supply_chart', [
-            'tfuelFreeSupplyChartData' => $this->thetaService->getTfuelFreeSupplyChartData(),
+            'tfuelFreeSupplyChartData' => $this->thetaService->getTfuelFreeSupplyChartData()
+        ]);
+    }
+
+    public function eliteNodeChart()
+    {
+        return view('theta.elite_node_chart', [
+            'eliteNodeChartData' => $this->thetaService->getEliteNodeChartData()
         ]);
     }
 }

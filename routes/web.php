@@ -11,3 +11,4 @@ Route::get('/nft', [ThetaController::class, 'nft'])->name('nft');
 Route::get('/chart/theta-stake', [ThetaController::class, 'thetaStakeChart'])->name('thetaStakeChart');
 Route::get('/chart/tfuel-stake', [ThetaController::class, 'tfuelStakeChart'])->name('tfuelStakeChart');
 Route::get('/chart/tfuel-free-supply', [ThetaController::class, 'tfuelFreeSupplyChart'])->name('tfuelFreeSupplyChart');
+Route::get('/chart/elite-node', [ThetaController::class, 'eliteNodeChart'])->name('eliteNodeChart');

@@ -25,6 +25,7 @@ class ThetaService
         $this->cacheNetworkInfo();
         $this->cacheTfuelSupplyChartData();
         $this->cacheTfuelFreeSupplyChartData();
+        $this->cacheEliteNodeChartData();
         $this->cacheThetaStakeChartData();
         $this->cacheTfuelStakeChartData();
         $this->cacheCommandTrackers();
@@ -190,6 +191,26 @@ class ThetaService
         $data = Cache::get('tfuel_free_supply_chart_data');
         if (empty($data)) {
             $data = $this->cacheTfuelFreeSupplyChartData();
+        }
+        return $data;
+    }
+
+    public function cacheEliteNodeChartData()
+    {
+        $data = [];
+        $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
+        foreach ($coins as $coin) {
+            $data[] = ['x' => date('d-M', strtotime($coin->date)), 'y' => $coin->staked_nodes];
+        }
+        Cache::put('elite_node_chart_data', $data);
+        return $data;
+    }
+
+    public function getEliteNodeChartData()
+    {
+        $data = Cache::get('elite_node_chart_data');
+        if (empty($data)) {
+            $data = $this->cacheEliteNodeChartData();
         }
         return $data;
     }
