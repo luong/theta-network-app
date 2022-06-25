@@ -93,6 +93,9 @@ class Transactions extends Command
                         $messageService->hasLargeTransaction($tx);
                         $thetaService->addWhaleAccount($transaction['data']['outputs'][0]['address']);
                     }
+                    if ($transaction['data']['outputs'][0]['address'] == Constants::DONATE_ACCOUNT_ID) {
+                        $messageService->thankForDonation($tx);
+                    }
 
                 } else {
                     $usd = round($tfuel * $coinList['TFUEL']['price'], 2);
@@ -112,6 +115,9 @@ class Transactions extends Command
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
                         $thetaService->addWhaleAccount($transaction['data']['outputs'][0]['address']);
+                    }
+                    if ($transaction['data']['outputs'][0]['address'] == Constants::DONATE_ACCOUNT_ID) {
+                        $messageService->thankForDonation($tx);
                     }
                 }
 

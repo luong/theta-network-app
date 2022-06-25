@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-bod text-break p-2">
-                0x77B4a8bcEaC10762b4E5902e29428DbfB4348003
+                {{ Constants::DONATE_ACCOUNT_ID }}
             </div>
         </div>
     </div>

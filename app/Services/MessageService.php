@@ -63,6 +63,12 @@ class MessageService
         return $this->tweetText($tweet);
     }
 
+    public function thankForDonation($tx)
+    {
+        $tweet = "Thanks for donation: {$tx['amount']} => " . Helper::makeSiteTransactionURL($tx['id']);
+        return $this->tweetText($tweet);
+    }
+
     public function tweetText($text)
     {
         if (!$this->canPost()) {
