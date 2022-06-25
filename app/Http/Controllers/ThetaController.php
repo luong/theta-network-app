@@ -110,25 +110,10 @@ class ThetaController extends Controller
     {
         $address = request('address');
         $name = request('name');
-        $acc = $this->onChainService->getAccount($address);
-        if ($acc !== false) {
-            $networkInfo = $this->thetaService->getNetworkInfo();
-            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
-            if ($usd >= Constants::WHALE_MIN_BALANCE) {
-                TrackingAccount::updateOrCreate(
-                    ['code' => $address],
-                    [
-                        'code' => $address,
-                        'name' => $name,
-                        'balance_theta' => round($acc['balance']['theta'], 2),
-                        'balance_tfuel' => round($acc['balance']['tfuel'], 2),
-                        'balance_usd' => $usd
-                    ]
-                );
-                $this->thetaService->cacheTrackingAccounts();
-                return back()->with('message', ['success', 'This whale wallet added successfully.']);
-            }
+        if ($this->thetaService->addWhaleAccount(request('address'), request('name'))) {
+            return back()->with('message', ['success', 'This whale wallet added successfully.']);
+        } else {
+            return back()->with('message', ['error', 'Failed. This whale wallet doesn\'t meet our requirements.']);
         }
-        return back()->with('message', ['error', 'Failed. This whale wallet doesn\'t meet our requirements.']);
     }
 }

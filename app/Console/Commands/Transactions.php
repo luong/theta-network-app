@@ -91,6 +91,7 @@ class Transactions extends Command
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
+                        $thetaService->addWhaleAccount($transaction['data']['outputs'][0]['address']);
                     }
 
                 } else {
@@ -110,6 +111,7 @@ class Transactions extends Command
                     ];
                     if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
                         $messageService->hasLargeTransaction($tx);
+                        $thetaService->addWhaleAccount($transaction['data']['outputs'][0]['address']);
                     }
                 }
 

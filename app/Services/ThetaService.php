@@ -358,8 +358,8 @@ class ThetaService
 
     public function cacheCoinList()
     {
-        $onChainServer = resolve(OnChainService::class);
-        $coins = $onChainServer->getCoinList();
+        $onChainService = resolve(OnChainService::class);
+        $coins = $onChainService->getCoinList();
         Cache::put('coins', $coins);
         return $coins;
     }
@@ -403,6 +403,33 @@ class ThetaService
             'total_tfuel' => round($data[0]->total_tfuel, 2),
             'total' => round($data[0]->total, 2)
         ];
+    }
+
+    public function addWhaleAccount($accountId, $name = null, $networkInfo = null)
+    {
+        $onChainService = resolve(OnChainService::class);
+        $acc = $onChainService->getAccount($accountId);
+        if ($acc !== false) {
+            if (empty($networkInfo)) {
+                $networkInfo = $this->getNetworkInfo();
+            }
+            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
+            if ($usd >= Constants::WHALE_MIN_BALANCE) {
+                TrackingAccount::updateOrCreate(
+                    ['code' => $accountId],
+                    [
+                        'code' => $accountId,
+                        'name' => $name,
+                        'balance_theta' => round($acc['balance']['theta'], 2),
+                        'balance_tfuel' => round($acc['balance']['tfuel'], 2),
+                        'balance_usd' => $usd
+                    ]
+                );
+                $this->cacheTrackingAccounts();
+                return true;
+            }
+        }
+        return false;
     }
 
     public function updateTrackingAccount(TrackingAccount $trackingAccount, $networkInfo = null)
