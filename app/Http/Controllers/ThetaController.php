@@ -111,6 +111,7 @@ class ThetaController extends Controller
         $address = request('address');
         $name = request('name');
         if ($this->thetaService->addWhaleAccount(request('address'), request('name'))) {
+            $this->thetaService->cacheTrackingAccounts();
             return back()->with('message', ['success', 'This whale wallet added successfully.']);
         } else {
             return back()->with('message', ['error', 'Failed. This whale wallet doesn\'t meet our requirements.']);

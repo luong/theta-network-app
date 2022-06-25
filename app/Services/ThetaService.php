@@ -51,7 +51,8 @@ class ThetaService
                 'DailyTweet' => ['command' => 'theta:dailyTweet', 'last_run' => null],
                 'Blocks' => ['command' => 'theta:blocks', 'last_run' => null],
                 'Drops' => ['command' => 'theta:drops', 'last_run' => null],
-                'Accounts' => ['command' => 'theta:accounts', 'last_run' => null]
+                'Accounts' => ['command' => 'theta:accounts', 'last_run' => null],
+                'Whales' => ['command' => 'theta:whales', 'last_run' => null]
             ];
             Cache::put('command_trackers', $commandTrackers);
         }
@@ -425,7 +426,6 @@ class ThetaService
                         'balance_usd' => $usd
                     ]
                 );
-                $this->cacheTrackingAccounts();
                 return true;
             }
         }

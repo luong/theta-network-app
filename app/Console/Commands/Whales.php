@@ -13,19 +13,20 @@ use App\Services\MessageService;
 use Illuminate\Console\Command;
 use Illuminate\Redis\RedisManager;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
-class Accounts extends Command
+class Whales extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'theta:accounts';
+    protected $signature = 'theta:whales';
 
     /**
      * The console command description.
@@ -51,16 +52,17 @@ class Accounts extends Command
      */
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        $networkInfo = $thetaService->getNetworkInfo();
-        $trackingAccounts = TrackingAccount::all();
-        foreach ($trackingAccounts as $trackingAccount) {
-            $thetaService->updateTrackingAccount($trackingAccount, $networkInfo);
-            sleep(2);
+        $whaleAccountIds = TrackingAccount::all('code')->pluck('code')->toArray();
+        $whales = DB::table('transactions')->whereDate('date', '>=', now()->subDays(14))->selectRaw('to_account, SUM(usd) AS usd')->groupBy(['to_account'])->having('usd', '>=', Constants::WHALE_MIN_BALANCE)->get();
+        foreach ($whales as $whale) {
+            if (in_array($whale->to_account, $whaleAccountIds)) {
+                continue;
+            }
+            $thetaService->addWhaleAccount($whale->to_account);
         }
-        TrackingAccount::whereDate('balance_usd', '<', Constants::WHALE_MIN_BALANCE)->delete();
         $thetaService->cacheTrackingAccounts();
 
-        $thetaService->setCommandTracker('Accounts', 'last_run', time());
+        $thetaService->setCommandTracker('Whales', 'last_run', time());
         $this->info('Done');
         return 0;
     }

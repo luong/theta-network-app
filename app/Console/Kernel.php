@@ -11,6 +11,7 @@ use App\Console\Commands\DailyTweet;
 use App\Console\Commands\Prices;
 use App\Console\Commands\MonitorStakes;
 use App\Console\Commands\DailyStats;
+use App\Console\Commands\Whales;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(Drops::class)->everyMinute();
         $schedule->command(DailyTweet::class)->dailyAt('00:30');
         $schedule->command(Accounts::class)->dailyAt('01:00');
+        $schedule->command(Whales::class)->dailyAt('10:00');
     }
 
     /**
