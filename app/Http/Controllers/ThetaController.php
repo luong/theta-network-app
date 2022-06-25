@@ -49,6 +49,13 @@ class ThetaController extends Controller
             } else {
                 $whaleStatus = 'not_identified';
             }
+        } else {
+            if (isset($whales[$id])) {
+                $trackingAccount = TrackingAccount::find($id);
+                if (!empty($trackingAccount)) {
+                    $trackingAccount->delete();
+                }
+            }
         }
         return view('theta.account', [
             'account' => $account,
