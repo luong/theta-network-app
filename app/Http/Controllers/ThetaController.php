@@ -51,7 +51,7 @@ class ThetaController extends Controller
             }
         } else {
             if (isset($whales[$id])) {
-                $trackingAccount = TrackingAccount::where('code', $id)->get();
+                $trackingAccount = TrackingAccount::where('code', $id)->first();
                 if (!empty($trackingAccount)) {
                     $trackingAccount->delete();
                 }
