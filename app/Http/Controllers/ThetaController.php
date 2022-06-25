@@ -38,13 +38,23 @@ class ThetaController extends Controller
 
     public function account($id)
     {
+        $networkInfo = $this->thetaService->getNetworkInfo();
+        $whales = $this->thetaService->getTrackingAccounts();
         $account = $this->onChainService->getAccountDetails($id);
-        $accounts = $this->thetaService->getAccounts();
-        $coins = $this->thetaService->getCoinList();
+        $usd = round($account['balance']['theta'] * $networkInfo['theta_price'] + $account['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
+        $whaleStatus = 'no';
+        if ($usd >= Constants::WHALE_MIN_BALANCE) {
+            if (isset($whales[$id])) {
+                $whaleStatus = 'identified';
+            } else {
+                $whaleStatus = 'not_identified';
+            }
+        }
         return view('theta.account', [
             'account' => $account,
-            'accounts' => $accounts,
-            'coins' => $coins
+            'accounts' => $this->thetaService->getAccounts(),
+            'coins' => $this->thetaService->getCoinList(),
+            'whaleStatus' => $whaleStatus
         ]);
     }
 
@@ -106,11 +116,9 @@ class ThetaController extends Controller
         ]);
     }
 
-    public function addWhale()
+    public function addWhale($id)
     {
-        $address = request('address');
-        $name = request('name');
-        if ($this->thetaService->addWhaleAccount(request('address'), request('name'))) {
+        if ($this->thetaService->addWhaleAccount($id, null)) {
             $this->thetaService->cacheTrackingAccounts();
             return back()->with('message', ['success', 'This whale wallet added successfully.']);
         } else {

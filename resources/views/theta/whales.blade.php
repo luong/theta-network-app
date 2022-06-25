@@ -11,32 +11,5 @@
             @endforeach
         </div>
     </div>
-
-    <div class="modal add-whale-model" id="addWhaleModel">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Add Whale Wallet (min. {{ Helper::formatPrice(Constants::WHALE_MIN_BALANCE) }} in balance)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-bod text-break ps-3 pb-3 pe-3">
-                    <form method="post" action="{{ route('whales.add') }}">
-                        <div>
-                            @csrf
-                            <div class="mb-3 mt-3">
-                                <label for="whaleWalletAddress">Wallet address:</label>
-                                <input type="text" class="form-control" id="whaleWalletAddress" name="address"/>
-                            </div>
-                            <div class="mb-3">
-                                <label for="whaleName">Name (Optional):</label>
-                                <input type="text" class="form-control" id="whaleName" name="name">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </x-layout>
 

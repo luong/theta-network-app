@@ -452,7 +452,7 @@ class ThetaService
         $trackingAccounts = DB::table('tracking_accounts')->where('balance_usd', '>=', Constants::WHALE_MIN_BALANCE)->orderByDesc('balance_usd')->get()->toArray();
         $data = [];
         foreach ($trackingAccounts as $trackingAccount) {
-            $data[] = (array)$trackingAccount;
+            $data[$trackingAccount->code] = (array)$trackingAccount;
         }
         Cache::put('trackingAccounts', $data);
         return $data;

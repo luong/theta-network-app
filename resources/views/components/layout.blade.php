@@ -29,11 +29,7 @@
             </button>
             <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
                 <div class="navbar-nav">
-                    @if ($pageName == 'whales')
-                        <a class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#addWhaleModel"><span class="bi bi-patch-plus"></span> Add Whale Wallet</a>
-                    @else
-                        <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
-                    @endif
+                    <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
                     <a id="nftLink" class="nav-link text-secondary fs-5" href="/nft"><span class="bi bi-valentine"></span> ThetaDrop</a>
                     <a id="donateLink" class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#donateModel"><span class="bi bi-currency-bitcoin"></span> Donate</a>
                     <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaNetworkApp" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
