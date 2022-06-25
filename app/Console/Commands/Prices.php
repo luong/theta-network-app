@@ -41,6 +41,7 @@ class Prices extends Command
         $thetaService->cacheCoinList();
         $thetaService->cacheNetworkInfo();
         $thetaService->cacheDrops();
+        $thetaService->cacheTrackingAccounts();
         $thetaService->setCommandTracker('Prices', 'last_run', time());
         $this->info('Done');
         return 0;
