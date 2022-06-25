@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Accounts;
 use App\Console\Commands\Blocks;
 use App\Console\Commands\Drops;
 use App\Console\Commands\Transactions;
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(Blocks::class)->everyMinute();
         $schedule->command(Drops::class)->everyMinute();
         $schedule->command(DailyTweet::class)->dailyAt('00:30');
+        $schedule->command(Accounts::class)->dailyAt('01:00');
     }
 
     /**

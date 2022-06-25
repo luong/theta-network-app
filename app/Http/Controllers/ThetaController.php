@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
+use App\Models\TrackingAccount;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Support\Facades\DB;
@@ -94,5 +96,39 @@ class ThetaController extends Controller
         return view('theta.elite_node_chart', [
             'eliteNodeChartData' => $this->thetaService->getEliteNodeChartData()
         ]);
+    }
+
+    public function whales()
+    {
+        return view('theta.whales', [
+            'accounts' => $this->thetaService->getAccounts(),
+            'trackingAccounts' => $this->thetaService->getTrackingAccounts()
+        ]);
+    }
+
+    public function addWhale()
+    {
+        $address = request('address');
+        $name = request('name');
+        $acc = $this->onChainService->getAccount($address);
+        if ($acc !== false) {
+            $networkInfo = $this->thetaService->getNetworkInfo();
+            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
+            if ($usd >= Constants::WHALE_MIN_BALANCE) {
+                TrackingAccount::updateOrCreate(
+                    ['code' => $address],
+                    [
+                        'code' => $address,
+                        'name' => $name,
+                        'balance_theta' => round($acc['balance']['theta'], 2),
+                        'balance_tfuel' => round($acc['balance']['tfuel'], 2),
+                        'balance_usd' => $usd
+                    ]
+                );
+                $this->thetaService->cacheTrackingAccounts();
+                return back()->with('message', ['success', 'This whale wallet added successfully.']);
+            }
+        }
+        return back()->with('message', ['error', 'Failed. This whale wallet doesn\'t meet our requirements.']);
     }
 }

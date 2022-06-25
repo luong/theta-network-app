@@ -18840,3 +18840,24 @@ textarea.form-control-lg {
     width: 30%;
   }
 }
+
+.whales-page .whales .whale {
+  width: 150px;
+  height: 110px;
+  border: 1px solid #dee2e6;
+  border-radius: 1px;
+}
+
+.page-message {
+  width: 100%;
+  text-align: center;
+  line-height: 2;
+}
+.page-message.success {
+  background-color: #0dcaf0;
+  color: #f8f9fa;
+}
+.page-message.error {
+  background-color: #ffc107;
+  color: #212529;
+}

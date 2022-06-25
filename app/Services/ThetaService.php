@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\DailyChain;
 use App\Models\DailyCoin;
 use App\Models\Stake;
+use App\Models\TrackingAccount;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -49,7 +50,8 @@ class ThetaService
                 'Transactions' => ['command' => 'theta:transactions', 'last_run' => null],
                 'DailyTweet' => ['command' => 'theta:dailyTweet', 'last_run' => null],
                 'Blocks' => ['command' => 'theta:blocks', 'last_run' => null],
-                'Drops' => ['command' => 'theta:drops', 'last_run' => null]
+                'Drops' => ['command' => 'theta:drops', 'last_run' => null],
+                'Accounts' => ['command' => 'theta:accounts', 'last_run' => null]
             ];
             Cache::put('command_trackers', $commandTrackers);
         }
@@ -401,6 +403,41 @@ class ThetaService
             'total_tfuel' => round($data[0]->total_tfuel, 2),
             'total' => round($data[0]->total, 2)
         ];
+    }
+
+    public function updateTrackingAccount(TrackingAccount $trackingAccount, $networkInfo = null)
+    {
+        $onChainService = resolve(OnChainService::class);
+        $acc = $onChainService->getAccount($trackingAccount->code);
+        if (!empty($acc)) {
+            if (empty($networkInfo)) {
+                $networkInfo = $this->getNetworkInfo();
+            }
+            $trackingAccount->balance_theta = $acc['balance']['theta'];
+            $trackingAccount->balance_tfuel = $acc['balance']['tfuel'];
+            $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
+            $trackingAccount->save();
+        }
+    }
+
+    public function cacheTrackingAccounts()
+    {
+        $trackingAccounts = DB::table('tracking_accounts')->where('balance_usd', '>=', Constants::WHALE_MIN_BALANCE)->orderByDesc('balance_usd')->get()->toArray();
+        $data = [];
+        foreach ($trackingAccounts as $trackingAccount) {
+            $data[] = (array)$trackingAccount;
+        }
+        Cache::put('trackingAccounts', $data);
+        return $data;
+    }
+
+    public function getTrackingAccounts()
+    {
+        $data = Cache::get('trackingAccounts');
+        if (empty($data)) {
+            $data = $this->cacheTrackingAccounts();
+        }
+        return $data;
     }
 
 }

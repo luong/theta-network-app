@@ -15,6 +15,7 @@ class Constants
     const DROP_API_URL = 'https://api.thetadrop.com';
     const TDROP_CONTRACT_ID = '0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03';
     const TBILL_ACCOUNT = '0x4dc08b15ea0e10b96c41aec22fab934ba15c983e';
+    const WHALE_MIN_BALANCE = 500000;
 
     const COINGECKO_API_URL = 'https://api.coingecko.com';
 

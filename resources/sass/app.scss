@@ -226,6 +226,30 @@
             }
         }
     }
+}
 
+.whales-page {
+    .whales {
+        .whale {
+            width: 150px;
+            height: 110px;
+            border: 1px solid #dee2e6;
+            border-radius: 1px;
+        }
+    }
+}
+
+.page-message {
+    width: 100%;
+    text-align: center;
+    line-height: 2;
+    &.success {
+        background-color: $info;
+        color: $light
+    }
+    &.error {
+        background-color: $warning;
+        color: $dark
+    }
 }
 
