@@ -1,4 +1,4 @@
-<x-layout title="ThetaNetworkApp" pageName="account">
+<x-layout title="ThetaNetworkApp" pageName="transaction">
     <div class="account-page container-lg">
         <div class="information col-lg-7 mt-4 mb-3">
             <h2>Transaction Details</h2>
