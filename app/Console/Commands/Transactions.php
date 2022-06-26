@@ -205,7 +205,7 @@ class Transactions extends Command
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $transaction['data']['holder']['address'],
                             'to' => $transaction['data']['source']['address'],
-                            'amount' => $theta . ' $theta (' . Helper::formatPrice($usd) . ')',
+                            'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd) . ')',
                             'coins' => $theta,
                             'currency' => 'theta',
                             'usd' => $usd
@@ -226,7 +226,7 @@ class Transactions extends Command
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $transaction['data']['holder']['address'],
                             'to' => $transaction['data']['source']['address'],
-                            'amount' => $tfuel . ' $tfuel (' . Helper::formatPrice($usd) . ')',
+                            'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd) . ')',
                             'coins' => $tfuel,
                             'currency' => 'tfuel',
                             'usd' => $usd
