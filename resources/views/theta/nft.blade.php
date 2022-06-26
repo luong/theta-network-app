@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="drop sales-chart">
+            <div class="drop sales-chart d-flex align-items-center justify-content-center col col-12">
                 @include('elements/theta-drop-sales-chart-card')
             </div>
             @foreach ($drops as $drop)
