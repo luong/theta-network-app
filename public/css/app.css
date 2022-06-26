@@ -18807,29 +18807,21 @@ textarea.form-control-lg {
   width: 20%;
 }
 .nft-page .drops .sales-chart {
-  width: 450px;
+  width: 400px;
+}
+.nft-page .drops .sales-chart .chart-title .row {
+  line-height: 25px;
+}
+.nft-page .drops .sales-chart .chart-title .col {
+  font-size: 15px;
+}
+.nft-page .drops .sales-chart .chart-title .currency-ico {
+  margin-top: 0px !important;
 }
 .nft-page .drops .img {
   width: 100%;
 }
-.nft-page .drops .host {
-  width: 380px;
-  height: 185px;
-}
-.nft-page .drops .host .card {
-  width: 90%;
-  height: 90%;
-}
-.nft-page .drops .host .row {
-  line-height: 2;
-}
-.nft-page .drops .host:hover {
-  cursor: default !important;
-}
 @media (max-width: 767.98px) {
-  .nft-page .drops .host {
-    width: 100% !important;
-  }
   .nft-page .drops .sales-chart {
     width: 100% !important;
   }
