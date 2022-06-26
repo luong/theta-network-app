@@ -18806,6 +18806,9 @@ textarea.form-control-lg {
 .nft-page .drops .drop3 {
   width: 20%;
 }
+.nft-page .drops .sales-chart {
+  width: 450px;
+}
 .nft-page .drops .img {
   width: 100%;
 }
@@ -18826,6 +18829,9 @@ textarea.form-control-lg {
 @media (max-width: 767.98px) {
   .nft-page .drops .host {
     width: 100% !important;
+  }
+  .nft-page .drops .sales-chart {
+    width: 90% !important;
   }
   .nft-page .drops .sizer {
     width: 10%;

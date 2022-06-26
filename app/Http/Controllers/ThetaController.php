@@ -81,7 +81,8 @@ class ThetaController extends Controller
     {
         return view('theta.nft', [
             'drops' => $this->thetaService->getDrops(),
-            'networkInfo' => $this->thetaService->getNetworkInfo()
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'thetaDropSalesChartData' => $this->thetaService->getThetaDropSalesChartData()
         ]);
     }
 

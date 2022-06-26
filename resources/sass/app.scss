@@ -185,6 +185,10 @@
             width: 20%;
         }
 
+        .sales-chart {
+            width: 450px;
+        }
+
         .img {
             width: 100%;
         }
@@ -207,6 +211,10 @@
         @include media-breakpoint-down(md) {
             .host {
                 width: 100% !important;
+            }
+
+            .sales-chart {
+                width: 90% !important;
             }
 
             .sizer {

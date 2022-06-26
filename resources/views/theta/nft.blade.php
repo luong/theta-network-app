@@ -25,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            <div class="drop sales-chart">
+                @include('elements/theta-drop-sales-chart-card')
+            </div>
             @foreach ($drops as $drop)
                 <div class="{{ $drop['class'] }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="{{ $drop['name'] }}"><a href="{{ \App\Helpers\Helper::makeDropContentURL($drop['type']) }}" target="_blank"><img class="img" src="{{ $drop['image'] . '?w=200' }}"/></a></div>
             @endforeach
