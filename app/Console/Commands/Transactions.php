@@ -93,7 +93,7 @@ class Transactions extends Command
                         $messageService->hasLargeTransaction($tx);
                         $thetaService->addWhaleAccount($transaction['data']['outputs'][0]['address']);
                     }
-                    if ($transaction['data']['outputs'][0]['address'] == Constants::DONATE_ACCOUNT_ID) {
+                    if ($tx['to'] == Constants::DONATE_ACCOUNT_ID) {
                         $messageService->thankForDonation($tx);
                     }
 
@@ -116,7 +116,7 @@ class Transactions extends Command
                         $messageService->hasLargeTransaction($tx);
                         $thetaService->addWhaleAccount($transaction['data']['outputs'][0]['address']);
                     }
-                    if ($transaction['data']['outputs'][0]['address'] == Constants::DONATE_ACCOUNT_ID) {
+                    if ($tx['to'] == Constants::DONATE_ACCOUNT_ID) {
                         $messageService->thankForDonation($tx);
                     }
                 }
