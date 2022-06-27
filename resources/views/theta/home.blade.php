@@ -9,7 +9,7 @@
         @include('elements/tfuel-stake-chart-card')
         @include('elements/elite-node-chart-card')
         @include('elements/top-transactions-card')
-        @include('elements/top-withdrawals-card')
+        @include('elements/unstakings-card')
         @include('elements/validators-card')
     </div>
 </x-layout>

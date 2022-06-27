@@ -313,20 +313,33 @@ class ThetaService
         return $transactions;
     }
 
-    public function cacheTopWithdrawals()
+    public function cacheUnstakings()
     {
-        $data = Stake::where('withdrawn', 1)->orderByDesc('usd')->get()->toArray();
-        if (!empty($data)) {
-            Cache::put('top_withdrawals', $data);
+        $data = [
+            'theta' => 0,
+            'tfuel' => 0,
+            'list' => []
+        ];
+        $result = Stake::where('withdrawn', 1)->orderByDesc('usd')->get()->toArray();
+        if (!empty($result)) {
+            $data['list'] = $result;
+            foreach ($result as $each) {
+                if ($each['currency'] == 'theta') {
+                    $data['theta'] += $each['coins'];
+                } else if ($each['currency'] == 'tfuel') {
+                    $data['tfuel'] += $each['coins'];
+                }
+            }
+            Cache::put('unstakings', $data);
         }
         return $data;
     }
 
-    public function getTopWithdrawals()
+    public function getUnstakings()
     {
-        $data = Cache::get('top_withdrawals');
+        $data = Cache::get('unstakings');
         if (empty($data)) {
-            $data = $this->cacheTopWithdrawals();
+            $data = $this->cacheUnstakings();
         }
         return $data;
     }

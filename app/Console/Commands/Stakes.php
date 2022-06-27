@@ -83,7 +83,7 @@ class Stakes extends Command
         $thetaService->cacheValidators();
         $thetaService->updateDailyValidators(count($latestValidators));
         $thetaService->cacheNetworkInfo();
-        $thetaService->cacheTopWithdrawals();
+        $thetaService->cacheUnstakings();
 
         $thetaService->setCommandTracker('Stakes', 'last_run', time());
 

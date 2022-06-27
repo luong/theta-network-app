@@ -30,7 +30,7 @@ class ThetaController extends Controller
             'eliteNodeChartData' => $this->thetaService->getEliteNodeChartData(),
             'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
             'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
-            'topWithdrawals' => $this->thetaService->getTopWithdrawals(),
+            'unstakings' => $this->thetaService->getUnstakings(),
             'validators' => $this->thetaService->getValidators(),
             'accounts' => $this->thetaService->getAccounts()
         ]);
