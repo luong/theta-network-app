@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-bod text-break p-2">
-                {{ Constants::DONATE_ACCOUNT_ID }}
+                <a href="{{ Helper::makeSiteAccountURL(Constants::DONATE_ACCOUNT_ID) }}">{{ Constants::DONATE_ACCOUNT_ID }}</a>
             </div>
         </div>
     </div>
