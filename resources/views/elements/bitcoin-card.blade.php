@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col">Price</div>
                 <div class="col">
-                    {{ Helper::formatPrice($coinInfo['price']) }}
-                    <span class="changes {{ $coinInfo['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coinInfo['price_change_24h'] > 0 ? '+' : '') . round($coinInfo['price_change_24h'], 2) }}%)</span>
+                    {{ Helper::formatPrice($coinInfo['price'], 0) }}
+                    <span class="changes {{ $coinInfo['price_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($coinInfo['price_change_24h'] > 0 ? '+' : '') . round($coinInfo['price_change_24h'], 1) }}%)</span>
                 </div>
             </div>
             <div class="row">
