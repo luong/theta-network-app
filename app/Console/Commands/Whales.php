@@ -53,7 +53,7 @@ class Whales extends Command
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
         $whaleAccountIds = TrackingAccount::all('code')->pluck('code')->toArray();
-        $whales = DB::table('transactions')->whereDate('date', '>=', now()->subDays(30))->selectRaw('to_account, SUM(usd) AS usd')->groupBy(['to_account'])->having('usd', '>=', Constants::WHALE_MIN_BALANCE)->get();
+        $whales = DB::table('transactions')->whereDate('date', '>=', now()->subDays(30))->selectRaw('to_account, SUM(usd) AS usd')->groupBy(['to_account'])->having('usd', '>=', 99000)->get();
         foreach ($whales as $whale) {
             if (in_array($whale->to_account, $whaleAccountIds)) {
                 continue;
