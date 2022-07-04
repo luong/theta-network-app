@@ -26,7 +26,7 @@
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-PDQNP3X');</script>
+        })(window,document,'script','dataLayer','GTM-P9VFDQ4');</script>
     <!-- End Google Tag Manager -->
 
     <script src="{{ mix('/js/app.js') }}"></script>
@@ -36,7 +36,7 @@
 <body>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQNP3X"
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P9VFDQ4"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
