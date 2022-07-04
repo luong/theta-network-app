@@ -74,11 +74,5 @@
     </script>
 @endif
 
-<script>
-    mixpanel.track('ViewPage', { page: '{{ $pageName }}' });
-    mixpanel.track_links('#donateLink', 'Click Donate');
-    mixpanel.track_links('#contactLink', 'Click Contact');
-</script>
-
 </body>
 </html>
