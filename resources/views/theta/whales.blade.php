@@ -1,4 +1,4 @@
-<x-layout title="ThetaNetworkApp" pageName="whales">
+<x-layout title="Whales" pageName="whales">
     <div class="whales-page">
         <div class="whales d-flex flex-row justify-content-center flex-wrap gap-4 gap-md-3 mt-3">
             @foreach ($trackingAccounts as $trackingAccount)

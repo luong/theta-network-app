@@ -1,4 +1,4 @@
-<x-layout title="ThetaNetworkApp" pageName="home">
+<x-layout title="Home" pageName="home">
     <div class="contents d-flex flex-row justify-content-center flex-wrap mt-4 homepage">
         @include('elements/bitcoin-card', ['coinInfo' => $coins['BTC']])
         @include('elements/network-info-card')

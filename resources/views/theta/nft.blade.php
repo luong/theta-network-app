@@ -1,4 +1,4 @@
-<x-layout title="ThetaNetworkApp" pageName="nft">
+<x-layout title="Theta Drop" pageName="nft">
     <div class="nft-page">
         <div class="drops">
             <div class="sizer"></div>
