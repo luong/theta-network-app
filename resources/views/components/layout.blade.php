@@ -11,11 +11,24 @@
     <link rel="icon" href="{{ asset('images/theta.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-PDQNP3X');</script>
+    <!-- End Google Tag Manager -->
+
     <script src="{{ mix('/js/app.js') }}"></script>
 
     @stack('scripts')
 </head>
 <body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PDQNP3X"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <div class="container-fluid m-0 p-0 user-layout">
     <nav class="navbar navbar-light navbar-expand-lg bg-light" style="background-color:#e3f2fd">
