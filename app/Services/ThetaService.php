@@ -276,12 +276,18 @@ class ThetaService
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
             'tvl_value' => $tvl['current_value'],
             'tvl_change_24h' => $tvl['change_24h'],
-            'blocks_24h' => $blocks24h,
-            'block_height' => $blockHeight,
-            'transactions_24h' => $transactions24h,
             'drop_24h' => $dropStats24H
-
         ];
+        if ($blocks24h > 0) {
+            $info['blocks_24h'] = $blocks24h;
+        }
+        if ($blockHeight > 0) {
+            $info['block_height'] = $blockHeight;
+        }
+        if ($transactions24h > 0) {
+            $info['transactions_24h'] = $transactions24h;
+        }
+
         Cache::put('network_info', $info);
         return $info;
     }
