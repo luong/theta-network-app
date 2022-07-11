@@ -427,9 +427,9 @@ class ThetaService
     {
         $data = DB::table('stakes')->selectRaw('type, COUNT(DISTINCT holder) AS nodes')->groupBy(['type'])->get()->keyBy('type');
         return [
-            'validators' => $data['vcp']?->nodes,
-            'guardians' => $data['gcp']?->nodes,
-            'elites' => $data['eenp']?->nodes,
+            'validators' => isset($data['vcp']) ? $data['vcp']->nodes : 0,
+            'guardians' => isset($data['gcp']) ? $data['gcp']->nodes : 0,
+            'elites' => isset($data['eenp']) ? $data['eenp']->nodes : 0,
         ];
     }
 
