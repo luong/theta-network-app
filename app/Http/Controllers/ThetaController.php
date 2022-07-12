@@ -60,6 +60,7 @@ class ThetaController extends Controller
         return view('theta.account', [
             'account' => $account,
             'accounts' => $this->thetaService->getAccounts(),
+            'trackingAccounts' => $this->thetaService->getTrackingAccounts(),
             'coins' => $this->thetaService->getCoinList(),
             'whaleStatus' => $whaleStatus
         ]);
@@ -69,10 +70,12 @@ class ThetaController extends Controller
     {
         $transaction = $this->onChainService->getTransactionDetails($id);
         $accounts = $this->thetaService->getAccounts();
+        $trackingAccounts = $this->thetaService->getTrackingAccounts();
         $coins = $this->thetaService->getCoinList();
         return view('theta.transaction', [
             'transaction' => $transaction,
             'accounts' => $accounts,
+            'trackingAccounts' => $trackingAccounts,
             'coins' => $coins
         ]);
     }
