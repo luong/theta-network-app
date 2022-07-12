@@ -95,4 +95,10 @@ class MessageService
         ];
         return new Client($settings);
     }
+
+    public function hasNews($newsUrl)
+    {
+        $tweet = "#THETA news: {$newsUrl}";
+        return $this->tweetText($tweet);
+    }
 }
