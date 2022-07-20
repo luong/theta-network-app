@@ -195,7 +195,7 @@ class ThetaService
     {
         $data = Cache::get('tfuel_supply_chart_data');
         if (empty($data)) {
-            $data = $this->cacheTfuelSupply();
+            $data = $this->cacheTfuelSupplyChartData();
         }
         return $data;
     }
