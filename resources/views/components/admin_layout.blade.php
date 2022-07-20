@@ -1,4 +1,4 @@
-@props(['title' => 'ThetaNetworkApp', 'pageName' => ''])
+@props(['title' => 'Theta Pizza', 'pageName' => ''])
 <!doctype html>
 <html lang="en">
 <head>
