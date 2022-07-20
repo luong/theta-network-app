@@ -35,7 +35,7 @@
         <div class="container-fluid">
             <a class="navbar-brand fs-3 text-secondary" href="/">
                 <img src="{{ asset('images/theta.png') }}" width="36" style="vertical-align: top; margin-top: 3px;"/>
-                ThetaNetworkApp
+                ThetaPizza
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -45,7 +45,7 @@
                     <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
                     <a id="nftLink" class="nav-link text-secondary fs-5" href="/nft"><span class="bi bi-valentine"></span> ThetaDrop</a>
                     <a id="donateLink" class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#donateModel"><span class="bi bi-currency-bitcoin"></span> Donate</a>
-                    <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaNetworkApp" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
+                    <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaPizza" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
                 </div>
             </div>
         </div>
