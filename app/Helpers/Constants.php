@@ -12,6 +12,7 @@ class Constants
     const THETA_WEI = 1000000000000000000;
 
     const DROP_CONTENT_URL = 'https://www.thetadrop.com/content';
+    const DROP_ORDER_URL = 'https://www.thetadrop.com/order';
     const DROP_API_URL = 'https://api.thetadrop.com';
     const TDROP_CONTRACT_ID = '0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03';
     const TBILL_ACCOUNT = '0x4dc08b15ea0e10b96c41aec22fab934ba15c983e';

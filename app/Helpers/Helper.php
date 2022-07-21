@@ -34,6 +34,11 @@ class Helper
         return Constants::DROP_CONTENT_URL . '/' . $contentId;
     }
 
+    public static function makeDropOrderURL($orderId)
+    {
+        return Constants::DROP_ORDER_URL . '/' . $orderId;
+    }
+
     public static function formatPrice($price, $decimals = 4, $unit = '')
     {
         return '$' . self::formatNumber($price, $decimals, $unit);
