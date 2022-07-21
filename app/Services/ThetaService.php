@@ -85,7 +85,7 @@ class ThetaService
     public function cacheDrops()
     {
         $data = [];
-        $drops = DB::table('drops')->whereDate('date', '>=', now()->subHours(24))->selectRaw('name, MAX(type) AS type, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
+        $drops = DB::table('drops')->whereDate('date', '>=', now()->subHours(24))->selectRaw('MAX(transaction_id) AS transaction_id, name, MAX(type) AS type, MAX(image) AS image, SUM(usd) AS usd, COUNT(*) AS times')->groupBy(['name'])->get()->toArray();
         $totalUsd = 0;
         foreach ($drops as $drop) {
             $totalUsd += $drop->usd;
@@ -100,6 +100,7 @@ class ThetaService
                 $class = 'drop drop2';
             }
             $data[] = [
+                'transaction_id' => $drop->transaction_id,
                 'name' => $drop->name,
                 'image' => $drop->image,
                 'class' => $class,
