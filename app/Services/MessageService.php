@@ -69,6 +69,16 @@ class MessageService
         return $this->tweetText($tweet);
     }
 
+    public function hasLargeNFT($tx)
+    {
+        $amount = Helper::formatPrice($tx['usd'], 2);
+        if ($tx['currency'] == 'tfuel') {
+            $amount = Helper::formatNumber($tx['tfuel'], 2) . ' $tfuel (' . $amount . ')';
+        }
+        $tweet = "NFT [{$tx['name']}] sold for {$amount} => " . Helper::makeDropOrderURL($tx['transaction_id']);
+        return $this->tweetText($tweet);
+    }
+
     public function tweetText($text)
     {
         if (!$this->canPost()) {

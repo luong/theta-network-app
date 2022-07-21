@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Helpers\Constants;
 use App\Models\Drop;
+use App\Services\MessageService;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
@@ -45,7 +46,7 @@ class Drops extends Command
     public function handle()
     {
         $thetaService = resolve(ThetaService::class);
-        $onChainService = resolve(OnChainService::class);
+        $messageService = resolve(MessageService::class);
 
         $response = Http::get(Constants::DROP_API_URL . '/sale_order/list_archived?number=100&page=1&&expand=content_id&expand=nft_id&expand=buyer_id&expand=buyer_id.tps_id&expand=user_id&expand=user_id.tps_id&expand=sale_data_id');
         if (!$response->ok()) {
@@ -108,7 +109,7 @@ class Drops extends Command
                 $image = $packs[$each['content_id']]['image_url'];
                 $name = $packs[$each['content_id']]['title'];
             }
-            $data[] = [
+            $sale = [
                 'transaction_id' => $id,
                 'buyer_username' => $tps[$users[$each['buyer_id']]['tps_id']]['username'],
                 'buyer_displayname' => @$tps[$users[$each['buyer_id']]['tps_id']]['display_name'],
@@ -122,6 +123,7 @@ class Drops extends Command
                 'currency' => $saleDatas[$id]['currency'],
                 'date' => date('Y-m-d H:i:s', strtotime($saleDatas[$id]['create_time']))
             ];
+            $data[] = $sale;
         }
 
         if (!empty($data)) {
