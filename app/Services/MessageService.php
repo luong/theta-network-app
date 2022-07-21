@@ -5,6 +5,7 @@ use App\Helpers\Constants;
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\App;
 use Noweh\TwitterApi\Client;
+use TwitterAPIExchange;
 
 class MessageService
 {
@@ -75,8 +76,23 @@ class MessageService
         if ($tx['currency'] == 'tfuel') {
             $amount = Helper::formatNumber($tx['tfuel'], 2) . ' $tfuel (' . $amount . ')';
         }
-        $tweet = "NFT [{$tx['name']}] sold for {$amount} => " . Helper::makeDropOrderURL($tx['transaction_id']);
-        return $this->tweetText($tweet);
+        $tweet = "NFT \"{$tx['name']}\" sold for {$amount} => " . Helper::makeDropOrderURL($tx['transaction_id']);
+
+        $uploadImageResult = $this->requestTwitterV1(
+            'https://upload.twitter.com/1.1/media/upload.json',
+            'POST',
+            ['media_data' => base64_encode(file_get_contents($tx['image']))]
+        );
+        if (empty($uploadImageResult) || empty($uploadImageResult['media_id'])) {
+            return false;
+        }
+
+        $params = [
+            'text' => $tweet,
+            'media' => ['media_ids' => [$uploadImageResult['media_id_string']]]
+        ];
+
+        return $this->tweetV2($params);
     }
 
     public function tweetText($text)
@@ -88,7 +104,35 @@ class MessageService
         return $client->tweet()->performRequest('POST', ['text' =>'[Bot] ' .  $text]);
     }
 
-    private function canPost()
+    public function tweetV2($params)
+    {
+        if (!$this->canPost()) {
+            return false;
+        }
+        $client = $this->getTwitterClient();
+        $params['text'] = '[Bot] ' . $params['text'];
+        return $client->tweet()->performRequest('POST', $params);
+    }
+
+    public function hasNews($newsUrl)
+    {
+        $tweet = "#THETA news: {$newsUrl}";
+        return $this->tweetText($tweet);
+    }
+
+    public function requestTwitterV1($endpoint, $method, $params)
+    {
+        $settings = array(
+            'oauth_access_token' => Constants::TWITTER_ACCESS_TOKEN,
+            'oauth_access_token_secret' => Constants::TWITTER_ACCESS_TOKEN_SECRET,
+            'consumer_key' => Constants::TWITTER_CONSUMER_KEY,
+            'consumer_secret' => Constants::TWITTER_CONSUMER_SECRET
+        );
+        $twitter = new TwitterAPIExchange($settings);
+        return json_decode($twitter->buildOauth($endpoint, $method)->setPostfields($params)->performRequest(), 1);
+    }
+
+    public function canPost()
     {
         return App::environment('production');
     }
@@ -104,11 +148,5 @@ class MessageService
             'access_token_secret' => Constants::TWITTER_ACCESS_TOKEN_SECRET
         ];
         return new Client($settings);
-    }
-
-    public function hasNews($newsUrl)
-    {
-        $tweet = "#THETA news: {$newsUrl}";
-        return $this->tweetText($tweet);
     }
 }

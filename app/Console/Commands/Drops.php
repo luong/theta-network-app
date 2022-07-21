@@ -123,6 +123,11 @@ class Drops extends Command
                 'currency' => $saleDatas[$id]['currency'],
                 'date' => date('Y-m-d H:i:s', strtotime($saleDatas[$id]['create_time']))
             ];
+
+            if ($each['price'] >= Constants::NFT_SALE_TWEET_AMOUNT) {
+                $messageService->hasLargeNFT($sale);
+            }
+
             $data[] = $sale;
         }
 
