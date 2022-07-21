@@ -65,6 +65,7 @@ class Drops extends Command
         $types = [];
         $tps = [];
         $users = [];
+        $nfts = [];
 
         foreach ($drops['sale_datas'] as $each) {
             $saleDatas[$each['sale_order_id']] = $each;
@@ -84,6 +85,9 @@ class Drops extends Command
         foreach ($drops['user_profiles'] as $each) {
             $users[$each['id']] = $each;
         }
+        foreach ($drops['nfts'] as $each) {
+            $nfts[$each['id']] = $each;
+        }
 
         $data = [];
         foreach ($saleOrders as $id => $each) {
@@ -94,7 +98,10 @@ class Drops extends Command
 
             $image = '';
             $name = '';
-            if (str_contains($each['content_id'], 'type_')) {
+            if (isset($nfts[$each['nft_id']]) && !empty($nfts[$each['nft_id']]['name']) && !empty($nfts[$each['nft_id']]['image'])) {
+                $image = $nfts[$each['nft_id']]['image'];
+                $name = $nfts[$each['nft_id']]['name'];
+            } else if (str_contains($each['content_id'], 'type_')) {
                 $image = $types[$each['content_id']]['image'];
                 $name = $types[$each['content_id']]['name'];
             } else if (str_contains($each['content_id'], 'pack_')) {
