@@ -237,6 +237,7 @@ class OnChainService
                     'market_cap' => $details['quote']['USD']['market_cap'] > 0 ? $details['quote']['USD']['market_cap'] : $details['self_reported_market_cap'],
                     'market_cap_rank' => $details['cmc_rank'],
                     'volume_24h' => $details['quote']['USD']['volume_24h'],
+                    'volume_change_24h' => $details['quote']['USD']['volume_change_24h'],
                     'price_change_24h' => $details['quote']['USD']['percent_change_24h'],
                     'price_change_1y' => '',
                     'price_change_ath' => '',
