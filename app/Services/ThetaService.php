@@ -51,6 +51,7 @@ class ThetaService
                 'Prices' => ['command' => 'theta:prices', 'last_run' => null],
                 'Transactions' => ['command' => 'theta:transactions', 'last_run' => null],
                 'DailyTweet' => ['command' => 'theta:dailyTweet', 'last_run' => null],
+                'DailyTweet2' => ['command' => 'theta:dailyTweet2', 'last_run' => null],
                 'Blocks' => ['command' => 'theta:blocks', 'last_run' => null],
                 'Drops' => ['command' => 'theta:drops', 'last_run' => null],
                 'Accounts' => ['command' => 'theta:accounts', 'last_run' => null],
@@ -249,12 +250,25 @@ class ThetaService
         $nodeStats = $this->getNodeStats();
         $dropStats24H = $this->getDropStats24H();
         $tvl = $onChainService->getTVL();
+        $lastestChains = DailyChain::latest()->take(2)->get();
         $lastestTfuelCoins = DailyCoin::where('coin', 'tfuel')->latest()->take(2)->get();
         $lastestThetaCoins = DailyCoin::where('coin', 'theta')->latest()->take(2)->get();
+        $lastestTdropCoins = DailyCoin::where('coin', 'tdrop')->latest()->take(2)->get();
 
         $thetaStakeChange24h = round($lastestThetaCoins[0]->total_stakes - $lastestThetaCoins[1]->total_stakes);
         $tfuelSupplyChange24h = round($lastestTfuelCoins[0]->supply - $lastestTfuelCoins[1]->supply);
         $tfuelStakeChange24h = round($lastestTfuelCoins[0]->total_stakes - $lastestTfuelCoins[1]->total_stakes);
+        $guardianNodesChange24h = round($lastestChains[0]->nodes['guardians'] - $lastestChains[1]->nodes['guardians']);
+        $eliteNodesChange24h = round($lastestChains[0]->nodes['elites'] - $lastestChains[1]->nodes['elites']);
+        $activeWalletsChange24h = round($lastestChains[0]->active_wallets - $lastestChains[1]->active_wallets);
+
+        $dropTimesChange24h = round(($lastestChains[0]->drops['times'] - $lastestChains[1]->drops['times']) / $lastestChains[1]->drops['times'], 2);
+        $dropSalesChange24h = round(($lastestChains[0]->drops['total'] - $lastestChains[1]->drops['total']) / $lastestChains[1]->drops['total'], 2);
+
+        $thetaVolChange24h = $lastestThetaCoins[0]->volume_24h - $lastestThetaCoins[1]->volume_24h;
+        $tfuelVolChange24h = $lastestTfuelCoins[0]->volume_24h - $lastestTfuelCoins[1]->volume_24h;
+        $tdropVolChange24h = $lastestTdropCoins[0]->volume_24h - $lastestTdropCoins[1]->volume_24h;
+        $tdropSupplyChange24h = round($lastestTdropCoins[0]->supply - $lastestTdropCoins[1]->supply);
 
         $blocks24h = $onChainService->getBlocks24h();
         $blockHeight = $onChainService->getBlockHeight();
@@ -263,23 +277,34 @@ class ThetaService
         $info = [
             'validators' => $nodeStats['validators'],
             'elite_nodes' => $nodeStats['elites'],
+            'elite_nodes_change_24h' => $eliteNodesChange24h,
             'guardian_nodes' => $nodeStats['guardians'],
+            'guardian_nodes_change_24h' => $guardianNodesChange24h,
             'onchain_wallets' => !empty($stats['network']['onchain_wallets']) ? $stats['network']['onchain_wallets'] : 0,
             'active_wallets' => !empty($stats['network']['active_wallets']) ? $stats['network']['active_wallets'] : 0,
+            'active_wallets_change_24h' => $activeWalletsChange24h,
             'theta_price' => $stats['theta']['price'],
             'theta_supply' => $stats['theta']['supply'],
             'theta_stake_nodes' => $stats['theta']['staked_nodes'],
             'theta_stake_rate' => round($stats['theta']['total_stakes'] / $stats['theta']['supply'], 4),
             'theta_stake_change_24h' => $thetaStakeChange24h,
+            'theta_volume_change_24h' => $thetaVolChange24h,
             'tfuel_price' => $stats['tfuel']['price'],
             'tfuel_supply' => $stats['tfuel']['supply'],
             'tfuel_stake_nodes' => $stats['tfuel']['staked_nodes'],
             'tfuel_stake_rate' => round($stats['tfuel']['total_stakes'] / $stats['tfuel']['supply'], 4),
             'tfuel_supply_change_24h' => $tfuelSupplyChange24h,
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
+            'tfuel_volume_change_24h' => $tfuelVolChange24h,
+            'tdrop_volume_change_24h' => $tdropVolChange24h,
+            'tdrop_supply' => $stats['tdrop']['supply'],
+            'tdrop_supply_change_24h' => $tdropSupplyChange24h,
             'tvl_value' => $tvl['current_value'],
             'tvl_change_24h' => $tvl['change_24h'],
-            'drop_24h' => $dropStats24H
+            'drop_24h' => $dropStats24H,
+            'drop_times_change_24h' => $dropTimesChange24h,
+            'drop_sales_change_24h' => $dropSalesChange24h
+
         ];
         if ($blocks24h > 0) {
             $info['blocks_24h'] = $blocks24h;
