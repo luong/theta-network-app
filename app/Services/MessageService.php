@@ -64,6 +64,25 @@ class MessageService
         return $this->tweetText($tweet);
     }
 
+    public function sendDailyUpdatesV2($filePath)
+    {
+        $uploadImageResult = $this->requestTwitterV1(
+            'https://upload.twitter.com/1.1/media/upload.json',
+            'POST',
+            ['media_data' => base64_encode(file_get_contents($filePath))]
+        );
+        if (empty($uploadImageResult) || empty($uploadImageResult['media_id'])) {
+            return false;
+        }
+
+        $params = [
+            'text' => '#THETA daily updates ' . date('Y-m-d'),
+            'media' => ['media_ids' => [$uploadImageResult['media_id_string']]]
+        ];
+
+        return $this->tweetV2($params);
+    }
+
     public function thankForDonation($tx)
     {
         $tweet = "Thanks for donation: {$tx['amount']} => " . Helper::makeSiteTransactionURL($tx['id']);

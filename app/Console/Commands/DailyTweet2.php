@@ -170,9 +170,14 @@ class DailyTweet2 extends Command
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Total Sales: ' . $dropSales);
 
         // Export
-        $fileName = 'app/' . uniqid() . '.png';
-        imagepng($image, storage_path($fileName), 9, -1);
+        $filePath = storage_path('app/' . uniqid() . '.png');
+        imagepng($image, $filePath, 9, -1);
         imagedestroy($image);
+
+        if (file_exists($filePath)) {
+            $messageService->sendDailyUpdatesV2($filePath);
+            unlink($filePath);
+        }
 
         $thetaService->setCommandTracker('DailyTweet2', 'last_run', time());
 
