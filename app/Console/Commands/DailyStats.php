@@ -9,6 +9,7 @@ use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class DailyStats extends Command
 {
@@ -92,6 +93,9 @@ class DailyStats extends Command
 
             $thetaService->setCommandTracker('DailyStats', 'last_run', time());
         }
+
+        // Reset settings
+        Cache::put('nft_tweet_times', 0);
 
         $this->info('Done');
         return 0;

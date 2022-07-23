@@ -125,7 +125,11 @@ class Drops extends Command
             ];
 
             if ($each['price'] >= Constants::NFT_SALE_TWEET_AMOUNT) {
-                $messageService->hasLargeNFT($sale);
+                $times = Cache::get('nft_tweet_times', 0);
+                if ($times <= Constants::NFT_TWEET_LIMIT) {
+                    $messageService->hasLargeNFT($sale);
+                    Cache::put('nft_tweet_times', $times + 1);
+                }
             }
 
             $data[] = $sale;
