@@ -121,17 +121,20 @@
                         <th scope="col">From</th>
                         <th scope="col">To</th>
                         <th scope="col" class="text-end">Amount</th>
-                        <th scope="col" class="text-end">Value</th>
+                        <th scope="col" class="text-center">Date</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($account['transactions'] as $transaction)
                         <tr>
-                            <td>{{ Str::limit(strtoupper($transaction['type']), '1', '-') }}</td>
-                            <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a></td>
-                            <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
-                            <td class="text-end"><x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 2, 'auto') }}</a></td>
-                            <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 2, 'auto') }}</td>
+                            <td class="align-middle">{{ Str::limit(strtoupper($transaction['type']), '1', '-') }}</td>
+                            <td class="align-middle"><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a></td>
+                            <td class="align-middle"><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
+                            <td class="text-end">
+                                <x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 2, 'auto') }}</a><br/>
+                                (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 2, 'auto') }}</span>)
+                            </td>
+                            <td class="text-center align-middle">{{ date('Y-m-d H:i', strtotime($transaction['date'])) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
