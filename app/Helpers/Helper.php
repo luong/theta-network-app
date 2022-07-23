@@ -46,6 +46,17 @@ class Helper
 
     public static function formatNumber($number, $decimals = 4, $unit = '')
     {
+        if ($unit == 'auto') {
+            if ($number >= 1000000000) {
+                $unit = 'B';
+            } else if ($number >= 1000000) {
+                $unit = 'M';
+            } else if ($number >= 1000) {
+                $unit = 'K';
+            } else {
+                $unit = '';
+            }
+        }
         if ($unit == 'B') {
             $number = $number / 1000000000;
         } else if ($unit == 'M') {
