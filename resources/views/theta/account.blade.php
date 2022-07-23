@@ -134,7 +134,7 @@
                                 <x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 2, 'auto') }}</a><br/>
                                 (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 2, 'auto') }}</span>)
                             </td>
-                            <td class="text-center align-middle">{{ date('Y-m-d H:i', strtotime($transaction['date'])) }}</td>
+                            <td class="text-center align-middle">{{ date('Y-m-d', strtotime($transaction['date'])) }}<br/>{{ date('H:i', strtotime($transaction['date'])) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
