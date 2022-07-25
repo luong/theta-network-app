@@ -66,7 +66,7 @@ class DailyStats extends Command
 
             DailyCoin::updateOrCreate(
                 ['date' => Carbon::today(), 'coin' => 'tdrop'],
-                ['price' => $coinList['TDROP']['price'], 'market_cap' => $coinList['TDROP']['market_cap'], 'volume_24h' => $coinList['TDROP']['volume_24h'], 'supply' => $coinList['TDROP']['circulating_supply'], 'total_stakes' => null, 'staked_nodes' => null]
+                ['price' => $coinList['TDROP']['price'], 'market_cap' => $coinList['TDROP']['market_cap'], 'volume_24h' => $coinList['TDROP']['volume_24h'], 'supply' => $coinList['TDROP']['circulating_supply'], 'total_stakes' => $stats['tdrop']['total_stakes'], 'staked_nodes' => null]
             );
 
             $nodeStats = $thetaService->getNodeStats();

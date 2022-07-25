@@ -14,7 +14,10 @@ class Constants
     const DROP_CONTENT_URL = 'https://www.thetadrop.com/content';
     const DROP_ORDER_URL = 'https://www.thetadrop.com/order';
     const DROP_API_URL = 'https://api.thetadrop.com';
+
     const TDROP_CONTRACT_ID = '0x1336739b05c7ab8a526d40dcc0d04a826b5f8b03';
+    const TDROP_STAKING_ADDRESS = '0xA89c744Db76266ecA60e2b0F62Afcd1f8581b7ed';
+
     const TBILL_ACCOUNT = '0x4dc08b15ea0e10b96c41aec22fab934ba15c983e';
     const WHALE_MIN_BALANCE = 500000;
     const DONATE_ACCOUNT_ID = '0x77B4a8bcEaC10762b4E5902e29428DbfB4348003';
@@ -38,11 +41,11 @@ class Constants
     const TWITTER_BEARER_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAFsAdAEAAAAAzjadkvlRQPHHoaHzR1Q%2FtnE0s%2Fo%3DDMjkgL4wI1ekEQ71DbBSQrHJpHsqQyqx3Q3EeMnGIx7FZ19kRf';
     const TWITTER_ACCESS_TOKEN = '1341024171048890369-p1kN8N6Tkq1qLrviVb6XGheNAEbP2a';
     const TWITTER_ACCESS_TOKEN_SECRET = 'YTAbPiLUGeQVlwsdQN5jchoHcmi8Y3LpHn6A06fUQmuhn';
-    const TWITTER_OAUTH_CLIENT_ID = 'NzJTWUVrd3VCOUMtcGFEM0NRa186MTpjaQ';
-    const TWITTER_OAUTH_CLIENT_SECRET = 'n8WP1KyazIxfOrVz6lhGlO04o6Tqx0gz9vPw5ZAHrThd3Es430';
 
     const PAGINATION_PAGE_LIMIT = 100;
     const TRANSACTION_LIFETIME_DAYS = 30;
     const DROP_LIFETIME_DAYS = 30;
     const LOG_LIFETIME_DAYS = 30;
+
+    const WEB3_RPC = 'https://eth-rpc-api.thetatoken.org/rpc';
 }

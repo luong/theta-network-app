@@ -76,6 +76,7 @@ class OnChainService
         $onchainWallets = null;
         $activeWallets = null;
         $tdropSupply = null;
+        $tdropTotalStakes = null;
 
         // theta supply
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/supply/theta');
@@ -117,6 +118,10 @@ class OnChainService
 
         // tdrop supply
         $tdropSupply = $this->getTdropSupply();
+
+        // tdrop total stakes
+        $tdropContract = resolve(TdropContract::class);
+        $tdropTotalStakes = $tdropContract->getBalance(Constants::TDROP_STAKING_ADDRESS);
 
         // onchain wallets
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/total/number');
@@ -161,7 +166,7 @@ class OnChainService
         return [
             'theta' => ['price' => $thetaPrice, 'market_cap' => $thetaMarketCap, 'volume_24h' => $thetaVolume24h, 'supply' => $thetaSupply, 'total_stakes' => $thetaTotalStakes, 'staked_nodes' => $thetaStakedNodes],
             'tfuel' => ['price' => $tfuelPrice, 'market_cap' => $tfuelMarketCap, 'volume_24h' => $tfuelVolume24h, 'supply' => $tfuelSupply, 'total_stakes' => $tfuelTotalStakes, 'staked_nodes' => $tfuelStakedNodes],
-            'tdrop' => ['price' => false, 'market_cap' => false, 'volume_24h' => false, 'supply' => $tdropSupply, 'total_stakes' => false, 'staked_nodes' => false],
+            'tdrop' => ['price' => false, 'market_cap' => false, 'volume_24h' => false, 'supply' => $tdropSupply, 'total_stakes' => $tdropTotalStakes, 'staked_nodes' => false],
             'network' => ['onchain_wallets' => $onchainWallets, 'active_wallets' => $activeWallets]
         ];
     }

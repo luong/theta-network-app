@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\OnChainService;
+use App\Services\TdropContract;
 use App\Services\ThetaService;
 use App\Services\MessageService;
 use Illuminate\Pagination\Paginator;
@@ -14,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public $singletons = [
         OnChainService::class => OnChainService::class,
         ThetaService::class => ThetaService::class,
-        MessageService::class => MessageService::class
+        MessageService::class => MessageService::class,
+        TdropContract::class => TdropContract::class
     ];
 
     /**
