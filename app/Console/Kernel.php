@@ -7,6 +7,7 @@ use App\Console\Commands\Blocks;
 use App\Console\Commands\DailyTweet2;
 use App\Console\Commands\Drops;
 use App\Console\Commands\News;
+use App\Console\Commands\TdropTransactions;
 use App\Console\Commands\Transactions;
 use App\Console\Commands\Stakes;
 use App\Console\Commands\Prices;
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(Prices::class)->everyFiveMinutes();
         $schedule->command(News::class)->everyFiveMinutes();
         $schedule->command(Transactions::class)->everyTwoMinutes();
+        $schedule->command(TdropTransactions::class)->everyTwoMinutes();
         $schedule->command(Blocks::class)->everyMinute();
         $schedule->command(Drops::class)->everyMinute();
         $schedule->command(DailyTweet2::class)->dailyAt('00:30');
