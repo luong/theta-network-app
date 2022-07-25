@@ -178,13 +178,13 @@ class OnChainService
             Cache::put('coins_cmc', $coinsFromCMC, now()->addMinutes(30));
         }
 
-        $coinsFromGKO = Cache::get('coins_gko');
-        if (empty($coinsFromGKO)) {
-            $coinsFromGKO = $this->getCoinListFromCoingecko();
-            if ($coinsFromGKO === false) {
+        $coins = Cache::get('coins_gko');
+        if (empty($coins)) {
+            $coins = $this->getCoinListFromCoingecko();
+            if ($coins === false) {
                 return false;
             }
-            Cache::put('coins_gko', $coinsFromGKO, now()->addMinutes(2));
+            Cache::put('coins_gko', $coins, now()->addMinutes(2));
         }
 
         $coins['TFUEL']['circulating_supply'] = $this->getTfuelSupply();
