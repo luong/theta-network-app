@@ -28,7 +28,6 @@
         "chart.js": "^3.8.0",
         "imagesloaded": "^5.0.0",
         "jquery": "^3.6.0",
-        "masonry-layout": "^4.2.2",
-        "web3": "^1.7.4"
+        "masonry-layout": "^4.2.2"
     }
 }
