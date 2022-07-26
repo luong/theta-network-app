@@ -50,8 +50,8 @@
                 <div class="col">{{ number_format($networkInfo['guardian_nodes']) }}</div>
             </div>
             <div class="row">
-                <div class="col">Onchain Wallets</div>
-                <div class="col">{{ number_format($networkInfo['onchain_wallets']) }}</div>
+                <div class="col">Active Wallets</div>
+                <div class="col">{{ number_format($networkInfo['active_wallets']) }}</div>
             </div>
         </div>
     </div>

@@ -39,6 +39,10 @@
                     <span class="changes">({{ ($coinInfo['price_change_ath'] > 0 ? '+' : '') . round($coinInfo['price_change_ath'], 2) }}%)</span>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">Stake Rate</div>
+                <div class="col">{{ number_format($networkInfo['tdrop_stake_rate'] * 100, 2) }}%</div>
+            </div>
         </div>
     </div>
 </div>
