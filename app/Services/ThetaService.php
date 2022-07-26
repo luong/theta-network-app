@@ -301,6 +301,7 @@ class ThetaService
             'tdrop_supply' => $stats['tdrop']['supply'],
             'tdrop_supply_change_24h' => $tdropSupplyChange24h,
             'tdrop_stake_change_24h' => $tdropStakeChange24h,
+            'tdrop_stake_rate' => round($stats['tdrop']['total_stakes'] / $stats['tdrop']['supply'], 4),
             'tvl_value' => $tvl['current_value'],
             'tvl_change_24h' => $tvl['change_24h'],
             'drop_24h' => $dropStats24H,

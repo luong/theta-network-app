@@ -50,6 +50,7 @@ class DailyTweet2 extends Command
         $elites = number_format($networkInfo['elite_nodes']) . ' (' . ($networkInfo['elite_nodes_change_24h'] > 0 ? '+' : '') . number_format($networkInfo['elite_nodes_change_24h']) .  ')';
         $activeWallets = number_format($networkInfo['active_wallets']) . ' (' . ($networkInfo['active_wallets_change_24h'] > 0 ? '+' : '') . number_format($networkInfo['active_wallets_change_24h']) .  ')';
 
+        $btcPrice = Helper::formatPrice($coins['BTC']['price']) . ' (' . ($coins['BTC']['price_change_24h'] > 0 ? '+' : '') . round($coins['BTC']['price_change_24h'], 2) . '%)';
         $thetaPrice = Helper::formatPrice($coins['THETA']['price']) . ' (' . ($coins['THETA']['price_change_24h'] > 0 ? '+' : '') . round($coins['THETA']['price_change_24h'], 2) . '%)';
         $tfuelPrice = Helper::formatPrice($coins['TFUEL']['price']) . ' (' . ($coins['TFUEL']['price_change_24h'] > 0 ? '+' : '') . round($coins['TFUEL']['price_change_24h'], 2) . '%)';
         $tdropPrice = Helper::formatPrice($coins['TDROP']['price']) . ' (' . ($coins['TDROP']['price_change_24h'] > 0 ? '+' : '') . round($coins['TDROP']['price_change_24h'], 2) . '%)';
@@ -60,6 +61,7 @@ class DailyTweet2 extends Command
         $thetaVol24h = Helper::formatPrice($coins['THETA']['volume_24h'], 2, 'M') . ' (' . ($networkInfo['theta_volume_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['theta_volume_change_24h'], 2, 'M') . ')';
         $tfuelVol24h = Helper::formatPrice($coins['TFUEL']['volume_24h'], 2, 'M') . ' (' . ($networkInfo['tfuel_volume_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['tfuel_volume_change_24h'], 2, 'M') . ')';
         $tdropVol24h = Helper::formatPrice($coins['TDROP']['volume_24h'], 2, 'M') . ' (' . ($networkInfo['tdrop_volume_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['tdrop_volume_change_24h'], 2, 'M') . ')';
+        $tdropStakes = number_format($networkInfo['tdrop_stake_rate'] * 100, 2) . '% (' . (($networkInfo['tdrop_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tdrop_stake_change_24h'], 2, 'M')) . ')';
         $tdropSupply = Helper::formatNumber($networkInfo['tdrop_supply'], 3, 'B') . ' (' . ($networkInfo['tdrop_supply_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['tdrop_supply_change_24h'], 2, 'M') . ')';
         $thetaMarketCap = Helper::formatPrice($coins['THETA']['market_cap'], 2, 'B');
         $tfuelMarketCap = Helper::formatPrice($coins['TFUEL']['market_cap'], 2, 'M');
@@ -75,10 +77,11 @@ class DailyTweet2 extends Command
         $fontSize = 11;
 
         $xCol1 = 35;
-        $xCol2 = 270;
-        $yRow0 = 45;
-        $yRow1 = 105;
-        $yRow2 = 275;
+        $xCol2 = 280;
+        $yRow0 = 50;
+        $yRowBTC = 35;
+        $yRow1 = 115;
+        $yRow2 = 280;
         $yRow3 = 440;
 
         $image = imagecreatefrompng(public_path('images/dailybg.png'));
@@ -86,9 +89,10 @@ class DailyTweet2 extends Command
 
         // Title
         $y = $yRow0;
-        imagettftext($image, 18, 0, 138, $y, $textColor, $fontBold, 'THETA Daily Updates');
+        imagettftext($image, 18, 0, $xCol1, $y, $textColor, $fontBold, 'THETA Updates');
         $y += $lineHeight;
-        imagettftext($image, 10, 0, 152, $y, $textColor, $fontLight, '@ThetaPizza ' . $now);
+        imagettftext($image, 10, 0, $xCol1, $y, $textColor, $fontLight, '@ThetaPizza ' . $now);
+        imagerectangle($image, $xCol1 - 10, $y - 50, 250, 85, $textColor);
 
         // Network
         $x = $xCol1;
@@ -111,9 +115,16 @@ class DailyTweet2 extends Command
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Transactions 24H: ' . Helper::formatNumber($networkInfo['transactions_24h'], 0));
 
+        // BTC
+        $x = $xCol2;
+        $y = $yRowBTC;
+        imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* BTC');
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Price: ' . $btcPrice);
+
         // Theta
         $x = $xCol2;
-        $y = $yRow1;
+        $y = $yRow1 - 25;
         imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Theta');
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Price: ' . $thetaPrice);
@@ -147,7 +158,7 @@ class DailyTweet2 extends Command
 
         // Tdrop
         $x = $xCol2;
-        $y = $yRow2;
+        $y = $yRow2 - 20;
         imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Tdrop');
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Price: ' . $tdropPrice);
@@ -158,11 +169,13 @@ class DailyTweet2 extends Command
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Ranking: ' . Helper::formatNumber($coins['TDROP']['market_cap_rank']));
         $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Staking: ' . $tdropStakes);
+        $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Supply: ' . $tdropSupply);
 
         // Theta Drop
         $x = $xCol2;
-        $y = $yRow3 - 18;
+        $y = $yRow3 - 10;
         imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Theta Drop');
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Transactions: ' . $dropTransactions);
@@ -170,7 +183,8 @@ class DailyTweet2 extends Command
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Total Sales: ' . $dropSales);
 
         // Export
-        $filePath = storage_path('app/' . uniqid() . '.png');
+        $fileName = 'app/' . uniqid() . '.png';
+        $filePath = storage_path($fileName);
         imagepng($image, $filePath, 9, -1);
         imagedestroy($image);
 
