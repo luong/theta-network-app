@@ -269,6 +269,7 @@ class ThetaService
         $tfuelVolChange24h = $lastestTfuelCoins[0]->volume_24h - $lastestTfuelCoins[1]->volume_24h;
         $tdropVolChange24h = $lastestTdropCoins[0]->volume_24h - $lastestTdropCoins[1]->volume_24h;
         $tdropSupplyChange24h = round($lastestTdropCoins[0]->supply - $lastestTdropCoins[1]->supply);
+        $tdropStakeChange24h = round($lastestTdropCoins[0]->total_stakes - $lastestTdropCoins[1]->total_stakes);
 
         $blocks24h = $onChainService->getBlocks24h();
         $blockHeight = $onChainService->getBlockHeight();
@@ -299,6 +300,7 @@ class ThetaService
             'tdrop_volume_change_24h' => $tdropVolChange24h,
             'tdrop_supply' => $stats['tdrop']['supply'],
             'tdrop_supply_change_24h' => $tdropSupplyChange24h,
+            'tdrop_stake_change_24h' => $tdropStakeChange24h,
             'tvl_value' => $tvl['current_value'],
             'tvl_change_24h' => $tvl['change_24h'],
             'drop_24h' => $dropStats24H,
