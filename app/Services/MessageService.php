@@ -76,7 +76,7 @@ class MessageService
         }
 
         $params = [
-            'text' => '#THETA daily updates ' . date('Y-m-d') . ' $theta $tfuel $tdrop',
+            'text' => '#THETA daily updates ' . date('Y-m-d') . ' https://thetapizza.com',
             'media' => ['media_ids' => [$uploadImageResult['media_id_string']]]
         ];
 
