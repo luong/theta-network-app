@@ -68,12 +68,19 @@ class TdropTransactions extends Command
                 continue;
             }
 
+            $type = 'transfer';
+            if (strtolower($transaction['to']) == strtolower(Constants::TDROP_STAKING_ADDRESS)) {
+                $type = 'stake';
+            } else if (strtolower($transaction['from']) == strtolower(Constants::TDROP_STAKING_ADDRESS)) {
+                $type = 'unstake';
+            }
+
             $tdrop = round($transaction['value'] / Constants::THETA_WEI);
             $usd = round($tdrop * $coinList['TDROP']['price'], 2);
 
             $tx = [
                 'id' => $transaction['_id'],
-                'type' => 'transfer',
+                'type' => $type,
                 'date' => date('Y-m-d H:i', $transaction['timestamp']),
                 'from' => $transaction['from'],
                 'to' => $transaction['to'],
