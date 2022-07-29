@@ -64,8 +64,8 @@ class TdropTransactions extends Command
         $transactions = $response->json()['body'];
 
         foreach ($transactions as $transaction) {
-            if (in_array($transaction['_id'], $oldTransactionIds)) {
-                $newTransactionIds[] = $transaction['_id'];
+            if (in_array($transaction['hash'], $oldTransactionIds)) {
+                $newTransactionIds[] = $transaction['hash'];
                 continue;
             }
 
@@ -80,7 +80,7 @@ class TdropTransactions extends Command
             $usd = round($tdrop * $coinList['TDROP']['price'], 2);
 
             $tx = [
-                'id' => $transaction['_id'],
+                'id' => $transaction['hash'],
                 'type' => $type,
                 'date' => date('Y-m-d H:i', $transaction['timestamp']),
                 'from' => $transaction['from'],
