@@ -23,7 +23,7 @@ class MessageService
             } else if (isset($accounts[$tx['to']])) {
                 $fromTo = 'to ' . $accounts[$tx['to']]['name'];
             }
-            $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
+            $text = "{$tx['amount']} transferred {$fromTo} " . Helper::makeSiteTransactionURL($tx['id'], $tx['currency']);
         } else if ($tx['type'] == 'stake') {
             $fromTo = 'from unknown wallet';
             if (isset($accounts[$tx['from']]) && isset($accounts[$tx['to']])) {
@@ -34,7 +34,7 @@ class MessageService
                 $fromTo = 'to ' . $accounts[$tx['to']]['name'];
             }
             $stakeAs = !empty($tx['node']) ? ('staked as ' . $tx['node']) : 'staked';
-            $text = "{$tx['amount']} {$stakeAs} {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
+            $text = "{$tx['amount']} {$stakeAs} {$fromTo} " . Helper::makeSiteTransactionURL($tx['id'], $tx['currency']);
         } else if ($tx['type'] == 'unstake') {
             $fromTo = 'from unknown wallet';
             if (isset($accounts[$tx['from']]) && isset($accounts[$tx['to']])) {
@@ -44,7 +44,7 @@ class MessageService
             } else if (isset($accounts[$tx['to']])) {
                 $fromTo = 'to ' . $accounts[$tx['to']]['name'];
             }
-            $text = "{$tx['amount']} unstaked {$fromTo} " . Helper::makeSiteTransactionURL($tx['id']);
+            $text = "{$tx['amount']} unstaked {$fromTo} " . Helper::makeSiteTransactionURL($tx['id'], $tx['currency']);
         }
         if (!empty($text)) {
             return $this->tweetText($text);

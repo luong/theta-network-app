@@ -5,13 +5,19 @@ namespace App\Helpers;
 class Helper
 {
 
-    public static function makeSiteAccountURL($accountId)
+    public static function makeSiteAccountURL($accountId, $currency = '')
     {
+        if ($currency == 'tdrop') {
+            return self::makeThetaAccountURL($accountId);
+        }
         return Constants::SITE_URL . '/account/' . $accountId;
     }
 
-    public static function makeSiteTransactionURL($transactionId)
+    public static function makeSiteTransactionURL($transactionId, $currency = '')
     {
+        if ($currency == 'tdrop') {
+            return self::makeThetaTransactionURL($transactionId);
+        }
         return Constants::SITE_URL . '/transaction/' . $transactionId;
     }
 
