@@ -8,11 +8,11 @@
             @foreach ($topTransactions as $transaction)
                 <div class="row">
                     @if ($transaction['type'] == 'transfer')
-                        <span class="bullet h-auto">Transfer</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="/transaction/{{ $transaction['txn'] }}" class="w-auto ps-1 pe-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
+                        <span class="bullet h-auto">Transfer</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="{{ Helper::makeSiteTransactionURL($transaction['txn'], $transaction['currency']) }}" class="w-auto ps-1 pe-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
                     @elseif ($transaction['type'] == 'stake')
-                        <span class="bullet h-auto">Stake</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="/transaction/{{ $transaction['txn'] }}" class="w-auto ps-1 pe-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
+                        <span class="bullet h-auto">Stake</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="{{ Helper::makeSiteTransactionURL($transaction['txn'], $transaction['currency']) }}" class="w-auto ps-1 pe-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
                     @elseif ($transaction['type'] == 'unstake')
-                        <span class="bullet h-auto">Unstake</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="/account/{{ $transaction['to_account'] }}" class="w-auto ps-1 pe-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
+                        <span class="bullet h-auto">Unstake</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="{{ Helper::makeSiteAccountURL($transaction['to_account'], $transaction['currency']) }}" class="w-auto ps-1 pe-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
                     @endif
                 </div>
             @endforeach
