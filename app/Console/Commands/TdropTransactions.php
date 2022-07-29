@@ -48,6 +48,7 @@ class TdropTransactions extends Command
     {
         $thetaService = resolve(ThetaService::class);
         $onChainService = resolve(OnChainService::class);
+        $messageService = resolve(MessageService::class);
 
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/token/' . Constants::TDROP_CONTRACT_ID . '/?pageNumber=1&limit=' . Constants::TOP_TRANSACTION_LIMIT);
         if (!$response->ok()) {
@@ -89,6 +90,10 @@ class TdropTransactions extends Command
                 'currency' => 'tdrop',
                 'usd' => $usd
             ];
+
+            if ($usd >= Constants::TOP_TDROP_TRANSACTION_TWEET_AMOUNT) {
+                $messageService->hasLargeTransaction($tx);
+            }
 
             if ($usd > 1) {
                 $trackedData[] = $tx;
