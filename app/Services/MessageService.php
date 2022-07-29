@@ -95,7 +95,7 @@ class MessageService
         if ($tx['currency'] == 'tfuel') {
             $amount = Helper::formatNumber($tx['tfuel'], 2) . ' $tfuel (' . $amount . ')';
         }
-        $tweet = "NFT \"{$tx['name']}\" sold for {$amount} => " . Helper::makeDropOrderURL($tx['transaction_id']);
+        $tweet = "#THETA NFT \"{$tx['name']}\" sold for {$amount} => " . Helper::makeDropOrderURL($tx['transaction_id']);
 
         $uploadImageResult = $this->requestTwitterV1(
             'https://upload.twitter.com/1.1/media/upload.json',
