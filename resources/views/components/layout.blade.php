@@ -47,7 +47,6 @@
                 <div class="navbar-nav">
                     <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
                     <a id="nftLink" class="nav-link text-secondary fs-5" href="/nft"><span class="bi bi-valentine"></span> ThetaDrop</a>
-                    <a id="donateLink" class="nav-link text-secondary fs-5" href="#" data-bs-toggle="modal" data-bs-target="#donateModel"><span class="bi bi-currency-bitcoin"></span> Donate</a>
                     <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaPizza" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
                 </div>
             </div>
@@ -57,6 +56,10 @@
     @include('elements/donate-model')
 
     <div class="">{{ $slot }}</div>
+
+    <footer class="mt-3 mb-2">
+        <div class="text-center">** <a id="donateLink" href="#" data-bs-toggle="modal" data-bs-target="#donateModel">Donate for hosting the site ($40 / month)</a>. If you want to add any feature, please feel free to <a href="https://twitter.com/ThetaPizza" target="_blank">let me know</a>.</div>
+    </footer>
 
 </div>
 
