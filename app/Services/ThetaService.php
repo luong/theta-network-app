@@ -486,7 +486,7 @@ class ThetaService
             if (empty($networkInfo)) {
                 $networkInfo = $this->getNetworkInfo();
             }
-            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'] + $acc['staking']['tdrop'] * $networkInfo['tdrop_price'], 2);
+            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
             if ($usd >= Constants::WHALE_MIN_BALANCE) {
                 TrackingAccount::updateOrCreate(
                     ['code' => $accountId],
@@ -518,7 +518,7 @@ class ThetaService
             $trackingAccount->balance_tfuel = $acc['balance']['tfuel'];
             $trackingAccount->balance_tdrop = $acc['balance']['tdrop'];
             $trackingAccount->staking_tdrop = $acc['staking']['tdrop'];
-            $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'] + $acc['staking']['tdrop'] * $networkInfo['tdrop_price'], 2);
+            $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
             $trackingAccount->save();
         }
     }
