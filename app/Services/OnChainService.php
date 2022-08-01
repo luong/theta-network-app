@@ -269,13 +269,19 @@ class OnChainService
             $data = $response->json();
             $theta = round($data['body']['balance']['thetawei'] / Constants::THETA_WEI, 2);
             $tfuel = round($data['body']['balance']['tfuelwei'] / Constants::THETA_WEI, 2);
+
+            $tdropContract = resolve(TdropContract::class);
+            $tdrop = round($tdropContract->getBalance($id), 2);
+
             return [
                 'id' => $id,
                 'balance' => [
                     'theta' => $theta,
-                    'tfuel' => $tfuel
+                    'tfuel' => $tfuel,
+                    'tdrop' => $tdrop
                 ]
             ];
+
         } else {
             Log::channel('db')->error('Request failed: theta/api/account');
         }

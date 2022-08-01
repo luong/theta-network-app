@@ -297,6 +297,7 @@ class ThetaService
             'tfuel_supply_change_24h' => $tfuelSupplyChange24h,
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
             'tfuel_volume_change_24h' => $tfuelVolChange24h,
+            'tdrop_price' => $stats['tdrop']['price'],
             'tdrop_volume_change_24h' => $tdropVolChange24h,
             'tdrop_supply' => $stats['tdrop']['supply'],
             'tdrop_supply_change_24h' => $tdropSupplyChange24h,
@@ -485,7 +486,7 @@ class ThetaService
             if (empty($networkInfo)) {
                 $networkInfo = $this->getNetworkInfo();
             }
-            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
+            $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
             if ($usd >= Constants::WHALE_MIN_BALANCE) {
                 TrackingAccount::updateOrCreate(
                     ['code' => $accountId],
@@ -494,6 +495,7 @@ class ThetaService
                         'name' => $name,
                         'balance_theta' => round($acc['balance']['theta'], 2),
                         'balance_tfuel' => round($acc['balance']['tfuel'], 2),
+                        'balance_tdrop' => round($acc['balance']['tdrop'], 2),
                         'balance_usd' => $usd
                     ]
                 );
@@ -513,7 +515,8 @@ class ThetaService
             }
             $trackingAccount->balance_theta = $acc['balance']['theta'];
             $trackingAccount->balance_tfuel = $acc['balance']['tfuel'];
-            $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'], 2);
+            $trackingAccount->balance_tdrop = $acc['balance']['tdrop'];
+            $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
             $trackingAccount->save();
         }
     }

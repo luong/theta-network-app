@@ -22,6 +22,7 @@
                     <td class="text-break">
                         <div><x-currency type="theta"/> {{ Helper::formatNumber($account['balance']['theta'], 2) }} ({{ Helper::formatPrice($account['balance']['theta'] * $coins['THETA']['price'], 2) }})</div>
                         <div><x-currency type="tfuel"/> {{ Helper::formatNumber($account['balance']['tfuel'], 2) }} ({{ Helper::formatPrice($account['balance']['tfuel'] * $coins['TFUEL']['price'], 2) }})</div>
+                        <div><x-currency type="tdrop"/> {{ Helper::formatNumber($account['balance']['tdrop'], 2) }} ({{ Helper::formatPrice($account['balance']['tdrop'] * $coins['TDROP']['price'], 2) }})</div>
                     </td>
                 </tr>
             </table>
