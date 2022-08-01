@@ -1,7 +1,7 @@
 <div class="card c1x top-transactions m-2">
     <h6 class="card-header">
         <span class="icon bi bi-brightness-high"></span>
-        <span class="name ms-1">TOP TRANSACTIONS IN 24H</span>
+        <span class="name ms-1">TOP TRANSACTIONS 24H</span>
     </h6>
     <div class="card-body scrollable">
         <div class="container">
