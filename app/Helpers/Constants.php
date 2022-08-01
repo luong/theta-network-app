@@ -21,8 +21,8 @@ class Constants
     const TBILL_ACCOUNT = '0x4dc08b15ea0e10b96c41aec22fab934ba15c983e';
     const WHALE_MIN_BALANCE = 500000;
     const DONATE_ACCOUNT_ID = '0x77b4a8bceac10762b4e5902e29428dbfb4348003';
-    CONST NFT_SALE_TWEET_AMOUNT = 1000;
-    CONST NFT_TWEET_LIMIT = 1;
+    CONST NFT_SALE_TWEET_AMOUNT = 500;
+    CONST NFT_TWEET_LIMIT = 2;
 
     const COINGECKO_API_URL = 'https://api.coingecko.com';
 
