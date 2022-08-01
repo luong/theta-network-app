@@ -71,8 +71,8 @@ class Transactions extends Command
 
             if ($transaction['type'] == 2) { // transfer
                 $usd = 0;
-                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI);
-                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI);
+                $theta = round($transaction['data']['outputs'][0]['coins']['thetawei'] / Constants::THETA_WEI, 2);
+                $tfuel = round($transaction['data']['outputs'][0]['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
 
                 if ($theta > 0) {
                     $usd = round($theta * $coinList['THETA']['price'], 2);
@@ -84,7 +84,7 @@ class Transactions extends Command
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
-                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                        'amount' => Helper::formatNumber($theta, 2) . ' $theta (' . Helper::formatPrice($usd, 2) . ')',
                         'coins' => $theta,
                         'currency' => 'theta',
                         'usd' => $usd
@@ -107,7 +107,7 @@ class Transactions extends Command
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['inputs'][0]['address'],
                         'to' => $transaction['data']['outputs'][0]['address'],
-                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
+                        'amount' => Helper::formatNumber($tfuel, 2) . ' $tfuel (' . Helper::formatPrice($usd, 2) . ')',
                         'coins' => $tfuel,
                         'currency' => 'tfuel',
                         'usd' => $usd
@@ -127,8 +127,8 @@ class Transactions extends Command
 
             } else if ($transaction['type'] == 10) { // stake as guardian
                 $usd = 0;
-                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
-                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI);
+                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI, 2);
+                $tfuel = round($transaction['data']['source']['coins']['tfuelwei'] / Constants::THETA_WEI, 2);
                 if ($theta > 0) {
                     $usd = round($theta * $coinList['THETA']['price'], 2);
                     $tx = [
@@ -139,7 +139,7 @@ class Transactions extends Command
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
                         'to' => $transaction['data']['holder']['address'],
-                        'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                        'amount' => Helper::formatNumber($theta, 2) . ' $theta (' . Helper::formatPrice($usd, 2) . ')',
                         'coins' => $theta,
                         'currency' => 'theta',
                         'usd' => $usd
@@ -158,7 +158,7 @@ class Transactions extends Command
                         'date' => date('Y-m-d H:i', $transaction['timestamp']),
                         'from' => $transaction['data']['source']['address'],
                         'to' => $transaction['data']['holder']['address'],
-                        'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd, 0) . ')',
+                        'amount' => Helper::formatNumber($tfuel, 2) . ' $tfuel (' . Helper::formatPrice($usd, 2) . ')',
                         'coins' => $tfuel,
                         'currency' => 'tfuel',
                         'usd' => $usd
@@ -171,7 +171,7 @@ class Transactions extends Command
                 $trackedData[] = $tx;
 
             } else if ($transaction['type'] == 8) { // stake as validator
-                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI);
+                $theta = round($transaction['data']['source']['coins']['thetawei'] / Constants::THETA_WEI, 2);
                 $usd = round($theta * $coinList['THETA']['price'], 2);
                 $tx = [
                     'id' => $transaction['_id'],
@@ -181,7 +181,7 @@ class Transactions extends Command
                     'date' => date('Y-m-d H:i', $transaction['timestamp']),
                     'from' => $transaction['data']['source']['address'],
                     'to' => $transaction['data']['holder']['address'],
-                    'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd, 0) . ')',
+                    'amount' => Helper::formatNumber($theta, 2) . ' $theta (' . Helper::formatPrice($usd, 2) . ')',
                     'coins' => $theta,
                     'currency' => 'theta',
                     'usd' => $usd
@@ -205,7 +205,7 @@ class Transactions extends Command
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $transaction['data']['holder']['address'],
                             'to' => $transaction['data']['source']['address'],
-                            'amount' => number_format($theta) . ' $theta (' . Helper::formatPrice($usd) . ')',
+                            'amount' => Helper::formatNumber($theta, 2) . ' $theta (' . Helper::formatPrice($usd, 2) . ')',
                             'coins' => $theta,
                             'currency' => 'theta',
                             'usd' => $usd
@@ -226,7 +226,7 @@ class Transactions extends Command
                             'date' => date('Y-m-d H:i', $transaction['timestamp']),
                             'from' => $transaction['data']['holder']['address'],
                             'to' => $transaction['data']['source']['address'],
-                            'amount' => number_format($tfuel) . ' $tfuel (' . Helper::formatPrice($usd) . ')',
+                            'amount' => Helper::formatNumber($tfuel, 2) . ' $tfuel (' . Helper::formatPrice($usd, 2) . ')',
                             'coins' => $tfuel,
                             'currency' => 'tfuel',
                             'usd' => $usd
