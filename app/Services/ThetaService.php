@@ -23,6 +23,8 @@ class ThetaService
         $this->cacheValidators();
         $this->cacheCoinList();
         $this->cacheTopTransactions();
+        $this->cacheStakings24H();
+        $this->cacheUnstakings24H();
         $this->cacheNetworkInfo();
         $this->cacheTfuelSupplyChartData();
         $this->cacheTfuelFreeSupplyChartData();
@@ -378,6 +380,68 @@ class ThetaService
         $data = Cache::get('unstakings');
         if (empty($data)) {
             $data = $this->cacheUnstakings();
+        }
+        return $data;
+    }
+
+    public function cacheStakings24H()
+    {
+        $data = [
+            'theta' => 0,
+            'tfuel' => 0,
+            'list' => []
+        ];
+        $result = Transaction::where('type', 'stake')->whereIn('currency', ['theta', 'tfuel'])->whereDate('date', '>=', now()->subHours(24))->orderByDesc('usd')->get()->toArray();
+        if (!empty($result)) {
+            $data['list'] = $result;
+            foreach ($result as $each) {
+                if ($each['currency'] == 'theta') {
+                    $data['theta'] += $each['coins'];
+                } else if ($each['currency'] == 'tfuel') {
+                    $data['tfuel'] += $each['coins'];
+                }
+            }
+            Cache::put('stakings24H', $data);
+        }
+        return $data;
+    }
+
+    public function getStakings24H()
+    {
+        $data = Cache::get('stakings24H');
+        if (empty($data)) {
+            $data = $this->cacheStakings24H();
+        }
+        return $data;
+    }
+
+    public function cacheUnstakings24H()
+    {
+        $data = [
+            'theta' => 0,
+            'tfuel' => 0,
+            'list' => []
+        ];
+        $result = Transaction::where('type', 'unstake')->whereIn('currency', ['theta', 'tfuel'])->whereDate('date', '>=', now()->subHours(24))->orderByDesc('usd')->get()->toArray();
+        if (!empty($result)) {
+            $data['list'] = $result;
+            foreach ($result as $each) {
+                if ($each['currency'] == 'theta') {
+                    $data['theta'] += $each['coins'];
+                } else if ($each['currency'] == 'tfuel') {
+                    $data['tfuel'] += $each['coins'];
+                }
+            }
+            Cache::put('unstakings24H', $data);
+        }
+        return $data;
+    }
+
+    public function getUnstakings24H()
+    {
+        $data = Cache::get('unstakings24H');
+        if (empty($data)) {
+            $data = $this->cacheUnstakings24H();
         }
         return $data;
     }

@@ -8,6 +8,8 @@
         @include('elements/theta-stake-chart-card')
         @include('elements/tfuel-stake-chart-card')
         @include('elements/top-transactions-card')
+        @include('elements/stakings-24h-card')
+        @include('elements/unstakings-24h-card')
         @include('elements/unstakings-card')
         @include('elements/validators-card')
     </div>
