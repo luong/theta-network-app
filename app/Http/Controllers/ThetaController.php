@@ -34,7 +34,8 @@ class ThetaController extends Controller
             'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
             'unstakings' => $this->thetaService->getUnstakings(),
             'validators' => $this->thetaService->getValidators(),
-            'accounts' => $this->thetaService->getAccounts()
+            'accounts' => $this->thetaService->getAccounts(),
+            'tdropStakingRewardRate' => $this->thetaService->getTdropStakingRewardRate()
         ]);
     }
 

@@ -134,6 +134,22 @@ class ThetaService
         return $data;
     }
 
+    public function getTdropStakingRewardRate()
+    {
+        $data = Cache::get('tdropStakingRewardRate');
+        if (empty($data)) {
+            $data = $this->cacheTdropStakingRewardRate();
+        }
+        return $data;
+    }
+
+    public function cacheTdropStakingRewardRate() {
+        $tdropContract = resolve(TdropContract::class);
+        $rate = $tdropContract->stakesRewardAnnualRate();
+        Cache::put('tdropStakingRewardRate', $rate, now()->addMinutes(30));
+        return $rate;
+    }
+
     public function getThetaDropSalesChartData()
     {
         $data = Cache::get('tdropSalesChartData');

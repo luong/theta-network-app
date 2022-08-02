@@ -43,6 +43,10 @@
                 <div class="col">Stake Rate</div>
                 <div class="col">{{ number_format($networkInfo['tdrop_stake_rate'] * 100, 2) }}% ({{ ($networkInfo['tdrop_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tdrop_stake_change_24h'], 2, 'M') }})</div>
             </div>
+            <div class="row">
+                <div class="col">Stake Rewards</div>
+                <div class="col">{{ number_format($tdropStakingRewardRate * 100, 2) }}%</div>
+            </div>
         </div>
     </div>
 </div>
