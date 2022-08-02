@@ -277,6 +277,9 @@ class ThetaService
         $blockHeight = $onChainService->getBlockHeight();
         $transactions24h = $onChainService->getTransactions24h();
 
+        $tdropContract = resolve(TdropContract::class);
+        $tdropRewardRate = $tdropContract->stakesRewardAnnualRate();
+
         $info = [
             'validators' => $nodeStats['validators'],
             'elite_nodes' => $nodeStats['elites'],
@@ -305,6 +308,7 @@ class ThetaService
             'tdrop_supply_change_24h' => $tdropSupplyChange24h,
             'tdrop_stake_change_24h' => $tdropStakeChange24h,
             'tdrop_stake_rate' => round($stats['tdrop']['total_stakes'] / $stats['tdrop']['supply'], 4),
+            'tdrop_reward_rate' => $tdropRewardRate,
             'tvl_value' => $tvl['current_value'],
             'tvl_change_24h' => $tvl['change_24h'],
             'drop_24h' => $dropStats24H,
