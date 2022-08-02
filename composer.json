@@ -9,6 +9,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.2.0",
         "j7mbo/twitter-api-php": "^1.0",
+        "jacktop/ethereum-input-data-decoder": "dev-master",
         "laravel/framework": "^9.11.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "444f5914d0d865bd370da43727764e35",
+    "content-hash": "1c05f459c7efe044eb493daedc1232a4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1281,6 +1281,42 @@
                 "source": "https://github.com/J7mbo/twitter-api-php/tree/master"
             },
             "time": "2017-05-08T12:10:56+00:00"
+        },
+        {
+            "name": "jacktop/ethereum-input-data-decoder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacktop/ethereum-input-data-decoder.git",
+                "reference": "782dd67cb8df3146b38c5e9cf5b863f619ad4178"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacktop/ethereum-input-data-decoder/zipball/782dd67cb8df3146b38c5e9cf5b863f619ad4178",
+                "reference": "782dd67cb8df3146b38c5e9cf5b863f619ad4178",
+                "shasum": ""
+            },
+            "require": {
+                "kornrunner/keccak": "^1.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TWOamigos\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Aleksandar Dukleski",
+                    "email": "aleksandar@2amigos.us"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/jacktop/ethereum-input-data-decoder/tree/master"
+            },
+            "time": "2018-09-15T02:30:07+00:00"
         },
         {
             "name": "kornrunner/keccak",
@@ -8523,6 +8559,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "jacktop/ethereum-input-data-decoder": 20,
         "web3p/web3.php": 20
     },
     "prefer-stable": true,

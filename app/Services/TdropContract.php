@@ -12,7 +12,7 @@ class TdropContract
     const MAX_STAKING_WARDS = 4000000000;
 
     public function getTotalSypply() {
-        $contract = new Contract(Constants::WEB3_RPC, self::ABI);
+        $contract = $this->getTdropContact();
         $totalSupply = false;
         $contract->at(Constants::TDROP_CONTRACT_ID)->call('totalSupply', [], function ($err, $result) use (&$totalSupply) {
             $totalSupply = (float)$result[0]->toString();
@@ -21,7 +21,7 @@ class TdropContract
     }
 
     public function stakesRewarded() {
-        $contract = new Contract(Constants::WEB3_RPC, self::ABI);
+        $contract = $this->getTdropContact();
         $totalSupply = false;
         $contract->at(Constants::TDROP_CONTRACT_ID)->call('stakeRewardAccumulated', [], function ($err, $result) use (&$totalSupply) {
             $totalSupply = (float)$result[0]->toString() / Constants::THETA_WEI;
@@ -39,7 +39,7 @@ class TdropContract
     }
 
     public function getBalance($address) {
-        $contract = new Contract(Constants::WEB3_RPC, self::ABI);
+        $contract = $this->getTdropContact();
         $balance = false;
         $contract->at(Constants::TDROP_CONTRACT_ID)->call('balanceOf', $address, function ($err, $result) use (&$balance) {
             $balance = (float)$result[0]->toString() / Constants::THETA_WEI;
@@ -48,7 +48,7 @@ class TdropContract
     }
 
     public function getStakingTotalShares() {
-        $contract = new Contract(Constants::WEB3_RPC, self::STAKING_ABI);
+        $contract = $this->getStakingContact();
         $totalShares = false;
         $contract->at(Constants::TDROP_STAKING_ADDRESS)->call('totalShares', [], function ($err, $result) use (&$totalShares) {
             $totalShares = (float)$result[0]->toString() / Constants::THETA_WEI;
@@ -57,12 +57,20 @@ class TdropContract
     }
 
     public function getStakingEstimatedTDropOwnedBy($address) {
-        $contract = new Contract(Constants::WEB3_RPC, self::STAKING_ABI);
+        $contract = $this->getStakingContact();
         $amount = false;
         $contract->at(Constants::TDROP_STAKING_ADDRESS)->call('estimatedTDropOwnedBy', $address, function ($err, $result) use (&$amount) {
             $amount = (float)$result[0]->toString() / Constants::THETA_WEI;
         });
         return $amount;
+    }
+
+    public function getTdropContact() {
+        return new Contract(Constants::WEB3_RPC, self::ABI);
+    }
+
+    public function getStakingContact() {
+        return new Contract(Constants::WEB3_RPC, self::STAKING_ABI);
     }
 
 }
