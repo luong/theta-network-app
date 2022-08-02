@@ -262,7 +262,7 @@ class OnChainService
         return false;
     }
 
-    public function getAccount($id)
+    public function getAccount($id, $useTdrop = true)
     {
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/' . $id);
         if ($response->ok()) {
@@ -270,8 +270,11 @@ class OnChainService
             $theta = round($data['body']['balance']['thetawei'] / Constants::THETA_WEI, 2);
             $tfuel = round($data['body']['balance']['tfuelwei'] / Constants::THETA_WEI, 2);
 
-            $tdropContract = resolve(TdropContract::class);
-            $tdrop = round($tdropContract->getBalance($id), 2);
+            $tdrop = 0;
+            if ($useTdrop) {
+                $tdropContract = resolve(TdropContract::class);
+                $tdrop = round($tdropContract->getBalance($id), 2);
+            }
             $tdropStaking = 0;
 
             return [

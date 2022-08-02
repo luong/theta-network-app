@@ -542,10 +542,10 @@ class ThetaService
         ];
     }
 
-    public function addWhaleAccount($accountId, $name = null, $networkInfo = null)
+    public function addWhaleAccount($accountId, $name = null, $networkInfo = null, $useTdrop = true)
     {
         $onChainService = resolve(OnChainService::class);
-        $acc = $onChainService->getAccount($accountId);
+        $acc = $onChainService->getAccount($accountId, $useTdrop);
         if ($acc !== false) {
             if (empty($networkInfo)) {
                 $networkInfo = $this->getNetworkInfo();
