@@ -39,7 +39,7 @@ class NetworkController extends Controller
         if (!empty($search)) {
             $query->where('code', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%");
         }
-        $accounts = $query->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
+        $accounts = $query->orderByAsc('name')->paginate(1000)->withQueryString();
         return view('admin.network.accounts', [
             'accounts' => $accounts,
             'search' => $search
