@@ -59,6 +59,7 @@ class Whales extends Command
                 continue;
             }
             $thetaService->addWhaleAccount($whale->to_account);
+            sleep(1);
         }
         $thetaService->cacheTrackingAccounts();
 
