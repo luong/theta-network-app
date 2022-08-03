@@ -22,7 +22,7 @@ class Constants
     const WHALE_MIN_BALANCE = 500000;
     const DONATE_ACCOUNT_ID = '0x77b4a8bceac10762b4e5902e29428dbfb4348003';
     CONST NFT_SALE_TWEET_AMOUNT = 500;
-    CONST NFT_TWEET_LIMIT = 2;
+    CONST NFT_TWEET_LIMIT = 1;
 
     const COINGECKO_API_URL = 'https://api.coingecko.com';
 
