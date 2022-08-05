@@ -22,11 +22,6 @@ class MessageService
         if (!empty($wallet)) {
             Mail::to($wallet->user->email)->queue(new WalletRadarEmail(['account' => $wallet->address, 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
         }
-
-        $wallet = Wallet::where('address', $transaction['to'])->first();
-        if (!empty($wallet)) {
-            Mail::to($wallet->user->email)->queue(new WalletRadarEmail(['account' => $wallet->address, 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
-        }
     }
 
     public function hasLargeTransaction($tx)
