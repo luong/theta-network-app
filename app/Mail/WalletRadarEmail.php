@@ -30,7 +30,7 @@ class WalletRadarEmail extends Mailable
     public function build()
     {
         $subject = 'Activities of Your Theta Wallet';
-        $message = 'We just detected a ' . $this->params['activity'] . ' from your theta wallet. Please <a href="https://explorer.thetatoken.org/account/' . $this->params['account'] . '">check it here</a>';
+        $message = 'We just detected an activity of ' . $this->params['action'] . ' ' .  $this->params['amount'] . ' from your theta wallet. Please <a href="https://explorer.thetatoken.org/account/' . $this->params['account'] . '">check it here</a>';
         return $this->subject($subject)->view('emails.wallet_radar')->with([
             'notif' => $message
         ]);

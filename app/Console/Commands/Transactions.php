@@ -259,6 +259,8 @@ class Transactions extends Command
                     $data
                 );
 
+                $messageService->notifyWalletChanges($each);
+
                 $newTransactionIds[] = $data['txn'];
             }
 

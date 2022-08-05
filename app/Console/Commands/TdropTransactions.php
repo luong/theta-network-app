@@ -119,6 +119,8 @@ class TdropTransactions extends Command
                     $data
                 );
 
+                $messageService->notifyWalletChanges($each);
+
                 $newTransactionIds[] = $data['txn'];
             }
         }

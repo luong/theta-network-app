@@ -3,12 +3,31 @@
 namespace App\Services;
 use App\Helpers\Constants;
 use App\Helpers\Helper;
+use App\Mail\WalletRadarEmail;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 use Noweh\TwitterApi\Client;
 use TwitterAPIExchange;
 
 class MessageService
 {
+
+    public function notifyWalletChanges($transaction) {
+        if ($transaction['usd'] < Constants::USER_WALLET_TRACK_AMOUNT) {
+            return;
+        }
+
+        $wallet = Wallet::where('address', $transaction['from'])->first();
+        if (!empty($wallet)) {
+            Mail::to($wallet->user->email)->queue(new WalletRadarEmail(['account' => $wallet->address, 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
+        }
+
+        $wallet = Wallet::where('address', $transaction['to'])->first();
+        if (!empty($wallet)) {
+            Mail::to($wallet->user->email)->queue(new WalletRadarEmail(['account' => $wallet->address, 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
+        }
+    }
 
     public function hasLargeTransaction($tx)
     {

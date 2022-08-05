@@ -51,5 +51,5 @@ class Constants
     const WEB3_RPC = 'https://eth-rpc-api.thetatoken.org/rpc';
 
     const USER_WALLET_TRACK_LIMIT = 2;
-    const USER_WALLET_TRACK_AMOUNT = 100;
+    const USER_WALLET_TRACK_AMOUNT = 50;
 }
