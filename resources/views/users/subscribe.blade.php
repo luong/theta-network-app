@@ -46,7 +46,7 @@
                                     <li>We don't use your emails for any other purpose.</li>
                                     <li>An email is registered two wallet addresses.</li>
                                     <li>Tracking events: transfers, stakes, unstakes.</li>
-                                    <li>Only transactions with amount above 100 USD notified.</li>
+                                    <li>Only transactions with amount above {{ Constants::USER_WALLET_TRACK_AMOUNT }} USD notified.</li>
                                     <li>For limited resources, we just send one email for one wallet per day.</li>
                                     <li>Use Untrack button to delete your data from our database.</li>
                                 </ul>
