@@ -1,4 +1,4 @@
-<x-layout title="Track Accounts" pageName="trackAccounts">
+<x-layout title="Subscribe" pageName="subscribe">
     <div class="track-account-page">
         <div class="container">
             @if ($errors->any())
