@@ -49,4 +49,7 @@ class Constants
     const LOG_LIFETIME_DAYS = 30;
 
     const WEB3_RPC = 'https://eth-rpc-api.thetatoken.org/rpc';
+
+    const USER_WALLET_TRACK_LIMIT = 2;
+    const USER_WALLET_TRACK_AMOUNT = 100;
 }
