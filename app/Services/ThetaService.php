@@ -562,7 +562,7 @@ class ThetaService
         ];
     }
 
-    public function addWhaleAccount($accountId, $name = null, $networkInfo = null, $useTdrop = true)
+    public function addTrackingAccount($accountId, $name = null, $networkInfo = null, $useTdrop = true)
     {
         $onChainService = resolve(OnChainService::class);
         $acc = $onChainService->getAccount($accountId, $useTdrop);
@@ -571,21 +571,19 @@ class ThetaService
                 $networkInfo = $this->getNetworkInfo();
             }
             $usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
-            if ($usd >= Constants::WHALE_MIN_BALANCE) {
-                TrackingAccount::updateOrCreate(
-                    ['code' => $accountId],
-                    [
-                        'code' => $accountId,
-                        'name' => $name,
-                        'balance_theta' => round($acc['balance']['theta'], 2),
-                        'balance_tfuel' => round($acc['balance']['tfuel'], 2),
-                        'balance_tdrop' => round($acc['balance']['tdrop'], 2),
-                        'staking_tdrop' => round($acc['staking']['tdrop'], 2),
-                        'balance_usd' => $usd
-                    ]
-                );
-                return true;
-            }
+            TrackingAccount::updateOrCreate(
+                ['code' => $accountId],
+                [
+                    'code' => $accountId,
+                    'name' => $name,
+                    'balance_theta' => round($acc['balance']['theta'], 2),
+                    'balance_tfuel' => round($acc['balance']['tfuel'], 2),
+                    'balance_tdrop' => round($acc['balance']['tdrop'], 2),
+                    'staking_tdrop' => round($acc['staking']['tdrop'], 2),
+                    'balance_usd' => $usd
+                ]
+            );
+            return true;
         }
         return false;
     }

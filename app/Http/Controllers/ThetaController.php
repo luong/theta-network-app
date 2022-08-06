@@ -150,7 +150,7 @@ class ThetaController extends Controller
 
     public function addWhale($id)
     {
-        if ($this->thetaService->addWhaleAccount($id, null)) {
+        if ($this->thetaService->addTrackingAccount($id, null)) {
             $this->thetaService->cacheTrackingAccounts();
             return back()->with('message', ['success', 'This whale wallet added successfully.']);
         } else {

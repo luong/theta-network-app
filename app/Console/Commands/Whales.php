@@ -58,8 +58,9 @@ class Whales extends Command
             if (in_array($whale->to_account, $whaleAccountIds)) {
                 continue;
             }
-            $thetaService->addWhaleAccount($whale->to_account, null, null, false);
+            $thetaService->addTrackingAccount($whale->to_account, null, null, false);
         }
+
         $thetaService->cacheTrackingAccounts();
 
         $thetaService->setCommandTracker('Whales', 'last_run', time());

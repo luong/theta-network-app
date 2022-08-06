@@ -57,7 +57,6 @@ class Accounts extends Command
             $thetaService->updateTrackingAccount($trackingAccount, $networkInfo);
             sleep(1);
         }
-        TrackingAccount::where('balance_usd', '<', Constants::WHALE_MIN_BALANCE)->delete();
         $thetaService->cacheTrackingAccounts();
 
         $thetaService->setCommandTracker('Accounts', 'last_run', time());
