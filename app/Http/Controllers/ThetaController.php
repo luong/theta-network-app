@@ -44,7 +44,12 @@ class ThetaController extends Controller
         if (empty($tags)) {
             $tags = 'not found';
         }
-        $trackingAccounts = TrackingAccount::where('name', 'like', "%{$tags}%")->orderByDesc('balance_usd')->get();
+        $trackingAccounts = DB::table('tracking_accounts')
+            ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
+            ->where('accounts.name', 'like', "%{$tags}%")
+            ->orderByDesc('tracking_accounts.balance_usd')
+            ->select('tracking_accounts.*')
+            ->get();
         $accounts = $this->thetaService->getAccounts();
         return view('theta.accounts', [
             'trackingAccounts' => $trackingAccounts,
