@@ -40,7 +40,7 @@
                             <div class="mt-4 fw-bold">** Notes:</div>
                             <div class="text">
                                 <ul>
-                                    <li>This function is for tracking your wallet's outbound activities, then email to you.</li>
+                                    <li>This function is for tracking your wallet's activities, then email to you.</li>
                                     <li>We never ask you for passwords, private keys, mnemonic words.</li>
                                     <li>Your emails are only used to receiving notifications about your wallets.</li>
                                     <li>We don't use your emails for any other purpose.</li>
