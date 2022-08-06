@@ -178,7 +178,7 @@ class DailyTweet2 extends Command
         $y = $yRow3 - 10;
         imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Theta Drop');
         $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Transactions: ' . $dropTransactions);
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Transfers: ' . $dropTransactions);
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Total Sales: ' . $dropSales);
 
