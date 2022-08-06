@@ -10,6 +10,7 @@ Route::get('/transaction/{id}', [ThetaController::class, 'transaction'])->name('
 Route::get('/nft', [ThetaController::class, 'nft'])->name('nft');
 Route::get('/whales', [ThetaController::class, 'whales'])->name('whales');
 Route::get('/whales/add/{id}', [ThetaController::class, 'addWhale'])->name('whales.add');
+Route::get('/accounts', [ThetaController::class, 'accounts'])->name('accounts');
 
 Route::get('/subscribe', [UsersController::class, 'subscribe'])->name('subscribe');
 Route::post('/track-wallet', [UsersController::class, 'trackWallet'])->name('trackWallet');

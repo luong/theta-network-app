@@ -18846,6 +18846,10 @@ textarea.form-control-lg {
   border: 1px solid #dee2e6;
   border-radius: 1px;
 }
+.whales-page .not-found {
+  text-align: center;
+  margin-top: 70px;
+}
 
 .page-message {
   width: 100%;

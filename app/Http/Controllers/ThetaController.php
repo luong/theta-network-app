@@ -39,6 +39,19 @@ class ThetaController extends Controller
         ]);
     }
 
+    public function accounts() {
+        $tags = request('tags');
+        if (empty($tags)) {
+            $tags = 'not found';
+        }
+        $trackingAccounts = TrackingAccount::where('name', 'like', "%{$tags}%")->orderByDesc('balance_usd')->get();
+        $accounts = $this->thetaService->getAccounts();
+        return view('theta.accounts', [
+            'trackingAccounts' => $trackingAccounts,
+            'accounts' => $accounts
+        ]);
+    }
+
     public function account($id)
     {
         $networkInfo = $this->thetaService->getNetworkInfo();
