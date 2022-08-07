@@ -57,10 +57,8 @@ class Stakes extends Command
         $this->networkInfo = $this->thetaService->getNetworkInfo();
         $oldValidators = $this->thetaService->cacheValidators();
 
-        //$this->persistStakes('tfuel', '/api/stake/all?types[]=eenp');
-        //$this->persistStakes('theta', '/api/stake/all?types[]=gcp&types[]=vcp');
-        $this->updateAccountStakings();
-        exit;
+        $this->persistStakes('tfuel', '/api/stake/all?types[]=eenp');
+        $this->persistStakes('theta', '/api/stake/all?types[]=gcp&types[]=vcp');
 
         $latestValidators = $this->thetaService->cacheValidators();
 
@@ -146,7 +144,4 @@ class Stakes extends Command
         }
     }
 
-    private function updateAccountStakings() {
-        $stakes = DB::select('SELECT source, currency, SUM(coins) AS coins FROM stakes GROUP BY source, currency');
-    }
 }
