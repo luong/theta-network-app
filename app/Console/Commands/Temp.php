@@ -52,12 +52,7 @@ class Whales extends Command
      */
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        $accountIds = Account::all('code')->pluck('code')->toArray();
-        foreach ($accountIds as $accountId) {
-            $thetaService->addTrackingAccount($accountId, null, null, true);
-        }
-
-        $thetaService->cacheTrackingAccounts();
+        print_r(Stake::query()->selectRaw('SELECT source, currency, SUM(coins) FROM theta.stakes GROUP BY source, currency'))->get();
 
         $this->info('Done');
         return 0;
