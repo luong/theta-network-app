@@ -54,7 +54,7 @@ class Whales extends Command
     {
         $accountIds = Account::all('code')->pluck('code')->toArray();
         foreach ($accountIds as $accountId) {
-            $thetaService->addTrackingAccount($accountId, null, null, false);
+            $thetaService->addTrackingAccount($accountId, null, null, true);
         }
 
         $this->info('Done');
