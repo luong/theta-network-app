@@ -66,6 +66,7 @@ class DailyTweet2 extends Command
         $thetaMarketCap = Helper::formatPrice($coins['THETA']['market_cap'], 2, 'B');
         $tfuelMarketCap = Helper::formatPrice($coins['TFUEL']['market_cap'], 2, 'M');
         $tdropMarketCap = Helper::formatPrice($coins['TDROP']['market_cap'], 2, 'M');
+        $tdropStakeRewards = number_format($thetaService->getTdropStakingRewardRate() * 100, 2) . '%';
         $dropTransactions = Helper::formatNumber($networkInfo['drop_24h']['times']) . ' (' . ($networkInfo['drop_times_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_times_change_24h'] * 100, 2) . '%)';
         $dropSales = Helper::formatPrice($networkInfo['drop_24h']['total']) . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)';
 
@@ -88,15 +89,14 @@ class DailyTweet2 extends Command
         $textColor = imagecolorallocate($image, 255, 255, 255);
 
         // Title
-        $y = $yRow0;
-        imagettftext($image, 18, 0, $xCol1, $y, $textColor, $fontBold, 'THETA Updates');
+        $y = $yRow0 - 10;
+        imagettftext($image, 20, 0, $xCol1 - 10, $y, $textColor, $fontBold, 'ThetaPizza');
         $y += $lineHeight;
-        imagettftext($image, 10, 0, $xCol1, $y, $textColor, $fontLight, '@ThetaPizza ' . $now);
-        imagerectangle($image, $xCol1 - 10, $y - 50, 250, 85, $textColor);
+        imagettftext($image, 12, 0, $xCol1 - 10, $y, $textColor, $fontLight, $now);
 
         // Network
         $x = $xCol1;
-        $y = $yRow1;
+        $y = $yRow1 - 15;
         imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Network');
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'TVL: ' . $tvl);
@@ -139,26 +139,9 @@ class DailyTweet2 extends Command
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Supply: 1B');
 
-        // Tfuel
-        $x = $xCol1;
-        $y = $yRow2 + 50;
-        imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Tfuel');
-        $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Price: ' . $tfuelPrice);
-        $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Vol. 24H: ' . $tfuelVol24h);
-        $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'M. Cap: ' . $tfuelMarketCap);
-        $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Ranking: ' . $coins['TFUEL']['market_cap_rank']);
-        $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Staking: ' . $tfuelStakes);
-        $y += $lineHeight;
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Supply: ' . $tfuelSupply);
-
         // Tdrop
-        $x = $xCol2;
-        $y = $yRow2 - 20;
+        $x = $xCol1;
+        $y = $yRow2 + 35;
         imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Tdrop');
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Price: ' . $tdropPrice);
@@ -172,6 +155,25 @@ class DailyTweet2 extends Command
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Staking: ' . $tdropStakes);
         $y += $lineHeight;
         imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Supply: ' . $tdropSupply);
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Stake Rewards: ' . $tdropStakeRewards);
+
+        // Tfuel
+        $x = $xCol2;
+        $y = $yRow2 - 20;
+        imagettftext($image, $fontHeadingSize, 0, $x - 10, $y, $textColor, $fontBold, '* Tfuel');
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Price: ' . $tfuelPrice);
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Vol. 24H: ' . $tfuelVol24h);
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'M. Cap: ' . $tfuelMarketCap);
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Ranking: ' . $coins['TFUEL']['market_cap_rank']);
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Staking: ' . $tfuelStakes);
+        $y += $lineHeight;
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontRegular, 'Supply: ' . $tfuelSupply);
 
         // Theta Drop
         $x = $xCol2;
