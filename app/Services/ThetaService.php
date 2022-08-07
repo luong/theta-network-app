@@ -265,6 +265,7 @@ class ThetaService
     {
         $onChainService = resolve(OnChainService::class);
         $stats = $onChainService->getThetaStats();
+        $coinList = $this->getCoinList();
         $nodeStats = $this->getNodeStats();
         $dropStats24H = $this->getDropStats24H();
         $tvl = $onChainService->getTVL();
@@ -318,7 +319,7 @@ class ThetaService
             'tfuel_supply_change_24h' => $tfuelSupplyChange24h,
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
             'tfuel_volume_change_24h' => $tfuelVolChange24h,
-            'tdrop_price' => $stats['tdrop']['price'],
+            'tdrop_price' => $coinList['TDROP']['price'],
             'tdrop_volume_change_24h' => $tdropVolChange24h,
             'tdrop_supply' => $stats['tdrop']['supply'],
             'tdrop_supply_change_24h' => $tdropSupplyChange24h,
