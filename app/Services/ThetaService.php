@@ -580,6 +580,8 @@ class ThetaService
                     'balance_theta' => round($acc['balance']['theta'], 2),
                     'balance_tfuel' => round($acc['balance']['tfuel'], 2),
                     'balance_tdrop' => round($acc['balance']['tdrop'], 2),
+                    'staking_theta' => round($acc['staking']['theta'], 2),
+                    'staking_tfuel' => round($acc['staking']['tfuel'], 2),
                     'staking_tdrop' => round($acc['staking']['tdrop'], 2),
                     'balance_usd' => $usd
                 ]
@@ -600,6 +602,8 @@ class ThetaService
             $trackingAccount->balance_theta = $acc['balance']['theta'];
             $trackingAccount->balance_tfuel = $acc['balance']['tfuel'];
             $trackingAccount->balance_tdrop = $acc['balance']['tdrop'];
+            $trackingAccount->staking_theta = $acc['staking']['theta'];
+            $trackingAccount->staking_tfuel = $acc['staking']['tfuel'];
             $trackingAccount->staking_tdrop = $acc['staking']['tdrop'];
             $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
             $trackingAccount->save();
@@ -644,6 +648,22 @@ class ThetaService
             $data = $this->cacheSettings();
         }
         return $data;
+    }
+
+    public function getStakingsByAccountId($accountId) {
+        $result = DB::select("SELECT source, currency, SUM(coins) AS coins FROM stakes GROUP BY source, currency HAVING source = ?", [$accountId]);
+        $theta = 0;
+        $tfuel = 0;
+        if (!empty($result)) {
+            foreach ($result as $each) {
+                if ($each->currency == 'theta') {
+                    $theta = $each->coins;
+                } else if ($each->currency == 'tfuel') {
+                    $tfuel = $each->coins;
+                }
+            }
+        }
+        return ['theta' => $theta, 'tfuel' => $tfuel, 'tdrop' => 0];
     }
 
 }

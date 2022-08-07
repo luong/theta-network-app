@@ -275,7 +275,9 @@ class OnChainService
                 $tdropContract = resolve(TdropContract::class);
                 $tdrop = round($tdropContract->getBalance($id), 2);
             }
-            $tdropStaking = 0;
+
+            $thetaService = resolve(ThetaService::class);
+            $stakings = $thetaService->getStakingsByAccountId($id);
 
             return [
                 'id' => $id,
@@ -285,9 +287,9 @@ class OnChainService
                     'tdrop' => $tdrop
                 ],
                 'staking' => [
-                    'theta' => 0,
-                    'tfuel' => 0,
-                    'tdrop' => $tdropStaking
+                    'theta' => $stakings['theta'],
+                    'tfuel' => $stakings['tfuel'],
+                    'tdrop' => $stakings['tdrop']
                 ]
             ];
 

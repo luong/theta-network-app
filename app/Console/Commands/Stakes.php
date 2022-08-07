@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+ini_set('memory_limit', -1);
+
 use App\Helpers\Constants;
 use App\Helpers\Helper;
 use App\Models\Account;
@@ -55,8 +57,10 @@ class Stakes extends Command
         $this->networkInfo = $this->thetaService->getNetworkInfo();
         $oldValidators = $this->thetaService->cacheValidators();
 
-        $this->persistStakes('tfuel', '/api/stake/all?types[]=eenp');
-        $this->persistStakes('theta', '/api/stake/all?types[]=gcp&types[]=vcp');
+        //$this->persistStakes('tfuel', '/api/stake/all?types[]=eenp');
+        //$this->persistStakes('theta', '/api/stake/all?types[]=gcp&types[]=vcp');
+        $this->updateAccountStakings();
+        exit;
 
         $latestValidators = $this->thetaService->cacheValidators();
 
@@ -140,5 +144,9 @@ class Stakes extends Command
         } else {
             Log::channel('db')->error('Request failed: ' . $url);
         }
+    }
+
+    private function updateAccountStakings() {
+        $stakes = DB::select('SELECT source, currency, SUM(coins) AS coins FROM stakes GROUP BY source, currency');
     }
 }
