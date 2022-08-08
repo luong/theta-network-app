@@ -52,7 +52,7 @@ class Whales extends Command
      */
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        print_r(Stake::query()->selectRaw('SELECT source, currency, SUM(coins) FROM theta.stakes GROUP BY source, currency'))->get();
+        print_r(123);
 
         $this->info('Done');
         return 0;
