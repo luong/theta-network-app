@@ -68,7 +68,7 @@ class DailyTweet2 extends Command
         $tdropMarketCap = Helper::formatPrice($coins['TDROP']['market_cap'], 2, 'M');
         $tdropStakeRewards = number_format($thetaService->getTdropStakingRewardRate() * 100, 2) . '%';
         $dropTransactions = Helper::formatNumber($networkInfo['drop_24h']['times']) . ' (' . ($networkInfo['drop_times_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_times_change_24h'] * 100, 2) . '%)';
-        $dropSales = Helper::formatPrice($networkInfo['drop_24h']['total']) . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)';
+        $dropSales = Helper::formatPrice($networkInfo['drop_24h']['total'], 2, 'K') . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)';
 
         $fontLight = public_path('fonts/Roboto-Light.ttf');
         $fontRegular = public_path('fonts/Roboto-Regular.ttf');
