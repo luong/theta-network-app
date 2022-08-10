@@ -282,7 +282,7 @@ class ThetaService
         $activeWalletsChange24h = round($lastestChains[0]->active_wallets - $lastestChains[1]->active_wallets);
 
         $dropTimesChange24h = round(($lastestChains[0]->drops['times'] - $lastestChains[1]->drops['times']) / $lastestChains[1]->drops['times'], 2);
-        $dropSalesChange24h = round(($lastestChains[0]->drops['total'] - $lastestChains[1]->drops['total']) / $lastestChains[1]->drops['total'], 2);
+        $dropSalesChange24h = @round(($lastestChains[0]->drops['total'] - $lastestChains[1]->drops['total']) / $lastestChains[1]->drops['total'], 2);
 
         $thetaVolChange24h = $lastestThetaCoins[0]->volume_24h - $lastestThetaCoins[1]->volume_24h;
         $tfuelVolChange24h = $lastestTfuelCoins[0]->volume_24h - $lastestTfuelCoins[1]->volume_24h;
