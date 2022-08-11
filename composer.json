@@ -16,6 +16,7 @@
         "laravel/ui": "^3.4",
         "league/flysystem-aws-s3-v3": "^3.0",
         "noweh/twitter-api-v2-php": "^2.1",
+        "sendgrid/sendgrid": "^8.0",
         "web3p/web3.php": "dev-master"
     },
     "require-dev": {
