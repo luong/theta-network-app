@@ -67,6 +67,7 @@ class UsersController extends Controller
         foreach ($addresses as $address) {
             $user->wallets()->save(new Wallet(['address' => $address]));
         }
+        $this->thetaService->cacheWallets();
         return back()->with('message', 'Wallets tracked: ' . implode(', ', $addresses));
     }
 
@@ -77,6 +78,7 @@ class UsersController extends Controller
         ]);
         $user = User::with('wallets')->where('email', request('email'))->first();
         $user->delete();
+        $this->thetaService->cacheWallets();
         return back()->with('message', 'Your data was deleted from our database.');
     }
 

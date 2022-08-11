@@ -666,4 +666,25 @@ class ThetaService
         return ['theta' => $theta, 'tfuel' => $tfuel, 'tdrop' => 0];
     }
 
+    public function cacheWallets() {
+        $wallets = DB::select("SELECT wallets.address, users.email FROM wallets INNER JOIN users ON wallets.user_id = users.id");
+        $result = [];
+        if (!empty($wallets)) {
+            foreach ($wallets as $each) {
+                $result[$each->address] = $each->email;
+            }
+        }
+        Cache::put('wallets', $result);
+        return $result;
+    }
+
+    public function getWallets()
+    {
+        $data = Cache::get('wallets');
+        if (empty($data)) {
+            $data = $this->cacheWallets();
+        }
+        return $data;
+    }
+
 }

@@ -4,7 +4,6 @@ namespace App\Services;
 use App\Helpers\Constants;
 use App\Helpers\Helper;
 use App\Mail\WalletRadarEmail;
-use App\Models\Wallet;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Noweh\TwitterApi\Client;
@@ -18,14 +17,14 @@ class MessageService
             return;
         }
 
-        $wallet = Wallet::where('address', $transaction['from'])->first();
-        if (!empty($wallet)) {
-            Mail::to($wallet->user->email)->queue(new WalletRadarEmail(['account' => $wallet->address, 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
+        $wallets = resolve(ThetaService::class)->getWallets();
+
+        if (isset($wallets[$transaction['from']])) {
+            Mail::to($wallets[$transaction['from']])->send(new WalletRadarEmail(['to' => $wallets[$transaction['from']], 'account' => $transaction['from'], 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
         }
 
-        $wallet = Wallet::where('address', $transaction['to'])->first();
-        if (!empty($wallet)) {
-            Mail::to($wallet->user->email)->queue(new WalletRadarEmail(['account' => $wallet->address, 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
+        if (isset($wallets[$transaction['to']])) {
+            Mail::to($wallets[$transaction['to']])->send(new WalletRadarEmail(['to' => $wallets[$transaction['to']], 'account' => $transaction['to'], 'action' => $transaction['type'], 'amount' => $transaction['amount']]));
         }
     }
 
