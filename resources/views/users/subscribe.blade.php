@@ -43,11 +43,9 @@
                                     <li>This function is for tracking your wallet's activities, then email to you.</li>
                                     <li>We never ask you for passwords, private keys, mnemonic words.</li>
                                     <li>Your emails are only used to receiving notifications about your wallets.</li>
-                                    <li>We don't use your emails for any other purpose.</li>
-                                    <li>An email is registered two wallet addresses.</li>
                                     <li>Tracking events: transfers, stakes, unstakes.</li>
                                     <li>Only transactions with amount above {{ Constants::USER_WALLET_TRACK_AMOUNT }} USD notified.</li>
-                                    <li>For limited resources, we just send one email for one wallet per day.</li>
+                                    <li>For limited resources, we just send one email for you per day.</li>
                                     <li>Use Untrack button to delete your data from our database.</li>
                                 </ul>
                             </div>
