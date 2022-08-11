@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Helpers\Constants;
+use App\Mail\WalletRadarEmail;
 use App\Models\Account;
 use App\Models\Stake;
 use App\Models\TrackingAccount;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 
 class Whales extends Command
@@ -52,7 +54,7 @@ class Whales extends Command
      */
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        print_r(123);
+        Mail::to('luongfox@gmail.com')->send(new WalletRadarEmail(['account' => '0x123456789', 'action' => 'transfer', 'amount' => '1,000 $theta ($1,600)']));
 
         $this->info('Done');
         return 0;
