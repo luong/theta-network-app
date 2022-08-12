@@ -153,7 +153,7 @@ class MessageService
 
     public function hasNews($newsUrl)
     {
-        $tweet = "#THETA news: {$newsUrl}";
+        $tweet = "#THETA news {$newsUrl}";
         return $this->tweetText($tweet);
     }
 
