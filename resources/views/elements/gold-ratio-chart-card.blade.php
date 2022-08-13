@@ -19,8 +19,8 @@
                 datasets: [{
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
-                    pointStyle: 'circle',
-                    pointRadius: 1,
+                    borderWidth: 1,
+                    radius: 0,
                     data: @json($data),
                 }]
             },
@@ -40,6 +40,15 @@
                 parsing: {
                     xAxisKey: 'date',
                     yAxisKey: 'ratio'
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            callback: function(val, index) {
+                                return index % 4 === 0 ? this.getLabelForValue(val) : '';
+                            }
+                        }
+                    }
                 }
             }
         }
