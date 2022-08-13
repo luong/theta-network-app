@@ -21,13 +21,17 @@
             data: {
                 datasets: [{
                     backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    pointStyle: 'circle',
-                    pointRadius: 3,
+                    borderColor: '#3080d0',
+                    borderWidth: 1.5,
+                    radius: 0,
                     data: @json($tfuelFreeSupplyChartData),
                 }]
             },
             options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
                 plugins: {
                     legend: {
                         display: false

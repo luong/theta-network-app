@@ -18,13 +18,18 @@
             data: {
                 datasets: [{
                     backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    borderColor: '#3080d0',
                     borderWidth: 1,
                     radius: 0,
                     data: @json($data),
                 }]
             },
             options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
                 plugins: {
                     legend: {
                         display: false
