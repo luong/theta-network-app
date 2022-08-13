@@ -157,4 +157,11 @@ class ThetaController extends Controller
             return back()->with('message', ['error', 'Failed. This whale wallet doesn\'t meet our requirements.']);
         }
     }
+
+    public function goldRatioChart()
+    {
+        return view('theta.gold_ratio_chart', [
+            'data' => $this->thetaService->getHistoryPrices()
+        ]);
+    }
 }

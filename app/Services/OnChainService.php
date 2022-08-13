@@ -594,4 +594,35 @@ class OnChainService
         return false;
     }
 
+    public function getHistoryPricesInBinance()
+    {
+        $response = Http::get('https://www.binance.com/api/v3/uiKlines?limit=1000&symbol=TFUELUSDT&interval=1d');
+        $data = $response->json();
+        $tfuelData = [];
+        foreach ($data as $each) {
+            $timestamp = substr($each[0], 0, 10);
+            $date = date('Y-m-d', $timestamp);
+            $price = round($each[1], 5);
+            $tfuelData[$date] = $price;
+        }
+
+        $response = Http::get('https://www.binance.com/api/v3/uiKlines?limit=1000&symbol=THETAUSDT&interval=1d');
+        $data = $response->json();
+        $thetaData = [];
+        foreach ($data as $each) {
+            $timestamp = substr($each[0], 0, 10);
+            $date = date('Y-m-d', $timestamp);
+            $price = round($each[1], 5);
+            $thetaData[$date] = $price;
+        }
+
+        $data = [];
+        foreach ($tfuelData as $date => $tfuelPrice) {
+            $thetaPrice = $thetaData[$date];
+            $ratio = round($thetaPrice / $tfuelPrice, 1);
+            $data[] = ['date' => $date, 'theta' => $thetaPrice, 'tfuel' => $tfuelPrice, 'ratio' => $ratio];
+        }
+        return $data;
+    }
+
 }

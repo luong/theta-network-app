@@ -35,6 +35,7 @@ class ThetaService
         $this->cacheCommandTrackers();
         $this->cacheDrops();
         $this->cacheSettings();
+        $this->cacheHistoryPrices();
     }
 
     public function recaching()
@@ -684,6 +685,23 @@ class ThetaService
         if (empty($data)) {
             $data = $this->cacheWallets();
         }
+        return $data;
+    }
+
+    public function getHistoryPrices()
+    {
+        $data = Cache::get('history_prices');
+        if (empty($data)) {
+            $data = $this->cacheHistoryPrices();
+        }
+        return $data;
+    }
+
+    public function cacheHistoryPrices()
+    {
+        $onChainService = resolve(OnChainService::class);
+        $data = $onChainService->getHistoryPricesInBinance();
+        Cache::put('history_prices', $data);
         return $data;
     }
 

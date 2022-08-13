@@ -54,8 +54,7 @@ class Temp extends Command
      */
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        Mail::to('luongfox@gmail.com')->send(new WalletRadarEmail(['account' => '0x123456789', 'action' => 'transfer', 'amount' => '1,000 $theta ($1,600)']));
-
+        print_r($thetaService->cacheHistoryPrices());
         $this->info('Done');
         return 0;
     }

@@ -93,6 +93,7 @@ class DailyStats extends Command
             $thetaService->cacheTfuelFreeSupplyChartData();
             $thetaService->cacheEliteNodeChartData();
             $thetaService->cacheThetaDropSalesChartData();
+            $thetaService->cacheHistoryPrices();
 
             $thetaService->setCommandTracker('DailyStats', 'last_run', time());
         }

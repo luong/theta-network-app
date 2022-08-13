@@ -20,3 +20,4 @@ Route::get('/chart/theta-stake', [ThetaController::class, 'thetaStakeChart'])->n
 Route::get('/chart/tfuel-stake', [ThetaController::class, 'tfuelStakeChart'])->name('tfuelStakeChart');
 Route::get('/chart/tfuel-free-supply', [ThetaController::class, 'tfuelFreeSupplyChart'])->name('tfuelFreeSupplyChart');
 Route::get('/chart/elite-node', [ThetaController::class, 'eliteNodeChart'])->name('eliteNodeChart');
+Route::get('/chart/gold-ratio', [ThetaController::class, 'goldRatioChart'])->name('goldRatioChart');
