@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 
-class Whales extends Command
+class Temp extends Command
 {
     /**
      * The name and signature of the console command.
