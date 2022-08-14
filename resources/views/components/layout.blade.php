@@ -45,10 +45,28 @@
             </button>
             <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
                 <div class="navbar-nav">
-                    <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
-                    <a id="nftLink" class="nav-link text-secondary fs-5" href="/nft"><span class="bi bi-valentine"></span> ThetaDrop</a>
-                    <a id="subscribeLink" class="nav-link text-secondary fs-5" href="/subscribe"><span class="bi bi-wallet2"></span> Subscribe</a>
-                    <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaPizza" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="nftLink" class="nav-link text-secondary fs-5" href="/nft"><span class="bi bi-valentine"></span> ThetaDrop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="subscribeLink" class="nav-link text-secondary fs-5" href="/subscribe"><span class="bi bi-wallet2"></span> Subscribe</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-bar-chart"></span> Charts</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/chart/theta-stake">Theta Stakes</a></li>
+                            <li><a class="dropdown-item" href="/chart/tfuel-stake">Tfuel Stakes</a></li>
+                            <li><a class="dropdown-item" href="/chart/elite-node">Elite Nodes</a></li>
+                            <li><a class="dropdown-item" href="/chart/gold-ratio">Gold Ratio</a></li>
+                            <li><a class="dropdown-item" href="/chart/theta-drop-sales">Theta Drop Sales</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaPizza" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
+                    </li>
                 </div>
             </div>
         </div>

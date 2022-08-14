@@ -2,9 +2,6 @@
     <div class="nft-page">
         <div class="drops">
             <div class="sizer"></div>
-            <div class="drop sales-chart d-flex align-items-center justify-content-center col col-12">
-                @include('elements/theta-drop-sales-chart-card')
-            </div>
             @foreach ($drops as $drop)
                 <div class="{{ $drop['class'] }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="{{ $drop['name'] }}"><a href="{{ \App\Helpers\Helper::makeDropOrderURL($drop['transaction_id']) }}" target="_blank"><img class="img" src="{{ $drop['image'] . '?w=200' }}"/></a></div>
             @endforeach

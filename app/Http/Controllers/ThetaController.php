@@ -164,4 +164,12 @@ class ThetaController extends Controller
             'data' => $this->thetaService->getHistoryPrices()
         ]);
     }
+
+    public function thetaDropSalesChart()
+    {
+        return view('theta.theta_drop_sales_chart', [
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'thetaDropSalesChartData' => $this->thetaService->getThetaDropSalesChartData()
+        ]);
+    }
 }
