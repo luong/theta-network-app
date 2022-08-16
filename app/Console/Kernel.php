@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\Accounts;
 use App\Console\Commands\Blocks;
 use App\Console\Commands\DailyTweet2;
+use App\Console\Commands\DetectDataErrors;
 use App\Console\Commands\Drops;
 use App\Console\Commands\News;
 use App\Console\Commands\TdropTransactions;
@@ -38,6 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(DailyTweet2::class)->dailyAt('00:30');
         $schedule->command(Accounts::class)->everyThreeHours();
         $schedule->command(Whales::class)->everyFourHours();
+        $schedule->command(DetectDataErrors::class)->dailyAt('01:00');
     }
 
     /**

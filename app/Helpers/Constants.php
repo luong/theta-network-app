@@ -5,6 +5,7 @@ namespace App\Helpers;
 class Constants
 {
     const SITE_URL = 'https://thetapizza.com';
+    const ADMIN_EMAIL = 'luongfox@gmail.com';
 
     const THETA_EXPLORER_URL = 'https://explorer.thetatoken.org';
     const THETA_EXPLORER_API_URL = 'https://explorer.thetatoken.org:8443';
