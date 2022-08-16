@@ -12,7 +12,7 @@ class SystemService
             if (!isset($commandTrackers[$command])) {
                 return false;
             }
-            $lastDate = date('Y-m-d', strtotime($commandTrackers[$command]['last_run']));
+            $lastDate = date('Y-m-d', $commandTrackers[$command]['last_run']);
             if ($lastDate != date('Y-m-d')) {
                 return false;
             }
