@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Helpers\Helper;
+use App\Services\SystemService;
 use App\Services\ThetaService;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
@@ -38,8 +39,13 @@ class DailyTweet2 extends Command
      *
      * @return int
      */
-    public function handle(ThetaService $thetaService, MessageService $messageService)
+    public function handle(ThetaService $thetaService, MessageService $messageService, SystemService $systemService)
     {
+        $commandsRunning = $systemService->checkCommandsRunning(['DailyStats', 'Stakes', 'Prices', 'Drops']);
+        if (!$commandsRunning) {
+            return false;
+        }
+
         $coins = $thetaService->getCoinList();
         $networkInfo = $thetaService->getNetworkInfo();
 

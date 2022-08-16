@@ -9,6 +9,7 @@ use App\Models\Stake;
 use App\Models\TrackingAccount;
 use App\Models\Transaction;
 use App\Services\OnChainService;
+use App\Services\SystemService;
 use App\Services\ThetaService;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
@@ -52,10 +53,9 @@ class Temp extends Command
      *
      * @return int
      */
-    public function handle(ThetaService $thetaService, OnChainService $onChainService)
+    public function handle(ThetaService $thetaService, SystemService $systemService)
     {
-        print_r($thetaService->cacheHistoryPrices());
-        $this->info('Done');
+        var_dump($systemService->checkCommandsRunning(['DailyStats', 'Stakes', 'Prices', 'Drops']));
         return 0;
     }
 }
