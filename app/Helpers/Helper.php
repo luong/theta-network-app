@@ -55,10 +55,8 @@ class Helper
         if ($unit == 'auto') {
             if ($number >= 1000000000) {
                 $unit = 'B';
-                $decimals = 0;
             } else if ($number >= 1000000) {
                 $unit = 'M';
-                $decimals = 0;
             } else if ($number >= 1000) {
                 $unit = 'K';
             } else {
@@ -67,10 +65,8 @@ class Helper
         }
         if ($unit == 'B') {
             $number = $number / 1000000000;
-            $decimals = 0;
         } else if ($unit == 'M') {
             $number = $number / 1000000;
-            $decimals = 0;
         } else if ($unit == 'K') {
             $number = $number / 1000;
         }
