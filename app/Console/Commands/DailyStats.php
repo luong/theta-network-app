@@ -95,6 +95,11 @@ class DailyStats extends Command
             $thetaService->cacheThetaDropSalesChartData();
             $thetaService->cacheHistoryPrices();
 
+            $thetaService->cacheChainData();
+            $thetaService->cacheThetaData();
+            $thetaService->cacheTfuelData();
+            $thetaService->cacheTdropData();
+
             $thetaService->setCommandTracker('DailyStats', 'last_run', time());
         }
 

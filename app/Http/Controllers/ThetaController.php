@@ -172,4 +172,11 @@ class ThetaController extends Controller
             'thetaDropSalesChartData' => $this->thetaService->getThetaDropSalesChartData()
         ]);
     }
+
+    public function transactionsChart()
+    {
+        return view('theta.transactions_chart', [
+            'chainData' => $this->thetaService->getChainData()
+        ]);
+    }
 }

@@ -62,6 +62,7 @@
                             <li><a class="dropdown-item" href="/chart/elite-node">Elite Nodes</a></li>
                             <li><a class="dropdown-item" href="/chart/gold-ratio">Gold Ratio</a></li>
                             <li><a class="dropdown-item" href="/chart/theta-drop-sales">Theta Drop Sales</a></li>
+                            <li><a class="dropdown-item" href="/chart/transactions">Transactions</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">

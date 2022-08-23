@@ -22,3 +22,4 @@ Route::get('/chart/tfuel-free-supply', [ThetaController::class, 'tfuelFreeSupply
 Route::get('/chart/elite-node', [ThetaController::class, 'eliteNodeChart'])->name('eliteNodeChart');
 Route::get('/chart/gold-ratio', [ThetaController::class, 'goldRatioChart'])->name('goldRatioChart');
 Route::get('/chart/theta-drop-sales', [ThetaController::class, 'thetaDropSalesChart'])->name('thetaDropSalesChart');
+Route::get('/chart/transactions', [ThetaController::class, 'transactionsChart'])->name('transactionsChart');

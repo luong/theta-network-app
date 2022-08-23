@@ -36,6 +36,10 @@ class ThetaService
         $this->cacheDrops();
         $this->cacheSettings();
         $this->cacheHistoryPrices();
+        $this->cacheChainData();
+        $this->cacheThetaData();
+        $this->cacheTfuelData();
+        $this->cacheTdropData();
     }
 
     public function recaching()
@@ -84,6 +88,70 @@ class ThetaService
         if (in_array($command, ['Start', 'TweetDailyUpdates'])) {
             Log::channel('db')->info("Command {$command} started");
         }
+    }
+
+    public function getChainData()
+    {
+        $data = Cache::get('chain_data');
+        if (empty($data)) {
+            $data = $this->cacheChainData();
+        }
+        return $data;
+    }
+
+    public function cacheChainData()
+    {
+        $data = DailyChain::all()->toArray();
+        Cache::put('chain_data', $data);
+        return $data;
+    }
+
+    public function getThetaData()
+    {
+        $data = Cache::get('theta_data');
+        if (empty($data)) {
+            $data = $this->cacheThetaData();
+        }
+        return $data;
+    }
+
+    public function cacheThetaData()
+    {
+        $data = DailyCoin::where('coin', 'theta')->get()->toArray();
+        Cache::put('theta_data', $data);
+        return $data;
+    }
+
+    public function getTfuelData()
+    {
+        $data = Cache::get('tfuel_data');
+        if (empty($data)) {
+            $data = $this->cacheTfuelData();
+        }
+        return $data;
+    }
+
+    public function cacheTfuelData()
+    {
+        $data = DailyCoin::where('coin', 'tfuel')->get()->toArray();
+        Cache::put('tfuel_data', $data);
+        return $data;
+    }
+
+    public function getTdropData()
+    {
+        $data = Cache::get('tdrop_data');
+        if (empty($data)) {
+            $data = $this->cacheTdropData();
+        }
+        return $data;
+    }
+
+    public function cacheTdropData()
+    {
+        $data = DailyCoin::where('coin', 'tdrop')->get()->toArray();
+        Cache::put('tdrop_data', $data);
+        return $data;
     }
 
     public function cacheDrops()
