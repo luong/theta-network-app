@@ -34,7 +34,6 @@ class Kernel extends ConsoleKernel
         $schedule->command(News::class)->everyFiveMinutes();
         $schedule->command(Transactions::class)->everyTwoMinutes();
         $schedule->command(TdropTransactions::class)->everyTwoMinutes();
-        $schedule->command(Blocks::class)->everyMinute();
         $schedule->command(Drops::class)->everyMinute();
         $schedule->command(DailyTweet2::class)->dailyAt('00:30');
         $schedule->command(Accounts::class)->everyThreeHours();

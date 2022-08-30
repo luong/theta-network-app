@@ -60,9 +60,11 @@ class DailyStats extends Command
             );
 
             $wtfuelAccount = $onChainService->getAccount(Constants::WTFUEL_ACCOUNT);
+            $totalSupply = $onChainService->getTotalTfuelSupply();
+            $totalBurnt = $onChainService->getTotalTfuelBurnt();
             DailyCoin::updateOrCreate(
                 ['date' => Carbon::today(), 'coin' => 'tfuel'],
-                ['ranking' => $coinList['TFUEL']['market_cap_rank'], 'price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes'], 'locked_supply' => ['wtfuel' => @$wtfuelAccount['balance']['tfuel']]]
+                ['ranking' => $coinList['TFUEL']['market_cap_rank'], 'price' => $stats['tfuel']['price'], 'market_cap' => $stats['tfuel']['market_cap'], 'volume_24h' => $stats['tfuel']['volume_24h'], 'supply' => $stats['tfuel']['supply'], 'total_stakes' => $stats['tfuel']['total_stakes'], 'staked_nodes' => $stats['tfuel']['staked_nodes'], 'locked_supply' => ['wtfuel' => @$wtfuelAccount['balance']['tfuel']], 'total_supply' => $totalSupply, 'total_burnt' => $totalBurnt]
             );
 
             DailyCoin::updateOrCreate(

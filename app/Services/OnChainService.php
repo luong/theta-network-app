@@ -625,4 +625,34 @@ class OnChainService
         return $data;
     }
 
+    public function getTotalTfuelBurnt()
+    {
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/supply/tfuel/burnt');
+        if ($response->ok()) {
+            return round($response->json()['total_tfuelwei_burnt'] / Constants::THETA_WEI, 2);
+        } else {
+            Log::channel('db')->error('Request failed (getTfuelBurnt): theta/api/supply/tfuel/burnt');
+        }
+        return false;
+    }
+
+    public function getDailyTfuelBurnt($timestamp = null)
+    {
+        $url = Constants::THETA_EXPLORER_API_URL . '/api/supply/dailyTfuelBurnt';
+        if ($timestamp) {
+            $url .= '?timestamp=' . $timestamp;
+        }
+        $response = Http::get($url);
+        if ($response->ok()) {
+            return $response->json()['body'];
+        } else {
+            Log::channel('db')->error('Request failed (getDailyTfuelBurnt): theta/api/supply/dailyTfuelBurnt');
+        }
+        return false;
+    }
+
+    public function getTotalTfuelSupply()
+    {
+        return 5000000000 + ~~((10968061 - 4164982) / 100) * 4800 + ~~(($this->getBlockHeight() - 10968061) / 100) * 8600;
+    }
 }
