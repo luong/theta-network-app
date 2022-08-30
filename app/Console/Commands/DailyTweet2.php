@@ -93,6 +93,13 @@ class DailyTweet2 extends Command
 
         $image = imagecreatefrompng(public_path('images/dailybg.png'));
         $textColor = imagecolorallocate($image, 255, 255, 255);
+        if ($coins['THETA']['price_change_24h'] >= 1 && $coins['TFUEL']['price_change_24h'] >= 1) {
+            $image = imagecreatefrompng(public_path('images/dailybg_green.png'));
+            $textColor = imagecolorallocate($image, 0, 0, 0);
+        } else if ($coins['THETA']['price_change_24h'] <= -1 && $coins['TFUEL']['price_change_24h'] <= -1) {
+            $image = imagecreatefrompng(public_path('images/dailybg_red.png'));
+            $textColor = imagecolorallocate($image, 0, 0, 0);
+        }
 
         // Title
         $y = $yRow0 - 10;
