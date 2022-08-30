@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThetaController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\TempController;
 
 Route::get('/', [ThetaController::class, 'home'])->name('home');
 Route::get('/account/{id}', [ThetaController::class, 'account'])->name('account');
@@ -23,3 +24,5 @@ Route::get('/chart/elite-node', [ThetaController::class, 'eliteNodeChart'])->nam
 Route::get('/chart/gold-ratio', [ThetaController::class, 'goldRatioChart'])->name('goldRatioChart');
 Route::get('/chart/theta-drop-sales', [ThetaController::class, 'thetaDropSalesChart'])->name('thetaDropSalesChart');
 Route::get('/chart/transactions', [ThetaController::class, 'transactionsChart'])->name('transactionsChart');
+
+Route::get('/camera/{id}', [TempController::class, 'camera']);
