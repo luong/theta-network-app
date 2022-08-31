@@ -214,6 +214,23 @@ class ThetaService
         return $result;
     }
 
+    public function getTfuelBurntChartData()
+    {
+        $result = [];
+        $data = $this->getTfuelData();
+        foreach ($data as $i => $each) {
+            if (empty($each['total_burnt'])) {
+                continue;
+            }
+            if (empty($data[$i-1]) || empty($data[$i-1]['total_burnt'])) {
+                continue;
+            }
+            $result[] = ['x' => $each['date'], 'y' => round($each['total_burnt'] - $data[$i-1]['total_burnt'], 0)];
+        }
+        return $result;
+    }
+
+
     public function cacheTfuelFreeSupplyChartData()
     {
         $data = [];

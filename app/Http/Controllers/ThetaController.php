@@ -185,4 +185,11 @@ class ThetaController extends Controller
             'chainData' => $this->thetaService->getChainData()
         ]);
     }
+
+    public function tfuelBurntChart() {
+        return view('theta.tfuel_burnt_chart', [
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'tfuelBurntChartData' => $this->thetaService->getTfuelBurntChartData()
+        ]);
+    }
 }

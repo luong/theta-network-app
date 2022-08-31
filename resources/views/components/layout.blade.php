@@ -51,6 +51,7 @@
                             <li><a class="dropdown-item" href="/chart/tfuel-stake">Tfuel Stakes</a></li>
                             <li><a class="dropdown-item" href="/chart/elite-node">Elite Nodes</a></li>
                             <li><a class="dropdown-item" href="/chart/tfuel-supply">Tfuel Supply</a></li>
+                            <li><a class="dropdown-item" href="/chart/tfuel-burnt">Tfuel Burnt</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/chart/theta-stake">Theta Stakes</a></li>
                             <li><a class="dropdown-item" href="/chart/gold-ratio">Gold Ratio</a></li>
