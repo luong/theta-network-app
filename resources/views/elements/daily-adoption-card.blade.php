@@ -1,7 +1,7 @@
 <div class="card c1x coin daily-adaption m-2">
     <h6 class="card-header">
         <span class="icon bi bi-brightness-high"></span>
-        <span class="name ms-1">Daily Adoption</span>
+        <span class="name ms-1">DAILY ADOPTION</span>
     </h6>
     <div class="card-body">
         <div class="container">
