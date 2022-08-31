@@ -35,11 +35,11 @@
             </div>
             <div class="row">
                 <div class="col">T. Drop Trans</div>
-                <div class="col">{{ Helper::formatNumber($networkInfo['drop_24h']['times']) . ' (' . ($networkInfo['drop_times_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_times_change_24h'] * 100, 2) . '%)' }}</div>
+                <div class="col">{{ Helper::formatNumber($networkInfo['drop_times']) . ' (' . ($networkInfo['drop_times_change_24h'] >= 0 ? '+' : '') . Helper::formatNumber($networkInfo['drop_times_change_24h'] * 100, 2) . '%)' }}</div>
             </div>
             <div class="row">
                 <div class="col">T. Drop Sales</div>
-                <div class="col">{{ Helper::formatPrice($networkInfo['drop_24h']['total'], 2, 'K') . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '-') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)' }}</div>
+                <div class="col">{{ Helper::formatPrice($networkInfo['drop_sales'], 2) . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)' }}</div>
             </div>
         </div>
     </div>

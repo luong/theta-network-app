@@ -257,6 +257,8 @@ class ThetaService
         $eliteNodesChange24h = round($lastestChains[0]->nodes['elites'] - $lastestChains[1]->nodes['elites']);
         $activeWalletsChange24h = round($lastestChains[0]->active_wallets - $lastestChains[1]->active_wallets);
 
+        $dropTimes = $lastestChains[0]->drops['times'];
+        $dropSales = $lastestChains[0]->drops['total'];
         $dropTimesChange24h = round(($lastestChains[0]->drops['times'] - $lastestChains[1]->drops['times']) / $lastestChains[1]->drops['times'], 2);
         $dropSalesChange24h = @round(($lastestChains[0]->drops['total'] - $lastestChains[1]->drops['total']) / $lastestChains[1]->drops['total'], 2);
 
@@ -307,6 +309,8 @@ class ThetaService
             'tvl_value' => $tvl['current_value'],
             'tvl_change_24h' => $tvl['change_24h'],
             'drop_24h' => $dropStats24H,
+            'drop_times' => $dropTimes,
+            'drop_sales' => $dropSales,
             'drop_times_change_24h' => $dropTimesChange24h,
             'drop_sales_change_24h' => $dropSalesChange24h
 
