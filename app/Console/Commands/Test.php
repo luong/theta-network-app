@@ -1,8 +1,40 @@
 <?php
-
 namespace App\Console\Commands;
 
+ini_set('memory_limit', -1);
+
+use App\Helpers\Constants;
+use App\Mail\WalletRadarEmail;
+use App\Models\Account;
+use App\Models\Stake;
+use App\Models\TrackingAccount;
+use App\Models\Transaction;
+use App\Models\Wallet;
+use App\Services\OnChainService;
+use App\Services\TdropContract;
+use App\Services\ThetaService;
+use App\Services\MessageService;
 use Illuminate\Console\Command;
+use Illuminate\Redis\RedisManager;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
+use TwitterAPIExchange;
+use TWOamigos\InputDataDecoder;
+use Web3\Contracts\Ethabi;
+use Web3\Contracts\Types\Address;
+use Web3\Contracts\Types\Boolean;
+use Web3\Contracts\Types\Bytes;
+use Web3\Contracts\Types\DynamicBytes;
+use Web3\Contracts\Types\Integer;
+use Web3\Contracts\Types\Str;
+use Web3\Contracts\Types\Uinteger;
+use Web3\Utils;
+use Web3\Web3;
 
 class Test extends Command
 {
@@ -35,8 +67,9 @@ class Test extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(ThetaService $thetaService, TdropContract $contract)
     {
+        print_r($thetaService->caching());
 
         return 0;
     }

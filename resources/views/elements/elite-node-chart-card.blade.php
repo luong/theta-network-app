@@ -43,7 +43,8 @@
                     x: {
                         type: 'time',
                         time: {
-                            unit: 'month'
+                            unit: 'month',
+                            tooltipFormat: 'YYYY-MM-DD'
                         }
                     }
                 }
