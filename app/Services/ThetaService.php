@@ -26,8 +26,6 @@ class ThetaService
         $this->cacheStakings24H();
         $this->cacheUnstakings24H();
         $this->cacheNetworkInfo();
-        $this->cacheTfuelFreeSupplyChartData();
-        $this->cacheThetaDropSalesChartData();
         $this->cacheCommandTrackers();
         $this->cacheDrops();
         $this->cacheSettings();
@@ -187,17 +185,6 @@ class ThetaService
         return $data;
     }
 
-    public function cacheThetaDropSalesChartData()
-    {
-        $data = [];
-        $days = DailyChain::whereNotNull('drops')->get();
-        foreach ($days as $day) {
-            $data[] = ['x' => date('d-M', strtotime($day->date)), 'y' => round($day->drops['total'], 0)];
-        }
-        Cache::put('tdropSalesChartData', $data);
-        return $data;
-    }
-
     public function getTdropStakingRewardRate()
     {
         $data = Cache::get('tdropStakingRewardRate');
@@ -216,11 +203,15 @@ class ThetaService
 
     public function getThetaDropSalesChartData()
     {
-        $data = Cache::get('tdropSalesChartData');
-        if (empty($data)) {
-            $data = $this->cacheThetaDropSalesChartData();
+        $result = [];
+        $data = $this->getChainData();
+        foreach ($data as $each) {
+            if (empty($each['drops'])) {
+                continue;
+            }
+            $result[] = ['x' => $each['date'], 'y' => round($each['drops']['total'], 0)];
         }
-        return $data;
+        return $result;
     }
 
     public function cacheTfuelFreeSupplyChartData()
