@@ -38,10 +38,14 @@
                         displayColors: false,
                         callbacks: {
                             label: function(context) {
-                                return '$' + context.raw.y.toLocaleString();
+                                return ['Total Sales: $' + context.raw.drop.total.toLocaleString(), 'No. Transfers: ' + context.raw.drop.times];
                             }
                         }
                     }
+                },
+                parsing: {
+                    xAxisKey: 'date',
+                    yAxisKey: 'drop.total'
                 },
                 scales: {
                     x: {

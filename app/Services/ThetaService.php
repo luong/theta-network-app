@@ -201,7 +201,7 @@ class ThetaService
         return $rate;
     }
 
-    public function getThetaDropSalesChartData()
+    public function getThetaDropChartData()
     {
         $result = [];
         $data = $this->getChainData();
@@ -209,7 +209,7 @@ class ThetaService
             if (empty($each['drops'])) {
                 continue;
             }
-            $result[] = ['x' => $each['date'], 'y' => round($each['drops']['total'], 0)];
+            $result[] = ['date' => $each['date'], 'drop' => $each['drops']];
         }
         return $result;
     }

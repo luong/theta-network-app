@@ -175,7 +175,7 @@ class ThetaController extends Controller
     {
         return view('theta.theta_drop_sales_chart', [
             'networkInfo' => $this->thetaService->getNetworkInfo(),
-            'thetaDropSalesChartData' => $this->thetaService->getThetaDropSalesChartData()
+            'thetaDropSalesChartData' => $this->thetaService->getThetaDropChartData()
         ]);
     }
 
