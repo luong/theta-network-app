@@ -14,7 +14,7 @@
                 <div class="col">{{ number_format($networkInfo['transactions_24h']) }}</div>
             </div>
             <div class="row">
-                <div class="col">Tfuel Supply</div>
+                <div class="col">Tfuel Minted</div>
                 <div class="col">{{ number_format($networkInfo['tfuel_total_supply_change_24h']) }}</div>
             </div>
             <div class="row">
@@ -22,7 +22,7 @@
                 <div class="col">{{ number_format($networkInfo['tfuel_total_burnt_change_24h']) }}</div>
             </div>
             <div class="row">
-                <div class="col">Tfuel Net Supply</div>
+                <div class="col">Tfuel New Supply</div>
                 <div class="col">{{ ($networkInfo['tfuel_supply_change_24h'] > 0 ? '+' : '') . number_format($networkInfo['tfuel_supply_change_24h']) }}</div>
             </div>
             <div class="row">
