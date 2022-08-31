@@ -35,7 +35,6 @@ class Constants
     const CMC_API_KEY = '0f5696f0-e3a6-4468-82d6-498434266ab8';
     const CMC_API_URL = 'https://pro-api.coinmarketcap.com';
 
-    const TOP_TRANSACTION_BLOCK = 50;
     const TOP_TRANSACTION_LIMIT = 100;
     const TOP_TRANSACTION_TWEET_AMOUNT = 800000;
     const TOP_TDROP_TRANSACTION_TWEET_AMOUNT = 200000;
@@ -48,9 +47,9 @@ class Constants
     const TWITTER_ACCESS_TOKEN_SECRET = 'YTAbPiLUGeQVlwsdQN5jchoHcmi8Y3LpHn6A06fUQmuhn';
 
     const PAGINATION_PAGE_LIMIT = 100;
-    const TRANSACTION_LIFETIME_DAYS = 30;
-    const DROP_LIFETIME_DAYS = 30;
-    const LOG_LIFETIME_DAYS = 30;
+    const TRANSACTION_LIFETIME_DAYS = 14;
+    const DROP_LIFETIME_DAYS = 14;
+    const LOG_LIFETIME_DAYS = 14;
 
     const WEB3_RPC = 'https://eth-rpc-api.thetatoken.org/rpc';
 
