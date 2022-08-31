@@ -71,6 +71,11 @@
                     margin-right: 7px;
                     width: 70px;
                     text-align: center;
+
+                    &.whale {
+                        color: red;
+                        border-color: red;
+                    }
                 }
             }
             .changes {

@@ -18722,6 +18722,10 @@ textarea.form-control-lg {
   width: 70px;
   text-align: center;
 }
+.homepage .card .card-body .row .bullet.whale {
+  color: red;
+  border-color: red;
+}
 .homepage .card .card-body .changes {
   font-size: 90%;
 }
