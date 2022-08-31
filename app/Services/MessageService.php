@@ -103,7 +103,7 @@ class MessageService
 
     public function thankForDonation($tx)
     {
-        $tweet = "Thanks for donation: {$tx['amount']} => " . Helper::makeSiteTransactionURL($tx['id']);
+        $tweet = "Thanks for donation: {$tx['amount']} " . Helper::makeSiteTransactionURL($tx['id']);
         return $this->tweetText($tweet);
     }
 
@@ -113,7 +113,7 @@ class MessageService
         if ($tx['currency'] == 'tfuel') {
             $amount = Helper::formatNumber($tx['tfuel'], 2) . ' $tfuel (' . $amount . ')';
         }
-        $tweet = "#THETA NFT \"{$tx['name']}\" sold for {$amount} => " . Helper::makeDropOrderURL($tx['transaction_id']);
+        $tweet = "#THETA NFT \"{$tx['name']}\" sold for {$amount} " . Helper::makeDropOrderURL($tx['transaction_id']);
 
         $uploadImageResult = $this->requestTwitterV1(
             'https://upload.twitter.com/1.1/media/upload.json',
@@ -138,7 +138,7 @@ class MessageService
             return false;
         }
         $client = $this->getTwitterClient();
-        return $client->tweet()->performRequest('POST', ['text' =>'[Bot] ' .  $text]);
+        return $client->tweet()->performRequest('POST', ['text' => '[Bot] ' .  $text]);
     }
 
     public function tweetV2($params)
