@@ -5,6 +5,7 @@
         @include('elements/theta-card', ['coinInfo' => $coins['THETA']])
         @include('elements/tfuel-card', ['coinInfo' => $coins['TFUEL']])
         @include('elements/tdrop-card', ['coinInfo' => $coins['TDROP']])
+        @include('elements/daily-adoption-card')
         @include('elements/theta-stake-chart-card')
         @include('elements/tfuel-stake-chart-card')
         @include('elements/top-transactions-card')

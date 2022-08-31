@@ -249,7 +249,9 @@ class ThetaService
         $lastestTdropCoins = DailyCoin::where('coin', 'tdrop')->latest()->take(2)->get();
 
         $thetaStakeChange24h = round($lastestThetaCoins[0]->total_stakes - $lastestThetaCoins[1]->total_stakes);
-        $tfuelSupplyChange24h = round($lastestTfuelCoins[0]->supply - $lastestTfuelCoins[1]->supply);
+        $tfuelSupplyChange24h = $lastestTfuelCoins[1]->supply == 0 ? 0 : round($lastestTfuelCoins[0]->supply - $lastestTfuelCoins[1]->supply);
+        $tfuelTotalSupplyChange24h = $lastestTfuelCoins[1]->total_supply == 0 ? 0 : round($lastestTfuelCoins[0]->total_supply - $lastestTfuelCoins[1]->total_supply);
+        $tfuelTotalBurntChange24h = $lastestTfuelCoins[1]->total_burnt == 0 ? 0 : round($lastestTfuelCoins[0]->total_burnt - $lastestTfuelCoins[1]->total_burnt);
         $tfuelStakeChange24h = round($lastestTfuelCoins[0]->total_stakes - $lastestTfuelCoins[1]->total_stakes);
         $guardianNodesChange24h = round($lastestChains[0]->nodes['guardians'] - $lastestChains[1]->nodes['guardians']);
         $eliteNodesChange24h = round($lastestChains[0]->nodes['elites'] - $lastestChains[1]->nodes['elites']);
@@ -291,6 +293,8 @@ class ThetaService
             'tfuel_stake_nodes' => $nodeStats['elites'],
             'tfuel_stake_rate' => round($stats['tfuel']['total_stakes'] / $stats['tfuel']['supply'], 4),
             'tfuel_supply_change_24h' => $tfuelSupplyChange24h,
+            'tfuel_total_supply_change_24h' => $tfuelTotalSupplyChange24h,
+            'tfuel_total_burnt_change_24h' => $tfuelTotalBurntChange24h,
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
             'tfuel_volume_change_24h' => $tfuelVolChange24h,
             'tdrop_price' => $coinList['TDROP']['price'],
