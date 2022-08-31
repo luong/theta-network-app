@@ -35,6 +35,9 @@
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        displayColors: false
                     }
                 },
                 scales: {

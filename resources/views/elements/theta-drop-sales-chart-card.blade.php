@@ -33,6 +33,14 @@
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return '$' + context.raw.y.toLocaleString();
+                            }
+                        }
                     }
                 },
                 scales: {

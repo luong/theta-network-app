@@ -35,6 +35,7 @@
                         display: false
                     },
                     tooltip: {
+                        displayColors: false,
                         callbacks: {
                             label: function(context) {
                                 return ['$theta: ' + context.raw.theta, '$tfuel: ' + context.raw.tfuel, 'ratio: ' + context.raw.ratio];
