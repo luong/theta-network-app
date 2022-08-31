@@ -45,15 +45,6 @@
             </button>
             <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
                 <div class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary fs-5" href="/whales"><span class="bi bi-snow"></span> Whales</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="nftLink" class="nav-link text-secondary fs-5" href="/nft"><span class="bi bi-valentine"></span> ThetaDrop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="subscribeLink" class="nav-link text-secondary fs-5" href="/subscribe"><span class="bi bi-wallet2"></span> Subscribe</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-bar-chart"></span> Charts</a>
                         <ul class="dropdown-menu">
