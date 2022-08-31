@@ -89,11 +89,7 @@ class DailyStats extends Command
             $chain->save();
 
             $thetaService->cacheNetworkInfo();
-            $thetaService->cacheTfuelSupplyChartData();
-            $thetaService->cacheTfuelStakeChartData();
-            $thetaService->cacheThetaStakeChartData();
             $thetaService->cacheTfuelFreeSupplyChartData();
-            $thetaService->cacheEliteNodeChartData();
             $thetaService->cacheThetaDropSalesChartData();
             $thetaService->cacheHistoryPrices();
 

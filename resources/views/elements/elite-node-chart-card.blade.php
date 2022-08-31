@@ -21,7 +21,7 @@
                     borderColor: '#3080d0',
                     borderWidth: 1.5,
                     radius: 0,
-                    data: @json($eliteNodeChartData),
+                    data: @json($tfuelData),
                 }]
             },
             options: {
@@ -33,6 +33,18 @@
                 plugins: {
                     legend: {
                         display: false
+                    }
+                },
+                parsing: {
+                    xAxisKey: 'date',
+                    yAxisKey: 'staked_nodes'
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'month'
+                        }
                     }
                 }
             }

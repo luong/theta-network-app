@@ -53,6 +53,14 @@
                     legend: {
                         display: false
                     }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'month'
+                        }
+                    }
                 }
             }
         }

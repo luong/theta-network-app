@@ -27,15 +27,13 @@ class ThetaController extends Controller
             'topTransactions' => $this->thetaService->getTopTransactions(),
             'stakings24H' => $this->thetaService->getStakings24H(),
             'unstakings24H' => $this->thetaService->getUnstakings24H(),
-            'tfuelSupplyChartData' => $this->thetaService->getTfuelSupplyChartData(),
             'tfuelFreeSupplyChartData' => $this->thetaService->getTfuelFreeSupplyChartData(),
-            'eliteNodeChartData' => $this->thetaService->getEliteNodeChartData(),
-            'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData(),
-            'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData(),
             'unstakings' => $this->thetaService->getUnstakings(),
             'validators' => $this->thetaService->getValidators(),
             'accounts' => $this->thetaService->getAccounts(),
-            'tdropStakingRewardRate' => $this->thetaService->getTdropStakingRewardRate()
+            'tdropStakingRewardRate' => $this->thetaService->getTdropStakingRewardRate(),
+            'thetaData' => $this->thetaService->getThetaData(),
+            'tfuelData' => $this->thetaService->getTfuelData()
         ]);
     }
 
@@ -114,7 +112,7 @@ class ThetaController extends Controller
     {
         return view('theta.theta_stake_chart', [
             'networkInfo' => $this->thetaService->getNetworkInfo(),
-            'thetaStakeChartData' => $this->thetaService->getThetaStakeChartData()
+            'thetaData' => $this->thetaService->getThetaData()
         ]);
     }
 
@@ -122,7 +120,15 @@ class ThetaController extends Controller
     {
         return view('theta.tfuel_stake_chart', [
             'networkInfo' => $this->thetaService->getNetworkInfo(),
-            'tfuelStakeChartData' => $this->thetaService->getTfuelStakeChartData()
+            'tfuelData' => $this->thetaService->getTfuelData()
+        ]);
+    }
+
+    public function tfuelSupplyChart()
+    {
+        return view('theta.tfuel_supply_chart', [
+            'networkInfo' => $this->thetaService->getNetworkInfo(),
+            'tfuelData' => $this->thetaService->getTfuelData()
         ]);
     }
 
@@ -136,7 +142,7 @@ class ThetaController extends Controller
     public function eliteNodeChart()
     {
         return view('theta.elite_node_chart', [
-            'eliteNodeChartData' => $this->thetaService->getEliteNodeChartData()
+            'tfuelData' => $this->thetaService->getTfuelData()
         ]);
     }
 

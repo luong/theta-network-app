@@ -3,6 +3,7 @@ window.$ = require('jquery');
 
 import Chart from 'chart.js/auto';
 window.Chart = Chart;
+import 'chartjs-adapter-moment';
 
 window.Masonry = require('masonry-layout');
 window.imagesLoaded = require('imagesloaded');

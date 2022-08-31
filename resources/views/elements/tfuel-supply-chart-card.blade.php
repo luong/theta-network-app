@@ -5,12 +5,6 @@
     </h6>
     <div class="card-body">
         <div class="container">
-            <div class="chart-title text-center">
-                24H:
-                {{ ($networkInfo['tfuel_supply_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_supply_change_24h'], 2, 'M') }} in supply
-                #
-                {{ ($networkInfo['tfuel_stake_change_24h'] > 0 ? '+' : '') . Helper::formatNumber($networkInfo['tfuel_stake_change_24h'], 2, 'M') }} in staking
-            </div>
             <canvas id="tfuelSupplyChartHolder"></canvas>
         </div>
     </div>
@@ -27,7 +21,7 @@
                     borderColor: '#3080d0',
                     borderWidth: 1.5,
                     radius: 0,
-                    data: @json($tfuelSupplyChartData),
+                    data: @json($tfuelData),
                 }]
             },
             options: {
@@ -38,6 +32,25 @@
                 plugins: {
                     legend: {
                         display: false
+                    }
+                },
+                parsing: {
+                    xAxisKey: 'date',
+                    yAxisKey: 'supply'
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'month'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return (value / 1000000000).toFixed(3) + 'B';
+                            }
+                        }
                     }
                 }
             }

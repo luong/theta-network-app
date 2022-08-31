@@ -26,11 +26,7 @@ class ThetaService
         $this->cacheStakings24H();
         $this->cacheUnstakings24H();
         $this->cacheNetworkInfo();
-        $this->cacheTfuelSupplyChartData();
         $this->cacheTfuelFreeSupplyChartData();
-        $this->cacheEliteNodeChartData();
-        $this->cacheThetaStakeChartData();
-        $this->cacheTfuelStakeChartData();
         $this->cacheThetaDropSalesChartData();
         $this->cacheCommandTrackers();
         $this->cacheDrops();
@@ -227,67 +223,6 @@ class ThetaService
         return $data;
     }
 
-    public function cacheThetaStakeChartData()
-    {
-        $data = [];
-        $coins = DailyCoin::where('coin', 'theta')->take(100)->get();
-        foreach ($coins as $coin) {
-            $data[] = ['x' => date('d-M', strtotime($coin->date)), 'y' => $coin->total_stakes];
-        }
-        Cache::put('theta_stake_chart_data', $data);
-        return $data;
-    }
-
-    public function getThetaStakeChartData()
-    {
-        $data = Cache::get('theta_stake_chart_data');
-        if (empty($data)) {
-            $data = $this->cacheThetaStakeChartData();
-        }
-        return $data;
-    }
-
-    public function cacheTfuelStakeChartData()
-    {
-        $data = [];
-        $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
-        foreach ($coins as $coin) {
-            $data[] = ['x' => date('d-M', strtotime($coin->date)), 'y' => $coin->total_stakes];
-        }
-        Cache::put('tfuel_stake_chart_data', $data);
-        return $data;
-    }
-
-    public function getTfuelStakeChartData()
-    {
-        $data = Cache::get('tfuel_stake_chart_data');
-        if (empty($data)) {
-            $data = $this->cacheTfuelStakeChartData();
-        }
-        return $data;
-    }
-
-    public function cacheTfuelSupplyChartData()
-    {
-        $data = [];
-        $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
-        foreach ($coins as $coin) {
-            $supply = $coin->supply;
-            $data[] = ['x' => date('d-M', strtotime($coin->date)), 'y' => $supply];
-        }
-        Cache::put('tfuel_supply_chart_data', $data);
-        return $data;
-    }
-
-    public function getTfuelSupplyChartData()
-    {
-        $data = Cache::get('tfuel_supply_chart_data');
-        if (empty($data)) {
-            $data = $this->cacheTfuelSupplyChartData();
-        }
-        return $data;
-    }
-
     public function cacheTfuelFreeSupplyChartData()
     {
         $data = [];
@@ -305,26 +240,6 @@ class ThetaService
         $data = Cache::get('tfuel_free_supply_chart_data');
         if (empty($data)) {
             $data = $this->cacheTfuelFreeSupplyChartData();
-        }
-        return $data;
-    }
-
-    public function cacheEliteNodeChartData()
-    {
-        $data = [];
-        $coins = DailyCoin::where('coin', 'tfuel')->take(100)->get();
-        foreach ($coins as $coin) {
-            $data[] = ['x' => date('d-M', strtotime($coin->date)), 'y' => $coin->staked_nodes];
-        }
-        Cache::put('elite_node_chart_data', $data);
-        return $data;
-    }
-
-    public function getEliteNodeChartData()
-    {
-        $data = Cache::get('elite_node_chart_data');
-        if (empty($data)) {
-            $data = $this->cacheEliteNodeChartData();
         }
         return $data;
     }

@@ -57,9 +57,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-bar-chart"></span> Charts</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/chart/theta-stake">Theta Stakes</a></li>
                             <li><a class="dropdown-item" href="/chart/tfuel-stake">Tfuel Stakes</a></li>
                             <li><a class="dropdown-item" href="/chart/elite-node">Elite Nodes</a></li>
+                            <li><a class="dropdown-item" href="/chart/tfuel-supply">Tfuel Supply</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/chart/theta-stake">Theta Stakes</a></li>
                             <li><a class="dropdown-item" href="/chart/gold-ratio">Gold Ratio</a></li>
                             <li><a class="dropdown-item" href="/chart/theta-drop-sales">Theta Drop Sales</a></li>
                             <li><a class="dropdown-item" href="/chart/transactions">Transactions</a></li>

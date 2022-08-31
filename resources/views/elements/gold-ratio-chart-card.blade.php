@@ -48,10 +48,9 @@
                 },
                 scales: {
                     x: {
-                        ticks: {
-                            callback: function(val, index) {
-                                return index % 4 === 0 ? this.getLabelForValue(val) : '';
-                            }
+                        type: 'time',
+                        time: {
+                            unit: 'month'
                         }
                     }
                 }
