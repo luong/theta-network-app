@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col">TVL</div>
                 <div class="col">
-                    {{ Helper::formatPrice($networkInfo['tvl_value'], 2, 'M') }}
+                    {{ Helper::formatPrice($networkInfo['tvl_value'], 2, 'auto') }}
                     <span class="changes {{ $networkInfo['tvl_change_24h'] >= 0 ? 'up' : 'down' }}">({{ ($networkInfo['tvl_change_24h'] > 0 ? '+' : '') . round($networkInfo['tvl_change_24h'] * 100, 2) }}%)</span>
                 </div>
             </div>

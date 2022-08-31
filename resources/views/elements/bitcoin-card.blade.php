@@ -18,15 +18,15 @@
             </div>
             <div class="row">
                 <div class="col">24 Hour Vol</div>
-                <div class="col">{{ Helper::formatPrice($coinInfo['volume_24h']) }}</div>
+                <div class="col">{{ Helper::formatPrice($coinInfo['volume_24h'], 2, 'auto') }}</div>
             </div>
             <div class="row">
                 <div class="col">Market Cap</div>
-                <div class="col">{{ Helper::formatPrice($coinInfo['market_cap'], 0) }}</div>
+                <div class="col">{{ Helper::formatPrice($coinInfo['market_cap'], 2, 'auto') }}</div>
             </div>
             <div class="row">
                 <div class="col">Circulating Supply</div>
-                <div class="col">{{ number_format($coinInfo['circulating_supply']) }}</div>
+                <div class="col">{{ Helper::formatPrice($coinInfo['circulating_supply'], 2, 'auto') }}</div>
             </div>
             <div class="row">
                 <div class="col">1Y Changes</div>

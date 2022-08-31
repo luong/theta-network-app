@@ -376,13 +376,13 @@ class ThetaService
             'active_wallets_change_24h' => $activeWalletsChange24h,
             'theta_price' => $stats['theta']['price'],
             'theta_supply' => $stats['theta']['supply'],
-            'theta_stake_nodes' => $stats['theta']['staked_nodes'],
+            'theta_stake_nodes' => $nodeStats['guardians'] + $nodeStats['validators'],
             'theta_stake_rate' => round($stats['theta']['total_stakes'] / $stats['theta']['supply'], 4),
             'theta_stake_change_24h' => $thetaStakeChange24h,
             'theta_volume_change_24h' => $thetaVolChange24h,
             'tfuel_price' => $stats['tfuel']['price'],
             'tfuel_supply' => $stats['tfuel']['supply'],
-            'tfuel_stake_nodes' => $stats['tfuel']['staked_nodes'],
+            'tfuel_stake_nodes' => $nodeStats['elites'],
             'tfuel_stake_rate' => round($stats['tfuel']['total_stakes'] / $stats['tfuel']['supply'], 4),
             'tfuel_supply_change_24h' => $tfuelSupplyChange24h,
             'tfuel_stake_change_24h' => $tfuelStakeChange24h,
@@ -610,7 +610,7 @@ class ThetaService
 
     public function getNodeStats()
     {
-        $data = DB::table('stakes')->selectRaw('type, COUNT(DISTINCT holder) AS nodes')->groupBy(['type'])->get()->keyBy('type');
+        $data = DB::table('stakes')->where('withdrawn', 0)->selectRaw('type, COUNT(DISTINCT holder) AS nodes')->groupBy(['type'])->get()->keyBy('type');
         return [
             'validators' => isset($data['vcp']) ? $data['vcp']->nodes : 0,
             'guardians' => isset($data['gcp']) ? $data['gcp']->nodes : 0,
