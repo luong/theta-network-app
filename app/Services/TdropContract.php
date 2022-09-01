@@ -19,7 +19,7 @@ class TdropContract
                 $totalSupply = (float)$result[0]->toString();
             });
             return $totalSupply;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
         }
         return false;
     }
@@ -32,7 +32,7 @@ class TdropContract
                 $totalSupply = (float)$result[0]->toString() / Constants::THETA_WEI;
             });
             return $totalSupply;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
         }
         return false;
     }
@@ -45,7 +45,7 @@ class TdropContract
             $tdropTotalStakes = $this->getBalance(Constants::TDROP_STAKING_ADDRESS);
             $rate = round($rewardsPerYear / $tdropTotalStakes, 4);
             return $rate;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
         }
         return false;
     }
@@ -58,7 +58,7 @@ class TdropContract
                 $balance = (float)$result[0]->toString() / Constants::THETA_WEI;
             });
             return $balance;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
         }
         return false;
     }
@@ -71,7 +71,7 @@ class TdropContract
                 $totalShares = (float)$result[0]->toString() / Constants::THETA_WEI;
             });
             return $totalShares;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
         }
         return false;
     }
@@ -84,7 +84,7 @@ class TdropContract
                 $amount = (float)$result[0]->toString() / Constants::THETA_WEI;
             });
             return $amount;
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
         }
         return false;
     }

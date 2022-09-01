@@ -8,6 +8,7 @@ use App\Models\Stake;
 use App\Models\TrackingAccount;
 use App\Models\Transaction;
 use App\Services\OnChainService;
+use App\Services\TdropContract;
 use App\Services\ThetaService;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
@@ -90,7 +91,13 @@ class Accounts extends Command
 
         $trackingAccounts = TrackingAccount::all();
         foreach ($trackingAccounts as $trackingAccount) {
-            $thetaService->updateTrackingAccount($trackingAccount, $networkInfo);
+            $tdropContract = resolve(TdropContract::class);
+            $tdropBalance = $tdropContract->getBalance($trackingAccount->code);
+            if ($tdropBalance !== false) {
+                $trackingAccount->balance_tdrop = round($tdropBalance, 2);
+                $trackingAccount->balance_usd = round($trackingAccount->balance_theta * $networkInfo['theta_price'] + $trackingAccount->balance_tfuel * $networkInfo['tfuel_price'] + $trackingAccount->balance_tdrop * $networkInfo['tdrop_price'], 2);
+                $trackingAccount->save();
+            }
         }
 
         DB::statement("DELETE tracking_accounts FROM tracking_accounts LEFT JOIN accounts ON tracking_accounts.code = accounts.code WHERE accounts.id IS NULL AND tracking_accounts.balance_usd <= ?", [Constants::WHALE_MIN_BALANCE]);

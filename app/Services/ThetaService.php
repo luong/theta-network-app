@@ -589,25 +589,6 @@ class ThetaService
         return false;
     }
 
-    public function updateTrackingAccount(TrackingAccount $trackingAccount, $networkInfo = null)
-    {
-        $onChainService = resolve(OnChainService::class);
-        $acc = $onChainService->getAccount($trackingAccount->code, true);
-        if (!empty($acc)) {
-            if (empty($networkInfo)) {
-                $networkInfo = $this->getNetworkInfo();
-            }
-            $trackingAccount->balance_theta = $acc['balance']['theta'];
-            $trackingAccount->balance_tfuel = $acc['balance']['tfuel'];
-            $trackingAccount->balance_tdrop = $acc['balance']['tdrop'];
-            $trackingAccount->staking_theta = $acc['staking']['theta'];
-            $trackingAccount->staking_tfuel = $acc['staking']['tfuel'];
-            $trackingAccount->staking_tdrop = $acc['staking']['tdrop'];
-            $trackingAccount->balance_usd = round($acc['balance']['theta'] * $networkInfo['theta_price'] + $acc['balance']['tfuel'] * $networkInfo['tfuel_price'] + $acc['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
-            $trackingAccount->save();
-        }
-    }
-
     public function cacheTrackingAccounts()
     {
         $trackingAccounts = DB::table('tracking_accounts')->where('balance_usd', '>=', Constants::WHALE_MIN_BALANCE)->orderByDesc('balance_usd')->get()->toArray();
