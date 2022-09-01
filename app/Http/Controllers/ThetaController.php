@@ -42,12 +42,21 @@ class ThetaController extends Controller
         if (empty($tags)) {
             $tags = 'not found';
         }
-        $trackingAccounts = DB::table('tracking_accounts')
-            ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
-            ->where('accounts.name', 'like', "%{$tags}%")
-            ->orderByDesc('tracking_accounts.balance_usd')
-            ->select('tracking_accounts.*')
-            ->get();
+        $trackingAccounts = [];
+        if ($tags == 'whales') {
+            $trackingAccounts = DB::table('tracking_accounts')
+                ->where('tracking_accounts.balance_usd', '>=', Constants::WHALE_MIN_BALANCE)
+                ->orderByDesc('tracking_accounts.balance_usd')
+                ->select('tracking_accounts.*')
+                ->get();
+        } else {
+            $trackingAccounts = DB::table('tracking_accounts')
+                ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
+                ->where('accounts.name', 'like', "%{$tags}%")
+                ->orderByDesc('tracking_accounts.balance_usd')
+                ->select('tracking_accounts.*')
+                ->get();
+        }
         $accounts = $this->thetaService->getAccounts();
         return view('theta.accounts', [
             'trackingAccounts' => $trackingAccounts,
@@ -143,14 +152,6 @@ class ThetaController extends Controller
     {
         return view('theta.elite_node_chart', [
             'tfuelData' => $this->thetaService->getTfuelData()
-        ]);
-    }
-
-    public function whales()
-    {
-        return view('theta.whales', [
-            'accounts' => $this->thetaService->getAccounts(),
-            'trackingAccounts' => $this->thetaService->getTrackingAccounts()
         ]);
     }
 
