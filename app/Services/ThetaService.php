@@ -561,7 +561,7 @@ class ThetaService
         ];
     }
 
-    public function addTrackingAccount($accountId, $name = null, $networkInfo = null, $useTdrop = true)
+    public function addTrackingAccount($accountId, $name = null, $networkInfo = null, $useTdrop = false)
     {
         $onChainService = resolve(OnChainService::class);
         $acc = $onChainService->getAccount($accountId, $useTdrop);
