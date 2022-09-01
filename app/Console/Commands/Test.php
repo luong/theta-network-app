@@ -69,8 +69,11 @@ class Test extends Command
      */
     public function handle(ThetaService $thetaService, TdropContract $contract)
     {
-        print_r($thetaService->caching());
-
+        $data = DB::select("SELECT * FROM stakes WHERE type = 'vcp'");
+        foreach ($data as $each) {
+            DB::statement("UPDATE accounts SET tags = '[\"validator\"]' WHERE code = ?", [$each->source]);
+            $thetaService->addTrackingAccount($each->source, null, null, false);
+        }
         return 0;
     }
 }

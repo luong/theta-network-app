@@ -262,7 +262,7 @@ class OnChainService
         return false;
     }
 
-    public function getAccount($id, $useTdrop = true)
+    public function getAccount($id, $useTdrop = false)
     {
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/' . $id);
         if ($response->ok()) {

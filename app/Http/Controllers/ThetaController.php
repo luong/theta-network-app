@@ -52,7 +52,9 @@ class ThetaController extends Controller
         } else {
             $trackingAccounts = DB::table('tracking_accounts')
                 ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
-                ->where('accounts.name', 'like', "%{$tags}%")
+                ->where('accounts.code', 'like', "%{$tags}%")
+                ->orWhere('accounts.name', 'like', "%{$tags}%")
+                ->orWhere('accounts.tags', 'like', "%{$tags}%")
                 ->orderByDesc('tracking_accounts.balance_usd')
                 ->select('tracking_accounts.*')
                 ->get();
