@@ -42,17 +42,16 @@ class ThetaController extends Controller
         if (empty($tags)) {
             $tags = 'not found';
         }
-        $trackingAccounts = [];
         if ($tags == 'whales') {
             $trackingAccounts = DB::table('tracking_accounts')
                 ->where('tracking_accounts.balance_usd', '>=', Constants::WHALE_MIN_BALANCE)
                 ->orderByDesc('tracking_accounts.balance_usd')
                 ->select('tracking_accounts.*')
                 ->get();
-        } else if ($tags == 'validators') {
+        } else if (in_array($tags, ['validator', 'exchange'])) {
             $trackingAccounts = DB::table('tracking_accounts')
                 ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
-                ->orWhere('accounts.tags', 'like', "%validator%")
+                ->orWhere('accounts.tags', 'like', "%{$tags}%")
                 ->orderByDesc('tracking_accounts.balance_usd')
                 ->select('tracking_accounts.*')
                 ->get();
