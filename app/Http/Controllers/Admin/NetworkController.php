@@ -55,7 +55,7 @@ class NetworkController extends Controller
             ]);
             $data = request()->only('code', 'name');
             Account::create($data);
-            $this->thetaService->addTrackingAccount($data['code']);
+            $this->thetaService->addTrackingAccount($data['code'], null, null, true);
             $this->thetaService->cacheAccounts();
             $this->thetaService->cacheValidators();
             return back()->with('message', 'Added successfully.');

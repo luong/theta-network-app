@@ -88,9 +88,9 @@ class Accounts extends Command
             );
         }
 
-        $trackingAccounts = DB::select('SELECT * FROM tracking_accounts');
+        $trackingAccounts = TrackingAccount::all();
         foreach ($trackingAccounts as $trackingAccount) {
-            DB::statement("UPDATE tracking_accounts SET balance_usd = ROUND(balance_theta * ? + balance_tfuel * ? + balance_tdrop * ?, 2) WHERE code = ?", [$networkInfo['theta_price'], $networkInfo['tfuel_price'], $networkInfo['tdrop_price'], $trackingAccount->code]);
+            $thetaService->updateTrackingAccount($trackingAccount, $networkInfo);
         }
 
         DB::statement("DELETE tracking_accounts FROM tracking_accounts LEFT JOIN accounts ON tracking_accounts.code = accounts.code WHERE accounts.id IS NULL AND tracking_accounts.balance_usd <= ?", [Constants::WHALE_MIN_BALANCE]);

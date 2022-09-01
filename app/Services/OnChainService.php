@@ -273,7 +273,10 @@ class OnChainService
             $tdrop = 0;
             if ($useTdrop) {
                 $tdropContract = resolve(TdropContract::class);
-                $tdrop = round($tdropContract->getBalance($id), 2);
+                $tdropBalance = $tdropContract->getBalance($id);
+                if ($tdropBalance !== false) {
+                    $tdrop = round($tdropBalance, 2);
+                }
             }
 
             $thetaService = resolve(ThetaService::class);
@@ -299,9 +302,9 @@ class OnChainService
         return false;
     }
 
-    public function getAccountDetails($id)
+    public function getAccountDetails($id, $useTdrop = false)
     {
-        $account = $this->getAccount($id);
+        $account = $this->getAccount($id, $useTdrop);
         $account['transactions'] = $this->getAccountTransactions($id);
         $account['stakes'] = $this->getAccountStakes($id);
         return $account;

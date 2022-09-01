@@ -77,7 +77,7 @@ class ThetaController extends Controller
     {
         $networkInfo = $this->thetaService->getNetworkInfo();
         $whales = $this->thetaService->getTrackingAccounts();
-        $account = $this->onChainService->getAccountDetails($id);
+        $account = $this->onChainService->getAccountDetails($id, true);
         $usd = round($account['balance']['theta'] * $networkInfo['theta_price'] + $account['balance']['tfuel'] * $networkInfo['tfuel_price'] + $account['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
         $whaleStatus = 'no';
         if ($usd >= Constants::WHALE_MIN_BALANCE) {

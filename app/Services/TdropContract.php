@@ -12,57 +12,81 @@ class TdropContract
     const MAX_STAKING_WARDS = 4000000000;
 
     public function getTotalSypply() {
-        $contract = $this->getTdropContact();
-        $totalSupply = false;
-        $contract->at(Constants::TDROP_CONTRACT_ID)->call('totalSupply', [], function ($err, $result) use (&$totalSupply) {
-            $totalSupply = (float)$result[0]->toString();
-        });
-        return $totalSupply;
+        try {
+            $contract = $this->getTdropContact();
+            $totalSupply = false;
+            $contract->at(Constants::TDROP_CONTRACT_ID)->call('totalSupply', [], function ($err, $result) use (&$totalSupply) {
+                $totalSupply = (float)$result[0]->toString();
+            });
+            return $totalSupply;
+        } catch (\Exception $ex) {
+        }
+        return false;
     }
 
     public function stakesRewarded() {
-        $contract = $this->getTdropContact();
-        $totalSupply = false;
-        $contract->at(Constants::TDROP_CONTRACT_ID)->call('stakeRewardAccumulated', [], function ($err, $result) use (&$totalSupply) {
-            $totalSupply = (float)$result[0]->toString() / Constants::THETA_WEI;
-        });
-        return $totalSupply;
+        try {
+            $contract = $this->getTdropContact();
+            $totalSupply = false;
+            $contract->at(Constants::TDROP_CONTRACT_ID)->call('stakeRewardAccumulated', [], function ($err, $result) use (&$totalSupply) {
+                $totalSupply = (float)$result[0]->toString() / Constants::THETA_WEI;
+            });
+            return $totalSupply;
+        } catch (\Exception $ex) {
+        }
+        return false;
     }
 
     public function stakesRewardAnnualRate() {
-        $remaningYears = (strtotime('2026-02-01') - time()) / 86400 / 365;
-        $remaningRewards = self::MAX_STAKING_WARDS - $this->stakesRewarded();
-        $rewardsPerYear = $remaningRewards / $remaningYears;
-        $tdropTotalStakes = $this->getBalance(Constants::TDROP_STAKING_ADDRESS);
-        $rate = round($rewardsPerYear / $tdropTotalStakes, 4);
-        return $rate;
+        try {
+            $remaningYears = (strtotime('2026-02-01') - time()) / 86400 / 365;
+            $remaningRewards = self::MAX_STAKING_WARDS - $this->stakesRewarded();
+            $rewardsPerYear = $remaningRewards / $remaningYears;
+            $tdropTotalStakes = $this->getBalance(Constants::TDROP_STAKING_ADDRESS);
+            $rate = round($rewardsPerYear / $tdropTotalStakes, 4);
+            return $rate;
+        } catch (\Exception $ex) {
+        }
+        return false;
     }
 
     public function getBalance($address) {
-        $contract = $this->getTdropContact();
-        $balance = false;
-        $contract->at(Constants::TDROP_CONTRACT_ID)->call('balanceOf', $address, function ($err, $result) use (&$balance) {
-            $balance = (float)$result[0]->toString() / Constants::THETA_WEI;
-        });
-        return $balance;
+        try {
+            $contract = $this->getTdropContact();
+            $balance = false;
+            $contract->at(Constants::TDROP_CONTRACT_ID)->call('balanceOf', $address, function ($err, $result) use (&$balance) {
+                $balance = (float)$result[0]->toString() / Constants::THETA_WEI;
+            });
+            return $balance;
+        } catch (\Exception $ex) {
+        }
+        return false;
     }
 
     public function getStakingTotalShares() {
-        $contract = $this->getStakingContact();
-        $totalShares = false;
-        $contract->at(Constants::TDROP_STAKING_ADDRESS)->call('totalShares', [], function ($err, $result) use (&$totalShares) {
-            $totalShares = (float)$result[0]->toString() / Constants::THETA_WEI;
-        });
-        return $totalShares;
+        try {
+            $contract = $this->getStakingContact();
+            $totalShares = false;
+            $contract->at(Constants::TDROP_STAKING_ADDRESS)->call('totalShares', [], function ($err, $result) use (&$totalShares) {
+                $totalShares = (float)$result[0]->toString() / Constants::THETA_WEI;
+            });
+            return $totalShares;
+        } catch (\Exception $ex) {
+        }
+        return false;
     }
 
     public function getStakingEstimatedTDropOwnedBy($address) {
-        $contract = $this->getStakingContact();
-        $amount = false;
-        $contract->at(Constants::TDROP_STAKING_ADDRESS)->call('estimatedTDropOwnedBy', $address, function ($err, $result) use (&$amount) {
-            $amount = (float)$result[0]->toString() / Constants::THETA_WEI;
-        });
-        return $amount;
+        try {
+            $contract = $this->getStakingContact();
+            $amount = false;
+            $contract->at(Constants::TDROP_STAKING_ADDRESS)->call('estimatedTDropOwnedBy', $address, function ($err, $result) use (&$amount) {
+                $amount = (float)$result[0]->toString() / Constants::THETA_WEI;
+            });
+            return $amount;
+        } catch (\Exception $ex) {
+        }
+        return false;
     }
 
     public function getTdropContact() {

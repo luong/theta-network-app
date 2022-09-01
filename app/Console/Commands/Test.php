@@ -67,12 +67,16 @@ class Test extends Command
      *
      * @return int
      */
-    public function handle(ThetaService $thetaService, TdropContract $contract)
+    public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        $data = DB::select("SELECT * FROM stakes WHERE type = 'vcp'");
-        foreach ($data as $each) {
-            DB::statement("UPDATE accounts SET tags = '[\"validator\"]' WHERE code = ?", [$each->source]);
-            $thetaService->addTrackingAccount($each->source, null, null, false);
+        $trackingAccounts = DB::select('SELECT * FROM tracking_accounts');
+        foreach ($trackingAccounts as $trackingAccount) {
+            $data = $onChainService->getAccount($trackingAccount->code, true);
+            if ($data === false) {
+                print_r("Error\n");
+                continue;
+            }
+            print_r($data['id'] . "\n");
         }
         return 0;
     }

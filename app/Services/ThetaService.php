@@ -592,7 +592,7 @@ class ThetaService
     public function updateTrackingAccount(TrackingAccount $trackingAccount, $networkInfo = null)
     {
         $onChainService = resolve(OnChainService::class);
-        $acc = $onChainService->getAccount($trackingAccount->code);
+        $acc = $onChainService->getAccount($trackingAccount->code, true);
         if (!empty($acc)) {
             if (empty($networkInfo)) {
                 $networkInfo = $this->getNetworkInfo();
