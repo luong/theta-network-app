@@ -46,6 +46,15 @@
             <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
                 <div class="navbar-nav">
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-snapchat"></span> Accounts</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/accounts?tags=whales">Whales</a></li>
+                            <li><a class="dropdown-item" href="/accounts?tags=thetalabs">ThetaLabs</a></li>
+                            <li><a class="dropdown-item" href="/accounts?tags=exchange">Exchanges</a></li>
+                            <li><a class="dropdown-item" href="/accounts?tags=validator">Validators</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-bar-chart"></span> Charts</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/chart/tfuel-stake">Tfuel Stakes</a></li>
