@@ -93,6 +93,7 @@ class TdropTransactions extends Command
 
             if ($usd >= Constants::TOP_TDROP_TRANSACTION_TWEET_AMOUNT) {
                 $messageService->hasLargeTransaction($tx);
+                $thetaService->addTrackingAccount(strtolower($transaction['to']), null, null, true);
             }
 
             if ($usd > 1) {
