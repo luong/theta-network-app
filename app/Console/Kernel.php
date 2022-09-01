@@ -37,7 +37,6 @@ class Kernel extends ConsoleKernel
         $schedule->command(Drops::class)->everyMinute();
         $schedule->command(DailyTweet2::class)->dailyAt('00:30');
         $schedule->command(Accounts::class)->everyThreeHours();
-        $schedule->command(Whales::class)->everyFourHours();
         $schedule->command(DetectDataErrors::class)->dailyAt('01:00');
     }
 

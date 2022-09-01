@@ -43,7 +43,7 @@ class DetectDataErrors extends Command
     public function handle(ThetaService $thetaService, SystemService $systemService)
     {
         $commandTrackers = $thetaService->getCommandTrackers();
-        $commands = ['DailyStats', 'Stakes', 'Prices', 'Drops', 'DailyTweet2', 'Transactions', 'News', 'Accounts', 'Whales'];
+        $commands = ['DailyStats', 'Stakes', 'Prices', 'Drops', 'DailyTweet2', 'Transactions', 'News', 'Accounts'];
         $today = date('Y-m-d');
 
         $commandsFailed = [];

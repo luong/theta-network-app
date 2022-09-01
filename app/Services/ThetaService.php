@@ -55,7 +55,6 @@ class ThetaService
                 'DailyTweet2' => ['command' => 'theta:dailyTweet2', 'last_run' => null],
                 'Drops' => ['command' => 'theta:drops', 'last_run' => null],
                 'Accounts' => ['command' => 'theta:accounts', 'last_run' => null],
-                'Whales' => ['command' => 'theta:whales', 'last_run' => null],
                 'News' => ['command' => 'theta:news', 'last_run' => null]
             ];
             Cache::put('command_trackers', $commandTrackers);
