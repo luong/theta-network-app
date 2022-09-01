@@ -18736,18 +18736,18 @@ textarea.form-control-lg {
   color: red;
 }
 .homepage .card.top-transactions {
-  height: 320px;
+  height: 350px;
 }
 .homepage .card.top-withdrawals {
   width: 360px;
-  height: 320px;
+  height: 350px;
 }
 .homepage .card.top-withdrawals .bullet {
   width: 100px !important;
 }
 .homepage .card.validators {
   width: 280px;
-  height: 320px;
+  height: 350px;
 }
 .homepage .card.validators .bullet {
   width: 120px !important;
