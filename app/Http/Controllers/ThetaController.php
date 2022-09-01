@@ -49,6 +49,13 @@ class ThetaController extends Controller
                 ->orderByDesc('tracking_accounts.balance_usd')
                 ->select('tracking_accounts.*')
                 ->get();
+        } else if ($tags == 'validators') {
+            $trackingAccounts = DB::table('tracking_accounts')
+                ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
+                ->orWhere('accounts.tags', 'like', "%validator%")
+                ->orderByDesc('tracking_accounts.balance_usd')
+                ->select('tracking_accounts.*')
+                ->get();
         } else {
             $trackingAccounts = DB::table('tracking_accounts')
                 ->join('accounts', 'tracking_accounts.code', '=', 'accounts.code')
