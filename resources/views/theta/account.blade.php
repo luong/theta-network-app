@@ -10,7 +10,7 @@
 
                         @if ($whaleStatus != 'no')
                             @if ($whaleStatus == 'identified')
-                               <div><span class="bi bi-check-circle-fill text-info"></span> Marked as <a href="/whales">whales</a></div>
+                               <div><span class="bi bi-check-circle-fill text-info"></span> Marked as whales</div>
                             @else
                                 <div><span class="bi bi-lightning"></span> <a href="/whales/add/{{ $account['id'] }}">Mark this account as whales</a></div>
                             @endif
