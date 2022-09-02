@@ -55,7 +55,7 @@ class Accounts extends Command
     {
         $networkInfo = $thetaService->getNetworkInfo();
 
-        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/top/theta/500');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/top/theta/300');
         if (!$response->ok()) {
             Log::channel('db')->error('Request failed: api/account/top/theta');
             return false;
@@ -72,7 +72,7 @@ class Accounts extends Command
             );
         }
 
-        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/top/tfuel/500');
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/account/top/tfuel/300');
         if (!$response->ok()) {
             Log::channel('db')->error('Request failed: api/account/top/tfuel');
             return false;
@@ -86,6 +86,24 @@ class Accounts extends Command
             TrackingAccount::updateOrCreate(
                 ['code' => $account['address']],
                 $data
+            );
+        }
+
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/tokenHolder/' . Constants::TDROP_CONTRACT_ID);
+        if (!$response->ok()) {
+            Log::channel('db')->error('Request failed: api/tokenHolder/tdrop');
+            return false;
+        }
+        $holders = $response->json()['body']['holders'];
+        foreach ($holders as $holder) {
+            $amount = $holder['amount'] / Constants::THETA_WEI;
+            $usd = $amount * $networkInfo['tdrop_price'];
+            if ($usd < 100000) {
+                continue;
+            }
+            TrackingAccount::updateOrCreate(
+                ['code' => $holder['address']],
+                ['balance_tdrop' => round($amount, 2)]
             );
         }
 

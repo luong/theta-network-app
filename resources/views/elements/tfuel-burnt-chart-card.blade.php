@@ -36,7 +36,7 @@
                     tooltip: {
                         displayColors: false
                     }
-                }
+                },
                 scales: {
                     x: {
                         type: 'time',
