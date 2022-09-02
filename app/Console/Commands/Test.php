@@ -69,14 +69,20 @@ class Test extends Command
      */
     public function handle(ThetaService $thetaService, OnChainService $onChainService)
     {
-        $trackingAccounts = DB::select('SELECT * FROM tracking_accounts');
-        foreach ($trackingAccounts as $trackingAccount) {
-            $data = $onChainService->getAccount($trackingAccount->code, true);
-            if ($data === false) {
-                print_r("Error\n");
+        $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/tokenHolder/' . Constants::TDROP_STAKING_ADDRESS);
+        if (!$response->ok()) {
+            Log::channel('db')->error('Request failed: marketing/v1/news');
+            return false;
+        }
+        $networkInfo = $thetaService->getNetworkInfo();
+        $holders = $response->json()['body']['holders'];
+        foreach ($holders as $holder) {
+            $amount = $holder['amount'] / Constants::THETA_WEI;
+            $usd = $amount * $networkInfo['tdrop_price'];
+            if ($usd < 500000) {
                 continue;
             }
-            print_r($data['id'] . "\n");
+            echo "{$holder['address']} - {$amount} \n";
         }
         return 0;
     }

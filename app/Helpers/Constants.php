@@ -21,6 +21,7 @@ class Constants
 
     const TBILL_CONTRACT_ID = '0x22cb20636c2d853de2b140c2eaddbfd6c3643a39';
     const WTFUEL_CONTRACT_ID = '0x4dc08b15ea0e10b96c41aec22fab934ba15c983e';
+    const ZERO_ACCOUNT_ID = '0x0000000000000000000000000000000000000000';
 
     const WTFUEL_ACCOUNT = '0x4dc08b15ea0e10b96c41aec22fab934ba15c983e';
     const WHALE_MIN_BALANCE = 500000;
@@ -52,7 +53,5 @@ class Constants
     const LOG_LIFETIME_DAYS = 14;
 
     const WEB3_RPC = 'https://eth-rpc-api.thetatoken.org/rpc';
-
-    const USER_WALLET_TRACK_LIMIT = 2;
     const USER_WALLET_TRACK_AMOUNT = 50;
 }
