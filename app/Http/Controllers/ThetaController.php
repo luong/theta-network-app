@@ -236,7 +236,7 @@ class ThetaController extends Controller
                 $transactions->orderByDesc('date');
             }
         }
-        $transactions = $transactions->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
+        $transactions = $transactions->simplePaginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('theta.transactions', [
             'transactions' => $transactions,
             'accounts' => $accounts,
