@@ -48,9 +48,9 @@ class Constants
     const TWITTER_ACCESS_TOKEN_SECRET = 'YTAbPiLUGeQVlwsdQN5jchoHcmi8Y3LpHn6A06fUQmuhn';
 
     const PAGINATION_PAGE_LIMIT = 100;
-    const TRANSACTION_LIFETIME_DAYS = 14;
-    const DROP_LIFETIME_DAYS = 14;
-    const LOG_LIFETIME_DAYS = 14;
+    const TRANSACTION_LIFETIME_DAYS = 7;
+    const DROP_LIFETIME_DAYS = 7;
+    const LOG_LIFETIME_DAYS = 7;
 
     const WEB3_RPC = 'https://eth-rpc-api.thetatoken.org/rpc';
     const USER_WALLET_TRACK_AMOUNT = 50;
