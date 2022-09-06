@@ -40,7 +40,7 @@ class ThetaController extends Controller
     public function accounts() {
         $tags = request('tags');
         if (empty($tags)) {
-            $tags = 'not found';
+            $tags = 'whales';
         }
         if ($tags == 'whales') {
             $trackingAccounts = DB::table('tracking_accounts')
@@ -68,7 +68,8 @@ class ThetaController extends Controller
         $accounts = $this->thetaService->getAccounts();
         return view('theta.accounts', [
             'trackingAccounts' => $trackingAccounts,
-            'accounts' => $accounts
+            'accounts' => $accounts,
+            'tags' => $tags
         ]);
     }
 

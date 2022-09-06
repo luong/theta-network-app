@@ -1,5 +1,13 @@
 <x-layout title="Accounts" pageName="accounts">
     <div class="whales-page">
+        <div class="filter col-lg-3 ms-auto me-auto ps-2 pe-2">
+            <select class="tags-select form-select mt-3" onchange="location.href = this.value">
+                <option value="/accounts?tags=whales" {{ $tags == 'whales' ? 'selected' : '' }}>Whales</option>
+                <option value="/accounts?tags=thetalabs" {{ $tags == 'thetalabs' ? 'selected' : '' }}>ThetaLabs</option>
+                <option value="/accounts?tags=exchange" {{ $tags == 'exchange' ? 'selected' : '' }}>Exchanges</option>
+                <option value="/accounts?tags=validator" {{ $tags == 'validator' ? 'selected' : '' }}>Validators</option>
+            </select>
+        </div>
         @if (count($trackingAccounts) > 0)
             <div class="whales d-flex flex-row justify-content-center flex-wrap gap-4 gap-md-3 mt-3">
                 @foreach ($trackingAccounts as $trackingAccount)
