@@ -192,7 +192,7 @@ class Transactions extends Command
             } else if ($transaction['type'] == 9) { // withdraw
                 $stakeInfo = $onChainService->getStakeBySourceAndHolder($transaction['data']['source']['address'], $transaction['data']['holder']['address']);
                 if (!empty($stakeInfo)) {
-                    if ($transaction['data']['purpose'] == 1) { // guardian
+                    if ($transaction['data']['purpose'] == 0 || $transaction['data']['purpose'] == 1) { // validator or guardian
                         $theta = round($stakeInfo['amount'] / Constants::THETA_WEI, 2);
                         $usd = round($theta * $coinList['THETA']['price'], 2);
                         $tx = [
