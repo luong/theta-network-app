@@ -93,7 +93,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {{ $transactions->links() }} (Transactions collected in 7 days)
+            {{ $transactions->onEachSide(2)->links() }} (Transactions collected in 7 days)
         </div>
 
     </div>
