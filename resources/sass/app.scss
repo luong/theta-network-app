@@ -169,6 +169,19 @@
     }
 }
 
+.transactions-page {
+    .transactions {
+        &.mobile {
+            th {
+                padding: 2px;
+            }
+            td {
+                padding: 2px;
+            }
+        }
+    }
+}
+
 .nft-page {
     .drops {
         .sizer {

@@ -18796,6 +18796,13 @@ textarea.form-control-lg {
   padding: 2px;
 }
 
+.transactions-page .transactions.mobile th {
+  padding: 2px;
+}
+.transactions-page .transactions.mobile td {
+  padding: 2px;
+}
+
 .nft-page .drops .sizer {
   width: 5%;
 }

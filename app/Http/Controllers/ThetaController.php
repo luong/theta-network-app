@@ -202,4 +202,48 @@ class ThetaController extends Controller
             'tfuelBurntChartData' => $this->thetaService->getTfuelBurntChartData()
         ]);
     }
+
+    public function transactions() {
+        $type = request('type');
+        $account = request('account');
+        $currency = request('currency');
+        $sort = request('sort', 'latest_date');
+
+        $accounts = $this->thetaService->getAccounts();
+        $transactions = DB::table('transactions');
+        $transactions->leftJoin('accounts AS accounts_1', 'transactions.from_account', '=', 'accounts_1.code');
+        $transactions->leftJoin('accounts AS accounts_2', 'transactions.to_account', '=', 'accounts_2.code');
+        $transactions->selectRaw('transactions.*, accounts_1.name AS from_name, accounts_2.name AS to_name, IF(accounts_1.id IS NOT NULL OR accounts_2.id IS NOT NULL, 1, 0) AS has_account');
+        if (!empty($type)) {
+            $transactions->where('type', $type);
+        }
+        if (!empty($account)) {
+            if ($account == 'whales') {
+                $transactions->where('usd', '>=', Constants::WHALE_MIN_BALANCE);
+            } else if (in_array($account, ['exchange', 'validator'])) {
+                $transactions->whereRaw('(accounts_1.tags LIKE ? OR accounts_2.tags LIKE ?)', ["%{$account}%", "%{$account}%"]);
+            } else {
+                $transactions->whereRaw('(accounts_1.name LIKE ? OR accounts_1.tags LIKE ? OR accounts_2.name LIKE ? OR accounts_2.tags LIKE ?)', ["%{$account}%", "%{$account}%", "%{$account}%", "%{$account}%"]);
+            }
+        }
+        if (!empty($currency)) {
+            $transactions->where('currency', $currency);
+        }
+        if (!empty($sort)) {
+            if ($sort == 'large_value') {
+                $transactions->orderByDesc('usd');
+            } else if ($sort == 'latest_date') {
+                $transactions->orderByDesc('date');
+            }
+        }
+        $transactions = $transactions->get();
+        return view('theta.transactions', [
+            'transactions' => $transactions,
+            'accounts' => $accounts,
+            'sort' => $sort,
+            'type' => $type,
+            'account' => $account,
+            'currency' => $currency,
+        ]);
+    }
 }
