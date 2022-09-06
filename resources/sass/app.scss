@@ -18,6 +18,13 @@
     margin-top: 7px;
 }
 
+.top-logo {
+    line-height: 1.2;
+    @include media-breakpoint-down(md) {
+        font-size: 30px !important;
+    }
+}
+
 .homepage {
     .donate-model {
         .modal-body {

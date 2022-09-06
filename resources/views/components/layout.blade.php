@@ -36,15 +36,15 @@
 <div class="container-fluid m-0 p-0 user-layout">
     <nav class="navbar navbar-light navbar-expand-lg bg-light" style="background-color:#e3f2fd">
         <div class="container-fluid">
-            <a class="navbar-brand fs-3 text-secondary" href="/">
-                <img src="{{ asset('images/theta.png') }}" width="36" style="vertical-align: top; margin-top: 3px;"/>
-                ThetaPizza
+            <a class="top-logo navbar-brand fs-3 text-secondary" href="/">
+                <img src="{{ asset('images/theta.png') }}" width="36" style="vertical-align: top; margin-top: 0px;"/>
+                <span style="">ThetaPizza</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse float-end" id="navbarNavAltMarkup" style="flex-grow: 0">
-                <div class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link text-secondar fs-5" href="/accounts"><span class="bi bi-snapchat"></span> Accounts</a>
                     </li>
@@ -69,6 +69,11 @@
                         <a id="contactLink" class="nav-link text-secondary fs-5" href="https://twitter.com/ThetaPizza" target="_blank"><span class="bi bi-twitter"></span> Contact</a>
                     </li>
                 </div>
+                <form class="d-flex" role="search" action="/search">
+                    <div class="col-12">
+                        <input class="form-control me-md-4" type="search" name="q" placeholder="Search by address or txn"/>
+                    </div>
+                </form>
             </div>
         </div>
     </nav>

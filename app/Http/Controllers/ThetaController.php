@@ -6,6 +6,7 @@ use App\Models\TrackingAccount;
 use App\Services\OnChainService;
 use App\Services\ThetaService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ThetaController extends Controller
 {
@@ -245,5 +246,22 @@ class ThetaController extends Controller
             'account' => $account,
             'currency' => $currency,
         ]);
+    }
+
+    public function search() {
+        $q = request('q');
+        if (!empty($q)) {
+            $accountAcount = DB::table('accounts')->whereRaw('(name LIKE ? OR tags LIKE ?)', ["%{$q}%", "%{$q}%"])->count();
+            if ($accountAcount > 0) {
+                return redirect('/accounts?tags=' . $q);
+            }
+            $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transaction/' . $q);
+            if ($response->ok()) {
+                return redirect('/transaction/' . $q);
+            } else {
+                return redirect('/account/' . $q);
+            }
+        }
+        return redirect('/');
     }
 }
