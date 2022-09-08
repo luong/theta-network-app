@@ -187,6 +187,8 @@ class OnChainService
             Cache::put('coins_gko', $coins, now()->addMinutes(2));
         }
 
+        $coins['THETA']['market_cap'] = $coinsFromCMC['THETA']['market_cap'];
+        $coins['THETA']['market_cap_rank'] = $coinsFromCMC['THETA']['market_cap_rank'];
         $coins['TFUEL']['circulating_supply'] = $this->getTfuelSupply();
         $coins['TFUEL']['market_cap'] = $coinsFromCMC['TFUEL']['market_cap'];
         $coins['TFUEL']['market_cap_rank'] = $coinsFromCMC['TFUEL']['market_cap_rank'];
