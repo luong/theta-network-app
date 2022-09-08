@@ -504,7 +504,7 @@ class OnChainService
                     $transaction['currency'] = 'tfuel';
                 }
 
-            } else if ($data['type'] == 10) { // stake
+            } else if ($data['type'] == 8 || $data['type'] == 10) { // stake
                 $transaction['type'] = 'stake';
                 $transaction['from_account'] = $data['data']['source']['address'];
                 $transaction['to_account'] = $data['data']['holder']['address'];
