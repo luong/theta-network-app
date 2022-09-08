@@ -39,7 +39,7 @@
             </div>
             <div class="row">
                 <div class="col">Theta Drop Sales</div>
-                <div class="col">{{ Helper::formatPrice($networkInfo['drop_sales'], 2) . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)' }}</div>
+                <div class="col">{{ Helper::formatPrice($networkInfo['drop_sales'], 0) . ' (' . ($networkInfo['drop_sales_change_24h'] >= 0 ? '+' : '') . Helper::formatNumber($networkInfo['drop_sales_change_24h'] * 100, 2) . '%)' }}</div>
             </div>
         </div>
     </div>
