@@ -46,8 +46,20 @@
                         <tr>
                             <td>{{ Helper::getNodeName($stake['type']) }}</td>
                             <td class="text-end"><x-currency type="{{ $stake['currency'] }}" top="2"/> <span>{{ Helper::formatNumber($stake['coins'], 0) }}</span></td>
-                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source']) }}</a></td>
-                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
+                            <td>
+                                @if (strtolower($stake['source']) == strtolower($account['id']))
+                                    Me
+                                @else
+                                    <a href="/account/{{ $stake['source'] }}">{{ isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source'] }}</a>
+                                @endif
+                            </td>
+                            <td>
+                                @if (strtolower($stake['holder']) == strtolower($account['id']))
+                                    Me
+                                @else
+                                    <a href="/account/{{ $stake['holder'] }}">{{ isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder'] }}</a>
+                                @endif
+                            </td>
                             <td>{{ ucfirst($stake['status']) }}</td>
                         </tr>
                     @endforeach
@@ -60,21 +72,21 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col" style="width:40px"></th>
                         <th scope="col" class="text-center">Coins</th>
                         <th scope="col" class="text-start">Staker</th>
                         <th scope="col">Holder</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" style="width:40px"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($account['stakes'] as $stake)
                         <tr>
-                            <td>{{ Helper::getNodeName($stake['type']) }}</td>
-                            <td class="text-end"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 0, 'auto') }}</td>
-                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source'], 4, '..') }}</a></td>
-                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder'], 4, '..') }}</a></td>
-                            <td>{{ ucfirst($stake['status']) }}</td>
+                            <td class="align-middle text-center">{{ Helper::getNodeName($stake['type'])[0] }}</td>
+                            <td class="text-center"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 0, 'auto') }}</td>
+                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source'], 10, '..') }}</a></td>
+                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder'], 10, '..') }}</a></td>
+                            <td class="align-middle text-center">{{ ucfirst($stake['status'])[0] }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -146,7 +158,7 @@
                             </td>
                             <td class="text-end">
                                 <x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 1, 'auto') }}</a><br/>
-                                (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 2, 'auto') }}</span>)
+                                (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 1, 'auto') }}</span>)
                             </td>
                             <td class="text-center align-middle">{{ date('Y', strtotime($transaction['date'])) }}<br/>{{ date('m-d', strtotime($transaction['date'])) }}</td>
                         </tr>
