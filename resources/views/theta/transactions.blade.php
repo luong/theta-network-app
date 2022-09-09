@@ -70,25 +70,28 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">From</th>
-                    <th scope="col">To</th>
+                    <th scope="col" style="width:35px"></th>
+                    <th scope="col">From / To</th>
                     <th scope="col" class="text-end">Amount</th>
-                    <th scope="col" class="text-center">Date</th>
+                    <th scope="col" class="text-center" style="width:80px">Date</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($transactions as $transaction)
                     <tr>
-                        <td class="align-middle">
-                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? Str::limit($accounts[$transaction->from_account]['name'], 6) : Str::limit($transaction->from_account, 6) }}</a><br/>
-                            {{ ucfirst($transaction->type) }}
+                        <td class="align-middle text-center">
+                            {{ ucfirst($transaction->type)[0] }}
                         </td>
-                        <td class="align-middle"><a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? Str::limit($accounts[$transaction->to_account]['name'], 6) : Str::limit($transaction->to_account, 6) }}</a></td>
+                        <td class="align-middle">
+                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? Str::limit($accounts[$transaction->from_account]['name'], 16, '..') : Str::limit($transaction->from_account, 16, '..') }}</a>
+                            <br/>
+                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? Str::limit($accounts[$transaction->to_account]['name'], 16, '..') : Str::limit($transaction->to_account, 16, '..') }}</a>
+                        </td>
                         <td class="text-end">
-                            <x-currency type="{{ $transaction->currency }}" top="2"/> <a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ Helper::formatNumber($transaction->coins, 2, 'auto') }}</a><br/>
+                            <x-currency type="{{ $transaction->currency }}" top="2"/> <a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ Helper::formatNumber($transaction->coins, 1, 'auto') }}</a><br/>
                             (<span class="text-end {{ $transaction->usd > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction->usd, 2, 'auto') }}</span>)
                         </td>
-                        <td class="text-center align-middle">{{ date('Y-m-d', strtotime($transaction->date)) }}<br/>{{ date('H:i', strtotime($transaction->date)) }}</td>
+                        <td class="text-center align-middle">{{ date('Y', strtotime($transaction->date)) }}<br/>{{ date('m-d', strtotime($transaction->date)) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
