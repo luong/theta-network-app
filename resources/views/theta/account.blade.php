@@ -86,7 +86,7 @@
                             <td class="text-center fit-cell"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 2, 'auto') }}</td>
                             <td class="truncate-cell"><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source']) }}</a></td>
                             <td class="truncate-cell"><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
-                            <td class="align-middle text-center fit-cell">{{ ucfirst($stake['status'])[0] }}</td>
+                            <td class="align-middle text-center fit-cell">{{ ucfirst($stake['status']) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -140,7 +140,7 @@
                     @foreach ($account['transactions'] as $transaction)
                         <tr>
                             <td class="align-middle text-center fit-cell ps-2 pe-2">
-                                {{ ucfirst($transaction['type'])[0] }}
+                                {{ ucfirst($transaction['type']) }}
                             </td>
                             <td class="align-middle truncate-cell">
                                 @if (strtolower($transaction['from']) == strtolower($account['id']))
@@ -158,7 +158,7 @@
                             </td>
                             <td class="text-end fit-cell ps-2 pe-2">
                                 <x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 1, 'auto') }}</a><br/>
-                                (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 1, 'auto') }}</span>)
+                                (<span class="text-end">${{ Helper::formatNumber($transaction['usd'], 1, 'auto') }}</span>)
                             </td>
                             <td class="text-center align-middle fit-cell ps-2 pe-2">{{ date('Y', strtotime($transaction['date'])) }}<br/>{{ date('m-d', strtotime($transaction['date'])) }}</td>
                         </tr>

@@ -80,7 +80,7 @@
                 @foreach ($transactions as $transaction)
                     <tr>
                         <td class="align-middle text-center fit-cell ps-1 pe-1">
-                            {{ ucfirst($transaction->type)[0] }}
+                            {{ ucfirst($transaction->type) }}
                         </td>
                         <td class="align-middle" style="max-width: 1px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
                             <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account }}</a>
