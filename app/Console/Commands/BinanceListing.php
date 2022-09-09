@@ -47,6 +47,9 @@ class BinanceListing extends Command
             Log::channel('db')->error('Request failed: Binance listing');
             return 0;
         }
+
+        $thetaService->setCommandTracker('BinanceListing', 'last_run', time());
+
         if (empty($newListing['coin'])) {
             return 0;
         }
@@ -57,9 +60,7 @@ class BinanceListing extends Command
         $settingObj = Setting::where('code', 'binance_new_coin')->first();
         $settingObj->value = $newListing['coin'];
         $settingObj->save();
-
         $thetaService->cacheSettings();
-        $thetaService->setCommandTracker('BinanceListing', 'last_run', time());
 
         return 0;
     }
