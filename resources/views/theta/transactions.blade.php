@@ -29,8 +29,8 @@
             </div>
             <div class="col-6 col-md-3 mt-2 mt-md-0">
                 <select name="sort" class="form-select" onchange="this.form.submit()">
-                    <option value="latest_date" {{ $sort == 'latest_date' ? 'selected' : '' }}>Sort by latest date</option>
-                    <option value="large_value" {{ $sort == 'large_value' ? 'selected' : '' }}>Sort by large value</option>
+                    <option value="latest_date" {{ $sort == 'latest_date' ? 'selected' : '' }}>By latest date</option>
+                    <option value="large_value" {{ $sort == 'large_value' ? 'selected' : '' }}>By large value</option>
                 </select>
             </div>
         </div>
