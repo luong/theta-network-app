@@ -7,7 +7,7 @@
         <div class="container">
             @foreach ($stakings24H['list'] as $transaction)
                 <div class="row">
-                    <span class="bullet">{{ Str::limit(isset($accounts[$transaction['to_account']]) ? $accounts[$transaction['to_account']]['name'] : $transaction['to_account'], 8, '') }}</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="/transaction/{{ $transaction['txn'] }}" class="w-auto ps-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
+                    <span class="bullet">{{ Str::limit(isset($accounts[$transaction['to_account']]) ? $accounts[$transaction['to_account']]['name'] : $transaction['to_account'], 8, '..') }}</span> <x-currency type="{{ $transaction['currency'] }}"/> <a href="/transaction/{{ $transaction['txn'] }}" class="w-auto ps-1">{{ number_format($transaction['coins'], 0) }} ({{ Helper::formatPrice($transaction['usd']) }})</a>
                 </div>
             @endforeach
         </div>
