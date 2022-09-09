@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\DexService;
 use App\Services\OnChainService;
 use App\Services\SystemService;
 use App\Services\TdropContract;
@@ -18,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
         ThetaService::class => ThetaService::class,
         MessageService::class => MessageService::class,
         TdropContract::class => TdropContract::class,
-        SystemService::class => SystemService::class
+        SystemService::class => SystemService::class,
+        DexService::class => DexService::class
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\Accounts;
+use App\Console\Commands\BinanceListing;
 use App\Console\Commands\Blocks;
 use App\Console\Commands\DailyTweet2;
 use App\Console\Commands\DetectDataErrors;
@@ -38,6 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(DailyTweet2::class)->dailyAt('00:30');
         $schedule->command(Accounts::class)->everyThreeHours();
         $schedule->command(DetectDataErrors::class)->dailyAt('01:00');
+        $schedule->command(BinanceListing::class)->everyMinute();
     }
 
     /**
