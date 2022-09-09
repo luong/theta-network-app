@@ -88,7 +88,7 @@
                 ** Shorthand: T=Transfer, S=Stake, U=Unstake, V=Validator, G=Guardian, E=Elite
                 <br/>
             </div>
-            ** Prices are updated every 5 minutes. Daily data is updated at 00:30 UTC.
+            ** Prices updated every 5 minutes. Daily data updated at 00:30 UTC.
             <br/>
             ** <a id="donateLink" href="#" data-bs-toggle="modal" data-bs-target="#donateModel">Donate for hosting the site ($40 / month)</a>. If you want to add any feature, please feel free to <a href="https://twitter.com/ThetaPizza" target="_blank">let me know</a>.
         </div>
