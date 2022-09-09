@@ -2,6 +2,7 @@
     <div class="whales-page">
         <div class="filter col-lg-3 ms-auto me-auto ps-2 pe-2">
             <select class="tags-select form-select mt-3" onchange="location.href = this.value">
+                <option value="">Select Tags</option>
                 <option value="/accounts?tags=whales" {{ $tags == 'whales' ? 'selected' : '' }}>Whales</option>
                 <option value="/accounts?tags=thetalabs" {{ $tags == 'thetalabs' ? 'selected' : '' }}>ThetaLabs</option>
                 <option value="/accounts?tags=exchange" {{ $tags == 'exchange' ? 'selected' : '' }}>Exchanges</option>
