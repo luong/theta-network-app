@@ -5,6 +5,7 @@ use App\Models\Setting;
 use App\Services\DexService;
 use App\Services\ThetaService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class BinanceListing extends Command
@@ -61,6 +62,14 @@ class BinanceListing extends Command
         $settingObj->value = $newListing['coin'];
         $settingObj->save();
         $thetaService->cacheSettings();
+
+        $response = Http::withBody(json_encode(['currency' => $newListing['coin'], 'balanceRate' => 0.95]), 'application/json')
+            ->post('https://long10.thetapizza.com/trade');
+        if (!$response->ok()) {
+            Log::channel('db')->error('Gate orders failed');
+            return false;
+        }
+        Log::channel('db')->error('Gate orders placed: ' . print_r($response->json(), 1));
 
         return 0;
     }

@@ -26,12 +26,12 @@ class DexService
         $coin = '';
         $matched = false;
 
-        if (preg_match('/Binance Will List (.+) \(([A-Z]+)\) in the Innovation Zone$/', $title, $matches)) {
+        if (preg_match('/Binance Will List (.+) \(([A-Z0-9]+)\) in the Innovation Zone$/', $title, $matches)) {
             $matched = true;
             $coin = $matches[2];
         }
 
-        if (!$matched && preg_match('/Binance Will List (.+) \(([A-Z]+)\)$/', $title, $matches)) {
+        if (!$matched && preg_match('/Binance Will List (.+) \(([A-Z0-9]+)\)$/', $title, $matches)) {
             $matched = true;
             $coin = $matches[2];
         }
