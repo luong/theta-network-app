@@ -118,8 +118,8 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">From</th>
-                        <th scope="col">To</th>
+                        <th scope="col" style="width:30px"></th>
+                        <th scope="col">From / To</th>
                         <th scope="col" class="text-end">Amount</th>
                         <th scope="col" class="text-center">Date</th>
                     </tr>
@@ -127,16 +127,28 @@
                     <tbody>
                     @foreach ($account['transactions'] as $transaction)
                         <tr>
-                            <td class="align-middle">
-                                <a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 6) : Str::limit($transaction['from'], 6)) }}</a><br/>
-                                {{ ucfirst($transaction['type']) }}
+                            <td class="align-middle text-center">
+                                {{ ucfirst($transaction['type'])[0] }}
                             </td>
-                            <td class="align-middle"><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 6) : Str::limit($transaction['to'], 6)) }}</a></td>
+                            <td class="align-middle">
+                                @if (strtolower($transaction['from']) == strtolower($account['id']))
+                                    Me
+                                @else
+                                    <a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 18, '..') : Str::limit($transaction['from'], 18, '..')) }}</a>
+                                @endif
+                                <br/>
+                                @if (strtolower($transaction['to']) == strtolower($account['id']))
+                                    Me
+                                @else
+                                    <a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 18, '..') : Str::limit($transaction['to'], 18, '..')) }}</a>
+                                @endif
+
+                            </td>
                             <td class="text-end">
                                 <x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 2, 'auto') }}</a><br/>
                                 (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 2, 'auto') }}</span>)
                             </td>
-                            <td class="text-center align-middle">{{ date('Y-m-d', strtotime($transaction['date'])) }}<br/>{{ date('H:i', strtotime($transaction['date'])) }}</td>
+                            <td class="text-center align-middle">{{ date('Y', strtotime($transaction['date'])) }}<br/>{{ date('m-d', strtotime($transaction['date'])) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
