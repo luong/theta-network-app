@@ -73,7 +73,7 @@
                     <th scope="col" style="width:35px"></th>
                     <th scope="col">From / To</th>
                     <th scope="col" class="text-end">Amount</th>
-                    <th scope="col" class="text-center" style="width:80px">Date</th>
+                    <th scope="col" class="text-center" style="width:70px">Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -83,13 +83,13 @@
                             {{ ucfirst($transaction->type)[0] }}
                         </td>
                         <td class="align-middle">
-                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? Str::limit($accounts[$transaction->from_account]['name'], 16, '..') : Str::limit($transaction->from_account, 16, '..') }}</a>
+                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? Str::limit($accounts[$transaction->from_account]['name'], 14, '..') : Str::limit($transaction->from_account, 14, '..') }}</a>
                             <br/>
-                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? Str::limit($accounts[$transaction->to_account]['name'], 16, '..') : Str::limit($transaction->to_account, 16, '..') }}</a>
+                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? Str::limit($accounts[$transaction->to_account]['name'], 14, '..') : Str::limit($transaction->to_account, 14, '..') }}</a>
                         </td>
                         <td class="text-end">
                             <x-currency type="{{ $transaction->currency }}" top="2"/> <a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ Helper::formatNumber($transaction->coins, 1, 'auto') }}</a><br/>
-                            (<span class="text-end {{ $transaction->usd > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction->usd, 2, 'auto') }}</span>)
+                            (<span class="text-end {{ $transaction->usd > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction->usd, 1, 'auto') }}</span>)
                         </td>
                         <td class="text-center align-middle">{{ date('Y', strtotime($transaction->date)) }}<br/>{{ date('m-d', strtotime($transaction->date)) }}</td>
                     </tr>

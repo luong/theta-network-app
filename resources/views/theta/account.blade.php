@@ -133,7 +133,7 @@
                         <th scope="col" style="width:40px"></th>
                         <th scope="col">From / To</th>
                         <th scope="col" class="text-end">Amount</th>
-                        <th scope="col" class="text-center" style="width:100px">Date</th>
+                        <th scope="col" class="text-center" style="width:70px">Date</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -146,13 +146,13 @@
                                 @if (strtolower($transaction['from']) == strtolower($account['id']))
                                     Me
                                 @else
-                                    <a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 16, '..') : Str::limit($transaction['from'], 16, '..')) }}</a>
+                                    <a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 14, '..') : Str::limit($transaction['from'], 14, '..')) }}</a>
                                 @endif
                                 <br/>
                                 @if (strtolower($transaction['to']) == strtolower($account['id']))
                                     Me
                                 @else
-                                    <a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 16, '..') : Str::limit($transaction['to'], 16, '..')) }}</a>
+                                    <a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 14, '..') : Str::limit($transaction['to'], 14, '..')) }}</a>
                                 @endif
 
                             </td>
