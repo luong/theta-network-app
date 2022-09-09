@@ -40,25 +40,25 @@
             <table class="table table-striped table-sm align-middle w-100">
                 <thead>
                 <tr>
-                    <th scope="col" class="text-center">Type</th>
+                    <th scope="col" class="text-center fit-cell">Type</th>
                     <th scope="col">TXN Hash</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
-                    <th scope="col" class="text-end">Amount</th>
-                    <th scope="col" class="text-end">Value</th>
-                    <th scope="col" class="text-center">Date</th>
+                    <th scope="col" class="text-end fit-cell">Amount</th>
+                    <th scope="col" class="text-end fit-cell">Value</th>
+                    <th scope="col" class="text-center fit-cell">Date</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($transactions as $transaction)
                     <tr>
-                        <td class="text-center">{{ ucfirst($transaction->type) }}</td>
-                        <td><a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ Str::limit($transaction->txn, 10) }}</a></td>
-                        <td><a href="/account/{{ $transaction->from_account }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction->from_account]) ? 'text-success' : '' }}">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : Str::limit($transaction->from_account, 10) }}</a></td>
-                        <td><a href="/account/{{ $transaction->to_account }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction->to_account]) ? 'text-success' : '' }}">{{ isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : Str::limit($transaction->to_account, 10) }}</a></td>
-                        <td class="text-end"><x-currency type="{{ $transaction->currency }}" top="2"/> {{ Helper::formatNumber($transaction->coins, 2) }}</td>
-                        <td class="text-end {{ $transaction->usd > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction->usd, 2) }}</td>
-                        <td class="text-center">{{ $transaction->date }}</td>
+                        <td class="text-center col-auto">{{ ucfirst($transaction->type) }}</td>
+                        <td class="truncate-cell"><a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ $transaction->txn }}</a></td>
+                        <td class="truncate-cell"><a href="/account/{{ $transaction->from_account }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction->from_account]) ? 'text-success' : '' }}">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account }}</a></td>
+                        <td class="truncate-cell"><a href="/account/{{ $transaction->to_account }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction->to_account]) ? 'text-success' : '' }}">{{ isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account }}</a></td>
+                        <td class="text-end fit-cell"><x-currency type="{{ $transaction->currency }}" top="2"/> {{ Helper::formatNumber($transaction->coins, 2) }}</td>
+                        <td class="text-end fit-cell">${{ number_format($transaction->usd, 2) }}</td>
+                        <td class="text-center fit-cell">{{ $transaction->date }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -70,28 +70,28 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" style="width:35px"></th>
-                    <th scope="col">From / To</th>
-                    <th scope="col" class="text-end">Amount</th>
-                    <th scope="col" class="text-center" style="width:70px">Date</th>
+                    <th scope="col" class="fit-cell"></th>
+                    <th scope="col" class="col-6">From / To</th>
+                    <th scope="col" class="text-end fit-cell">Amount</th>
+                    <th scope="col" class="text-center fit-cell">Date</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($transactions as $transaction)
                     <tr>
-                        <td class="align-middle text-center">
+                        <td class="align-middle text-center fit-cell ps-1 pe-1">
                             {{ ucfirst($transaction->type)[0] }}
                         </td>
-                        <td class="align-middle">
-                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? Str::limit($accounts[$transaction->from_account]['name'], 14, '..') : Str::limit($transaction->from_account, 14, '..') }}</a>
+                        <td class="align-middle" style="max-width: 1px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
+                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account }}</a>
                             <br/>
-                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? Str::limit($accounts[$transaction->to_account]['name'], 14, '..') : Str::limit($transaction->to_account, 14, '..') }}</a>
+                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account }}</a>
                         </td>
-                        <td class="text-end">
+                        <td class="text-end fit-cell">
                             <x-currency type="{{ $transaction->currency }}" top="2"/> <a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ Helper::formatNumber($transaction->coins, 1, 'auto') }}</a><br/>
                             (<span class="text-end {{ $transaction->usd > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction->usd, 1, 'auto') }}</span>)
                         </td>
-                        <td class="text-center align-middle">{{ date('Y', strtotime($transaction->date)) }}<br/>{{ date('m-d', strtotime($transaction->date)) }}</td>
+                        <td class="text-center align-middle fit-cell">{{ date('Y', strtotime($transaction->date)) }}<br/>{{ date('m-d', strtotime($transaction->date)) }}</td>
                     </tr>
                 @endforeach
                 </tbody>

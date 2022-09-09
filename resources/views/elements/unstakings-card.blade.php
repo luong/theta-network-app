@@ -11,10 +11,9 @@
                     if (isset($accounts[$stake['source']])) {
                         $source = $accounts[$stake['source']]['name'];
                     }
-                    $source = Str::limit($source, 7, '');
                 @endphp
                 <div class="row">
-                    <a class="bullet h-auto" href="/account/{{ $stake['source'] }}">{{ $source }}</a> <span class="bullet h-auto">{{ $stake['returned_at'] ? date('M-d', strtotime($stake['returned_at'])) : '#' }}</span> <span class="ico-detail p-0 m-0 h-auto w-auto"><x-currency type="{{ $stake['currency'] }}"/> <a class="p-0" href="/account/{{ $stake['source'] }}" class="w-auto ps-1 pe-1">{{ Helper::formatNumber($stake['coins'], 2, 'auto') }} ({{ Helper::formatPrice($stake['usd'], 2, 'auto') }})</a></span>
+                    <a class="bullet h-auto text-truncate" href="/account/{{ $stake['source'] }}">{{ $source }}</a> <span class="bullet h-auto text-truncate">{{ $stake['returned_at'] ? date('M-d', strtotime($stake['returned_at'])) : '#' }}</span> <span class="ico-detail p-0 m-0 h-auto w-auto"><x-currency type="{{ $stake['currency'] }}"/> <a class="p-0" href="/account/{{ $stake['source'] }}" class="w-auto ps-1 pe-1">{{ Helper::formatNumber($stake['coins'], 2, 'auto') }} ({{ Helper::formatPrice($stake['usd'], 2, 'auto') }})</a></span>
                 </div>
             @endforeach
         </div>

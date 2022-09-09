@@ -72,21 +72,21 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col" style="width:40px"></th>
-                        <th scope="col" class="text-center">Coins</th>
+                        <th scope="col" class="fit-cell"></th>
+                        <th scope="col" class="text-center fit-cell">Coins</th>
                         <th scope="col" class="text-start">Staker</th>
                         <th scope="col">Holder</th>
-                        <th scope="col" style="width:40px"></th>
+                        <th scope="col" class="fit-cell"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($account['stakes'] as $stake)
                         <tr>
-                            <td class="align-middle text-center">{{ Helper::getNodeName($stake['type'])[0] }}</td>
-                            <td class="text-center"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 0, 'auto') }}</td>
-                            <td><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source'], 10, '..') }}</a></td>
-                            <td><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : Str::limit(isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder'], 10, '..') }}</a></td>
-                            <td class="align-middle text-center">{{ ucfirst($stake['status'])[0] }}</td>
+                            <td class="align-middle text-center fit-cell">{{ Helper::getNodeName($stake['type'])[0] }}</td>
+                            <td class="text-center fit-cell"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 2, 'auto') }}</td>
+                            <td class="truncate-cell"><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source']) }}</a></td>
+                            <td class="truncate-cell"><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
+                            <td class="align-middle text-center fit-cell">{{ ucfirst($stake['status'])[0] }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -100,25 +100,25 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col" class="text-center">Type</th>
+                        <th scope="col" class="text-center fit-cell">Type</th>
                         <th scope="col">TXN Hash</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
-                        <th scope="col" class="text-end">Amount</th>
-                        <th scope="col" class="text-end">Value</th>
-                        <th scope="col" class="text-center">Date</th>
+                        <th scope="col" class="text-end fit-cell">Amount</th>
+                        <th scope="col" class="text-end fit-cell">Value</th>
+                        <th scope="col" class="text-center fit-cell">Date</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($account['transactions'] as $transaction)
                         <tr>
-                            <td class="text-center">{{ ucfirst($transaction['type']) }}</td>
-                            <td><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Str::limit($transaction['id'], 10) }}</a></td>
-                            <td><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction['from']]) ? 'text-success' : '' }}">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? $accounts[$transaction['from']]['name'] : Str::limit($transaction['from'], 10)) }}</a></td>
-                            <td><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction['to']]) ? 'text-success' : '' }}">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? $accounts[$transaction['to']]['name'] : Str::limit($transaction['to'], 10)) }}</a></td>
-                            <td class="text-end"><x-currency type="{{ $transaction['currency'] }}" top="2"/> {{ Helper::formatNumber($transaction['coins'], 2) }}</td>
-                            <td class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ number_format($transaction['usd'], 2) }}</td>
-                            <td class="text-center">{{ $transaction['date'] }}</td>
+                            <td class="text-center fit-cell">{{ ucfirst($transaction['type']) }}</td>
+                            <td class="truncate-cell"><a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ $transaction['id'] }}</a></td>
+                            <td class="truncate-cell"><a href="/account/{{ $transaction['from'] }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction['from']]) ? 'text-success' : '' }}">{{ strtolower($transaction['from']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['from']]) ? $accounts[$transaction['from']]['name'] : $transaction['from']) }}</a></td>
+                            <td class="truncate-cell"><a href="/account/{{ $transaction['to'] }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction['to']]) ? 'text-success' : '' }}">{{ strtolower($transaction['to']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction['to']]) ? $accounts[$transaction['to']]['name'] : $transaction['to']) }}</a></td>
+                            <td class="text-end fit-cell"><x-currency type="{{ $transaction['currency'] }}" top="2"/> {{ Helper::formatNumber($transaction['coins'], 2) }}</td>
+                            <td class="text-end fit-cell">${{ number_format($transaction['usd'], 2) }}</td>
+                            <td class="text-center fit-cell">{{ $transaction['date'] }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -130,37 +130,37 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col" style="width:40px"></th>
+                        <th scope="col" class="fit-cell"></th>
                         <th scope="col">From / To</th>
-                        <th scope="col" class="text-end">Amount</th>
-                        <th scope="col" class="text-center" style="width:70px">Date</th>
+                        <th scope="col" class="text-end fit-cell">Amount</th>
+                        <th scope="col" class="text-center fit-cell">Date</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($account['transactions'] as $transaction)
                         <tr>
-                            <td class="align-middle text-center">
+                            <td class="align-middle text-center fit-cell ps-2 pe-2">
                                 {{ ucfirst($transaction['type'])[0] }}
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle truncate-cell">
                                 @if (strtolower($transaction['from']) == strtolower($account['id']))
                                     Me
                                 @else
-                                    <a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['from']]) ? Str::limit($accounts[$transaction['from']]['name'], 14, '..') : Str::limit($transaction['from'], 14, '..')) }}</a>
+                                    <a href="/account/{{ $transaction['from'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['from']]) ? $accounts[$transaction['from']]['name'] : $transaction['from']) }}</a>
                                 @endif
                                 <br/>
                                 @if (strtolower($transaction['to']) == strtolower($account['id']))
                                     Me
                                 @else
-                                    <a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['to']]) ? Str::limit($accounts[$transaction['to']]['name'], 14, '..') : Str::limit($transaction['to'], 14, '..')) }}</a>
+                                    <a href="/account/{{ $transaction['to'] }}" class="text-decoration-none">{{ (isset($accounts[$transaction['to']]) ? $accounts[$transaction['to']]['name'] : $transaction['to']) }}</a>
                                 @endif
 
                             </td>
-                            <td class="text-end">
+                            <td class="text-end fit-cell ps-2 pe-2">
                                 <x-currency type="{{ $transaction['currency'] }}" top="2"/> <a href="/transaction/{{ $transaction['id'] }}" class="text-decoration-none">{{ Helper::formatNumber($transaction['coins'], 1, 'auto') }}</a><br/>
                                 (<span class="text-end {{ $transaction['usd'] > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction['usd'], 1, 'auto') }}</span>)
                             </td>
-                            <td class="text-center align-middle">{{ date('Y', strtotime($transaction['date'])) }}<br/>{{ date('m-d', strtotime($transaction['date'])) }}</td>
+                            <td class="text-center align-middle fit-cell ps-2 pe-2">{{ date('Y', strtotime($transaction['date'])) }}<br/>{{ date('m-d', strtotime($transaction['date'])) }}</td>
                         </tr>
                     @endforeach
                     </tbody>

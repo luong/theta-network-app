@@ -18671,6 +18671,18 @@ textarea.form-control-lg {
   margin-top: 7px;
 }
 
+.truncate-cell {
+  max-width: 1px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fit-cell {
+  white-space: nowrap;
+  width: 1px;
+}
+
 .top-logo {
   line-height: 1.2;
 }
