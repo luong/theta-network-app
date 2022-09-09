@@ -7,7 +7,7 @@
         <div class="container">
             @foreach ($validators as $holder => $props)
                 <div class="row">
-                    <span class="bullet">{{ Str::limit($accounts[$holder]['name'], 10) }}</span> <x-currency type="theta"/> <a href="/account/{{ $holder }}" class="w-auto ps-1">{{ Helper::formatNumber($props['coins'], 0, 'auto') }}</a>
+                    <span class="bullet">{{ Str::limit($accounts[$holder]['name'], 10) }}</span> <x-currency type="theta"/> <a href="/account/{{ $holder }}" class="w-auto ps-1">{{ Helper::formatNumber($props['coins'], 2, 'auto') }}</a>
                 </div>
             @endforeach
         </div>
