@@ -68,21 +68,24 @@
             }
             .row {
                 line-height: 2;
+                flex-flow: nowrap;
                 .bullet {
                     color: #6c757d;
                     border: 1px solid #6c757d;
                     padding: 5px;
-                    line-height: 0.5;
+                    line-height: 0.45;
                     height: 20px !important;
                     margin-top: 5px;
                     margin-right: 7px;
                     width: 70px;
                     text-align: center;
+                    text-decoration: none;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
 
-                    &.whale {
-                        color: red;
-                        border-color: red;
-                    }
+                .currency-ico {
+                    margin-top: 5px !important;
                 }
             }
             .changes {
@@ -98,6 +101,9 @@
 
         &.top-transactions {
             height: 350px;
+            .bullet {
+                width: 75px !important;
+            }
         }
 
         &.top-withdrawals {
@@ -112,7 +118,7 @@
             width: 280px;
             height: 350px;
             .bullet {
-                width: 120px !important;
+                width: 135px !important;
             }
             .row {
                 a {
