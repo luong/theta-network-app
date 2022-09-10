@@ -53,7 +53,11 @@ class NetworkController extends Controller
                 'code' => ['bail', 'required', 'string', 'unique:accounts'],
                 'name' => ['bail', 'required', 'string'],
             ]);
-            $data = request()->only('code', 'name');
+            $data = request()->only('code', 'name', 'tags');
+            if (empty($data['tags'])) {
+                $data['tags'] = [];
+            }
+            $data['tags'] = json_encode($data['tags']);
             Account::create($data);
             $this->thetaService->addTrackingAccount($data['code'], null, null, true);
             $this->thetaService->cacheAccounts();
@@ -71,7 +75,10 @@ class NetworkController extends Controller
                 'code' => ['bail', 'required', 'string', Rule::unique('accounts')->ignore($account->code, 'code')],
                 'name' => ['bail', 'required', 'string'],
             ]);
-            $data = request()->only('code', 'name');
+            $data = request()->only('code', 'name', 'tags');
+            if (empty($data['tags'])) {
+                $data['tags'] = [];
+            }
             $account->update($data);
             $this->thetaService->addTrackingAccount($data['code']);
             $this->thetaService->cacheAccounts();

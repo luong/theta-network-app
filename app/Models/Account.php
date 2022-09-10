@@ -10,4 +10,12 @@ class Account extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function getTagsAttribute($value)
+    {
+        if (is_null($value)) {
+            $value = [];
+        }
+        return json_decode($value, 1);
+    }
 }

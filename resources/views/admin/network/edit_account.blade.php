@@ -27,6 +27,13 @@
                     <label for="name">Name:</label>
                     <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="{{ old('name', $account->name) }}"/>
                 </div>
+                <div class="mb-3 mt-3">
+                    <label for="tags">Tags:</label>
+                    <div>
+                        <input class="form-check-input" type="checkbox" name="tags[]" value="validator" id="validatorCheck" {{ in_array('validator', $account->tags) ? 'checked' : '' }}/> <label class="form-check-label" for="validatorCheck">Validator</label>
+                        <input class="form-check-input" type="checkbox" name="tags[]" value="exchange" id="exchangeCheck" {{ in_array('exchange', $account->tags) ? 'checked' : '' }}/> <label class="form-check-label" for="exchangeCheck">Exchange</label>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
