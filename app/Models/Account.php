@@ -11,11 +11,7 @@ class Account extends Model
 
     protected $guarded = [];
 
-    public function getTagsAttribute($value)
-    {
-        if (is_null($value)) {
-            $value = [];
-        }
-        return json_decode($value, 1);
-    }
+    protected $casts = [
+        'tags' => 'array'
+    ];
 }
