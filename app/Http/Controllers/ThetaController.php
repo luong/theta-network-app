@@ -76,31 +76,12 @@ class ThetaController extends Controller
 
     public function account($id)
     {
-        $networkInfo = $this->thetaService->getNetworkInfo();
-        $whales = $this->thetaService->getTrackingAccounts();
         $account = $this->onChainService->getAccountDetails($id, true);
-        $usd = round($account['balance']['theta'] * $networkInfo['theta_price'] + $account['balance']['tfuel'] * $networkInfo['tfuel_price'] + $account['balance']['tdrop'] * $networkInfo['tdrop_price'], 2);
-        $whaleStatus = 'no';
-        if ($usd >= Constants::WHALE_MIN_BALANCE) {
-            if (isset($whales[$id])) {
-                $whaleStatus = 'identified';
-            } else {
-                $whaleStatus = 'not_identified';
-            }
-        } else {
-            if (isset($whales[$id])) {
-                $trackingAccount = TrackingAccount::where('code', $id)->first();
-                if (!empty($trackingAccount)) {
-                    $trackingAccount->delete();
-                }
-            }
-        }
         return view('theta.account', [
             'account' => $account,
             'accounts' => $this->thetaService->getAccounts(),
             'trackingAccounts' => $this->thetaService->getTrackingAccounts(),
             'coins' => $this->thetaService->getCoinList(),
-            'whaleStatus' => $whaleStatus
         ]);
     }
 
