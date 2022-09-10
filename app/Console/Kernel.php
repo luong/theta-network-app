@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Console\Commands\Accounts;
-use App\Console\Commands\BinanceListing;
 use App\Console\Commands\Blocks;
 use App\Console\Commands\DailyTweet2;
 use App\Console\Commands\DetectDataErrors;
@@ -18,6 +17,7 @@ use App\Console\Commands\DailyStats;
 use App\Console\Commands\Whales;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -39,7 +39,12 @@ class Kernel extends ConsoleKernel
         $schedule->command(DailyTweet2::class)->dailyAt('00:30');
         $schedule->command(Accounts::class)->everyThreeHours();
         $schedule->command(DetectDataErrors::class)->dailyAt('01:00');
-        $schedule->command(BinanceListing::class)->everyMinute();
+
+        $schedule->call(function () {
+            Artisan::call('theta:binanceListing');
+            sleep(30);
+            Artisan::call('theta:binanceListing');
+        })->everyMinute();
     }
 
     /**
