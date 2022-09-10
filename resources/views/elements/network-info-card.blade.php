@@ -1,6 +1,6 @@
 <div class="card c1x network-info m-2">
     <h6 class="card-header">
-        <img class="img" src="/images/theta2.png" height="30"/>
+        <span class="icon bi bi-speedometer"></span>
         <span class="name ms-1">THETA NETWORK</span>
     </h6>
     <div class="card-body">

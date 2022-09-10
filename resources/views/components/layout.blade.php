@@ -49,7 +49,7 @@
                         <a class="nav-link text-secondar fs-5" href="/accounts"><span class="bi bi-snapchat"></span> Accounts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondar fs-5" href="/transactions"><span class="bi bi-bug"></span> Transactions</a>
+                        <a class="nav-link text-secondar fs-5" href="/transactions"><span class="bi bi-layers"></span> Transactions</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-bar-chart"></span> Charts</a>

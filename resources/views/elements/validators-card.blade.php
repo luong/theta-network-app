@@ -1,6 +1,6 @@
 <div class="card c1x top-transactions validators m-2">
     <h6 class="card-header">
-        <span class="icon bi bi-brightness-high"></span>
+        <span class="icon bi bi-palette"></span>
         <span class="name ms-1">VALIDATORS ({{ count($validators) }})</span>
     </h6>
     <div class="card-body scrollable">
