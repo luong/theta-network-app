@@ -484,7 +484,7 @@ class ThetaService
 
     public function cacheValidators()
     {
-        $stakes = Stake::where('type', '=', 'vcp')->get();
+        $stakes = Stake::where('type', '=', 'vcp')->where('withdrawn', 0)->get();
         $holders = [];
         foreach ($stakes as $stake) {
             if (!isset($holders[$stake->holder])) {
