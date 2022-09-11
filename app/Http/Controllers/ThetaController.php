@@ -221,6 +221,7 @@ class ThetaController extends Controller
         $type = request('type');
         $account = request('account');
         $currency = request('currency');
+        $days = request('days', '30D');
         $sort = request('sort', 'latest_date');
 
         $accounts = $this->thetaService->getAccounts();
@@ -245,17 +246,25 @@ class ThetaController extends Controller
         if (!empty($currency)) {
             $transactions->where('currency', $currency);
         }
-        if (!empty($sort)) {
-            if ($sort == 'large_value') {
-                $transactions->orderByDesc('usd');
-            } else if ($sort == 'latest_date') {
-                $transactions->orderByDesc('date');
-            }
+
+        if ($days == '1D') {
+            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));
+        } else if ($days == '7D') {
+            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
+        } else if ($days == '30D') {
+            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-30 days')));
+        }
+
+        if ($sort == 'large_value') {
+            $transactions->orderByDesc('usd');
+        } else if ($sort == 'latest_date') {
+            $transactions->orderByDesc('date');
         }
         $transactions = $transactions->simplePaginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
         return view('theta.transactions', [
             'transactions' => $transactions,
             'accounts' => $accounts,
+            'days' => $days,
             'sort' => $sort,
             'type' => $type,
             'account' => $account,

@@ -2,7 +2,7 @@
     <div class="transactions-page">
         <form method="get">
         <div class="row col-lg-6 ms-auto me-auto mt-3 mb-2">
-            <div class="col-6 col-md-3">
+            <div class="col-4 col-lg-2">
                 <select name="type" class="form-select" onchange="this.form.submit()">
                     <option value="">Type</option>
                     <option value="transfer" {{ $type == 'transfer' ? 'selected' : '' }}>Transfer</option>
@@ -10,7 +10,7 @@
                     <option value="unstake" {{ $type == 'unstake' ? 'selected' : '' }}>Unstake</option>
                 </select>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-4 col-lg-2">
                 <select name="account" class="tags-select form-select" onchange="this.form.submit()">
                     <option value="">Account</option>
                     <option value="whales" {{ $account == 'whales' ? 'selected' : '' }}>Whales</option>
@@ -19,7 +19,7 @@
                     <option value="validator" {{ $account == 'validator' ? 'selected' : '' }}>Validators</option>
                 </select>
             </div>
-            <div class="col-6 col-md-3 mt-2 mt-md-0">
+            <div class="col-4 col-lg-3 mt-2 mt-lg-0">
                 <select name="currency" class="form-select" onchange="this.form.submit()">
                     <option value="">Currency</option>
                     <option value="theta" {{ $currency == 'theta' ? 'selected' : '' }}>Theta</option>
@@ -27,7 +27,14 @@
                     <option value="tdrop" {{ $currency == 'tdrop' ? 'selected' : '' }}>Tdrop</option>
                 </select>
             </div>
-            <div class="col-6 col-md-3 mt-2 mt-md-0">
+            <div class="col-6 col-lg-2 mt-2 mt-lg-0">
+                <select name="days" class="form-select" onchange="this.form.submit()">
+                    <option value="1D" {{ $days == '1D' ? 'selected' : '' }}>1 Day</option>
+                    <option value="7D" {{ $days == '7D' ? 'selected' : '' }}>7 Days</option>
+                    <option value="30D" {{ $days == '30D' ? 'selected' : '' }}>30 Days</option>
+                </select>
+            </div>
+            <div class="col-6 col-lg-3 mt-2 mt-lg-0">
                 <select name="sort" class="form-select" onchange="this.form.submit()">
                     <option value="latest_date" {{ $sort == 'latest_date' ? 'selected' : '' }}>By latest date</option>
                     <option value="large_value" {{ $sort == 'large_value' ? 'selected' : '' }}>By large value</option>
