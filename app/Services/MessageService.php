@@ -72,7 +72,7 @@ class MessageService
 
     public function hasNewValidator($address, $amount)
     {
-        $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$theta => " . Helper::makeSiteAccountURL($address);
+        $tweet = "We're thrilled to have a new validator joining @Theta_Network : {$amount} \$theta " . Helper::makeSiteAccountURL($address);
         return $this->tweetText($tweet);
     }
 
