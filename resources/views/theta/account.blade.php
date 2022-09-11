@@ -23,7 +23,7 @@
         @if (count($account['stakes']) > 0)
             <div class="stakes col-lg-8 d-none d-lg-block mt-4">
                 <h4>Stakes</h4>
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">Type</th>
@@ -61,7 +61,7 @@
 
             <div class="stakes mobile d-block d-lg-none mt-4">
                 <h4>Stakes</h4>
-                <table class="table">
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col" class="fit-cell"></th>
@@ -74,7 +74,7 @@
                     <tbody>
                     @foreach ($account['stakes'] as $stake)
                         <tr>
-                            <td class="align-middle text-center fit-cell">{{ Helper::getNodeName($stake['type'])[0] }}</td>
+                            <td class="align-middle text-center fit-cell">{{ Helper::getNodeName($stake['type']) }}</td>
                             <td class="text-center fit-cell"><x-currency type="{{ $stake['currency'] }}" top="2"/> {{ Helper::formatNumber($stake['coins'], 2, 'auto') }}</td>
                             <td class="truncate-cell"><a href="/account/{{ $stake['source'] }}">{{ strtolower($stake['source']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['source']]) ? $accounts[$stake['source']]['name'] : $stake['source']) }}</a></td>
                             <td class="truncate-cell"><a href="/account/{{ $stake['holder'] }}">{{ strtolower($stake['holder']) == strtolower($account['id']) ? 'Me' : (isset($accounts[$stake['holder']]) ? $accounts[$stake['holder']]['name'] : $stake['holder']) }}</a></td>
@@ -106,8 +106,20 @@
                         <tr>
                             <td class="text-center fit-cell">{{ ucfirst($transaction->type) }}</td>
                             <td class="truncate-cell"><a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ $transaction->txn }}</a></td>
-                            <td class="truncate-cell"><a href="/account/{{ $transaction->from_account }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction->from_account]) ? 'text-success' : '' }}">{{ strtolower($transaction->from_account) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account) }}</a></td>
-                            <td class="truncate-cell"><a href="/account/{{ $transaction->to_account }}" class="text-decoration-none {{ isset($trackingAccounts[$transaction->to_account]) ? 'text-success' : '' }}">{{ strtolower($transaction->to_account) == strtolower($account['id']) ? 'Me' : (isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account) }}</a></td>
+                            <td class="truncate-cell">
+                                @if (strtolower($transaction->from_account) == strtolower($account['id']))
+                                    Me
+                                @else
+                                    <a href="/account/{{ $transaction->from_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account }}</a>
+                                @endif
+                            </td>
+                            <td class="truncate-cell">
+                                @if (strtolower($transaction->to_account) == strtolower($account['id']))
+                                    Me
+                                @else
+                                    <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account }}</a>
+                                @endif
+                            </td>
                             <td class="text-end fit-cell"><x-currency type="{{ $transaction->currency }}" top="2"/> {{ Helper::formatNumber($transaction->coins, 2) }}</td>
                             <td class="text-end fit-cell">${{ number_format($transaction->usd, 2) }}</td>
                             <td class="text-center fit-cell">{{ $transaction->date }}</td>
