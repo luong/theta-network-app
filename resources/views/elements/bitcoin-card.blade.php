@@ -1,6 +1,6 @@
 <div class="card c1x coin btc m-2">
     <h6 class="card-header">
-        <img class="img" src="{{ $coinInfo['image'] }}" height="30"/>
+        <img class="img" src="{{ $coinInfo['image'] }}" height="22"/>
         <span class="name ms-1">{{ $coinInfo['name'] }}</span>
     </h6>
     <div class="card-body">
