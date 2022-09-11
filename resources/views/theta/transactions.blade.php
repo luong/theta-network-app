@@ -63,7 +63,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {{ $transactions->links() }} (Transactions collected in 30 days)
+            {{ $transactions->links() }} (Transactions in the last 30 days)
         </div>
 
         <div class="container transactions mobile d-block d-lg-none">
@@ -96,7 +96,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {{ $transactions->links() }} (Transactions collected in 30 days)
+            {{ $transactions->links() }} (Transactions in the last 30 days)
         </div>
 
     </div>

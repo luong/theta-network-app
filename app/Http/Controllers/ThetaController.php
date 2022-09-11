@@ -83,12 +83,20 @@ class ThetaController extends Controller
 
     public function account($id)
     {
-        $account = $this->onChainService->getAccountDetails($id, true);
+        $account = $this->onChainService->getAccount($id, true);
+        $account['stakes'] = $this->onChainService->getAccountStakes($id);
+        $transactions = DB::table('transactions')
+            ->where('from_account', $id)
+            ->orWhere('to_account', $id)
+            ->orderByDesc('date')
+            ->simplePaginate(Constants::PAGINATION_PAGE_LIMIT)
+            ->withQueryString();
         return view('theta.account', [
             'account' => $account,
             'accounts' => $this->thetaService->getAccounts(),
             'trackingAccounts' => $this->thetaService->getTrackingAccounts(),
             'coins' => $this->thetaService->getCoinList(),
+            'transactions' => $transactions
         ]);
     }
 
