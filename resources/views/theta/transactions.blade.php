@@ -19,7 +19,7 @@
                     <option value="validator" {{ $account == 'validator' ? 'selected' : '' }}>Validators</option>
                 </select>
             </div>
-            <div class="col-4 col-lg-3 mt-2 mt-lg-0">
+            <div class="col-4 col-lg-3 mt-lg-0">
                 <select name="currency" class="form-select" onchange="this.form.submit()">
                     <option value="">Currency</option>
                     <option value="theta" {{ $currency == 'theta' ? 'selected' : '' }}>Theta</option>
@@ -90,13 +90,13 @@
                             {{ ucfirst($transaction->type) }}
                         </td>
                         <td class="align-middle" style="max-width: 1px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">
-                            <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account }}</a>
+                            <a href="/account/{{ $transaction->from_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->from_account]) ? $accounts[$transaction->from_account]['name'] : $transaction->from_account }}</a>
                             <br/>
                             <a href="/account/{{ $transaction->to_account }}" class="text-decoration-none">{{ isset($accounts[$transaction->to_account]) ? $accounts[$transaction->to_account]['name'] : $transaction->to_account }}</a>
                         </td>
                         <td class="text-end fit-cell">
                             <x-currency type="{{ $transaction->currency }}" top="2"/> <a href="/transaction/{{ $transaction->txn }}" class="text-decoration-none">{{ Helper::formatNumber($transaction->coins, 1, 'auto') }}</a><br/>
-                            (<span class="text-end {{ $transaction->usd > 100000 ? 'fw-bold text-danger' : '' }}">${{ Helper::formatNumber($transaction->usd, 1, 'auto') }}</span>)
+                            (<span class="text-end">${{ Helper::formatNumber($transaction->usd, 1, 'auto') }}</span>)
                         </td>
                         <td class="text-center align-middle fit-cell">{{ date('Y', strtotime($transaction->date)) }}<br/>{{ date('m-d', strtotime($transaction->date)) }}</td>
                     </tr>
