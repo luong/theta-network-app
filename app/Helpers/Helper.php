@@ -81,7 +81,8 @@ class Helper
         return match ($code) {
             'gcp' => 'Guardian',
             'vcp'=> 'Validator',
-            'eenp' => 'Elite Edge'
+            'eenp' => 'EliteEdge',
+            'tdrop' => 'Tdrop'
         };
     }
 

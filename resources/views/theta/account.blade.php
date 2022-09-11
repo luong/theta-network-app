@@ -26,7 +26,7 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">Type</th>
+                        <th scope="col" class="fit-cell">Type</th>
                         <th scope="col" class="text-end">Coins</th>
                         <th scope="col">Staker</th>
                         <th scope="col">Holder</th>
@@ -36,8 +36,8 @@
                     <tbody>
                     @foreach ($account['stakes'] as $stake)
                         <tr>
-                            <td>{{ Helper::getNodeName($stake['type']) }}</td>
-                            <td class="text-end"><x-currency type="{{ $stake['currency'] }}" top="2"/> <span>{{ Helper::formatNumber($stake['coins'], 0) }}</span></td>
+                            <td class="fit-cell">{{ Helper::getNodeName($stake['type']) }}</td>
+                            <td class="text-end"><x-currency type="{{ $stake['currency'] }}" top="2"/> <span>{{ Helper::formatNumber($stake['coins'], 2, 'auto') }}</span></td>
                             <td>
                                 @if (strtolower($stake['source']) == strtolower($account['id']))
                                     Me

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Models\TrackingAccount;
 use App\Services\OnChainService;
+use App\Services\TdropContract;
 use App\Services\ThetaService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -85,6 +86,22 @@ class ThetaController extends Controller
     {
         $account = $this->onChainService->getAccount($id, true);
         $account['stakes'] = $this->onChainService->getAccountStakes($id);
+
+        $tdropStakes = resolve(TdropContract::class)->getStakingEstimatedTDropOwnedBy($id);
+        if ($tdropStakes > 0) {
+            $account['stakes'][] = [
+                'id' => '',
+                'role' => '',
+                'type' => 'tdrop',
+                'holder' => Constants::TDROP_STAKING_ADDRESS,
+                'source' => $id,
+                'coins' => $tdropStakes,
+                'currency' => 'tdrop',
+                'status' => 'staking',
+                'return_height' => 0
+            ];
+        }
+
         $transactions = DB::table('transactions')
             ->where('from_account', $id)
             ->orWhere('to_account', $id)
