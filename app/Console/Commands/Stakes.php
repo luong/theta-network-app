@@ -67,15 +67,25 @@ class Stakes extends Command
             foreach ($latestValidators as $holder => $props) {
                 if (!isset($oldValidators[$holder])) {
                     $messageService->hasNewValidator($holder, number_format($props['coins']));
-                    Account::updateOrCreate(
-                        ['code' => $holder],
-                        ['name' => 'Validator']
-                    );
+
+                    $validatorNode = Account::where('code', $holder)->first();
+                    if (empty($validatorNode)) {
+                        Account::create([
+                            'code' => $holder,
+                            'name' => 'Validator-X',
+                            'tags' => ['validator_node']
+                        ]);
+                    }
+
                     foreach ($props['stakers'] as $staker) {
-                        Account::updateOrCreate(
-                            ['code' => $staker['source']],
-                            ['name' => 'Validator']
-                        );
+                        $validatorMember = Account::where('code', $staker['source'])->first();
+                        if (empty($validatorMember)) {
+                            Account::create([
+                                'code' => $staker['source'],
+                                'name' => 'Validator-X',
+                                'tags' => ['validator_member']
+                            ]);
+                        }
                     }
                     $thetaService->cacheAccounts();
                 }

@@ -49,6 +49,14 @@ class TdropTransactions extends Command
         $thetaService = resolve(ThetaService::class);
         $onChainService = resolve(OnChainService::class);
         $messageService = resolve(MessageService::class);
+        $accounts = resolve(ThetaService::class)->getAccounts();
+
+        $isVIP = function ($address) use ($accounts) {
+            if (isset($accounts[$address]) && (str_contains($accounts[$address]['name'], 'ThetaLabs') || !empty($accounts[$address]['tags']) && in_array('validator_member', $accounts[$address]['tags']))) {
+                return true;
+            }
+            return false;
+        };
 
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/token/' . Constants::TDROP_CONTRACT_ID . '/?pageNumber=1&limit=' . Constants::TOP_TRANSACTION_LIMIT);
         if (!$response->ok()) {
@@ -91,7 +99,7 @@ class TdropTransactions extends Command
                 'usd' => $usd
             ];
 
-            if ($usd >= Constants::TOP_TDROP_TRANSACTION_TWEET_AMOUNT) {
+            if ($usd >= Constants::TOP_TDROP_TRANSACTION_TWEET_AMOUNT || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                 $messageService->hasLargeTransaction($tx);
                 $thetaService->addTrackingAccount(strtolower($transaction['to']), null, null, true);
             }

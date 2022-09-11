@@ -49,6 +49,14 @@ class Transactions extends Command
         $messageService = resolve(MessageService::class);
         $thetaService = resolve(ThetaService::class);
         $onChainService = resolve(OnChainService::class);
+        $accounts = resolve(ThetaService::class)->getAccounts();
+
+        $isVIP = function ($address) use ($accounts) {
+            if (isset($accounts[$address]) && (str_contains($accounts[$address]['name'], 'ThetaLabs') || !empty($accounts[$address]['tags']) && in_array('validator_member', $accounts[$address]['tags']))) {
+                return true;
+            }
+            return false;
+        };
 
         $response = Http::get(Constants::THETA_EXPLORER_API_URL . '/api/transactions/range?limit=' . Constants::TOP_TRANSACTION_LIMIT);
         if (!$response->ok()) {
@@ -89,7 +97,7 @@ class Transactions extends Command
                         'currency' => 'theta',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                         $messageService->hasLargeTransaction($tx);
                     }
                     if ($tx['to'] == Constants::DONATE_ACCOUNT_ID) {
@@ -111,7 +119,7 @@ class Transactions extends Command
                         'currency' => 'tfuel',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                         $messageService->hasLargeTransaction($tx);
                     }
                     if ($tx['to'] == Constants::DONATE_ACCOUNT_ID) {
@@ -142,7 +150,7 @@ class Transactions extends Command
                         'currency' => 'theta',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                         $messageService->hasLargeTransaction($tx);
                     }
 
@@ -161,7 +169,7 @@ class Transactions extends Command
                         'currency' => 'tfuel',
                         'usd' => $usd
                     ];
-                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                    if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                         $messageService->hasLargeTransaction($tx);
                     }
                 }
@@ -184,9 +192,7 @@ class Transactions extends Command
                     'currency' => 'theta',
                     'usd' => $usd
                 ];
-                if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
-                    $messageService->hasLargeTransaction($tx);
-                }
+                $messageService->hasLargeTransaction($tx);
                 $trackedData[] = $tx;
 
             } else if ($transaction['type'] == 9) { // withdraw
@@ -208,7 +214,7 @@ class Transactions extends Command
                             'currency' => 'theta',
                             'usd' => $usd
                         ];
-                        if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                        if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || $transaction['data']['purpose'] == 0 || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                             $messageService->hasLargeTransaction($tx);
                         }
                         $trackedData[] = $tx;
@@ -229,7 +235,7 @@ class Transactions extends Command
                             'currency' => 'tfuel',
                             'usd' => $usd
                         ];
-                        if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT) {
+                        if ($usd >= Constants::TOP_TRANSACTION_TWEET_AMOUNT || (($isVIP($tx['from']) || $isVIP($tx['to'])) &&  $usd >= Constants::VIP_TRANSACTION_AMOUNT)) {
                             $messageService->hasLargeTransaction($tx);
                         }
                         $trackedData[] = $tx;
