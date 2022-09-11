@@ -30,7 +30,8 @@
                 <div class="mb-3 mt-3">
                     <label for="tags">Tags:</label>
                     <div>
-                        <input class="form-check-input" type="checkbox" name="tags[]" value="validator" id="validatorCheck" {{ in_array('validator', $account->tags ?? []) ? 'checked' : '' }}/> <label class="form-check-label" for="validatorCheck">Validator</label>
+                        <input class="form-check-input" type="checkbox" name="tags[]" value="validator_node" id="validatorCheck" {{ in_array('validator_node', $account->tags ?? []) ? 'checked' : '' }}/> <label class="form-check-label" for="validatorCheck">Validator Node</label>
+                        <input class="form-check-input" type="checkbox" name="tags[]" value="validator_member" id="validatorCheck" {{ in_array('validator_member', $account->tags ?? []) ? 'checked' : '' }}/> <label class="form-check-label" for="validatorCheck">Validator Member</label>
                         <input class="form-check-input" type="checkbox" name="tags[]" value="exchange" id="exchangeCheck" {{ in_array('exchange', $account->tags ?? []) ? 'checked' : '' }}/> <label class="form-check-label" for="exchangeCheck">Exchange</label>
                     </div>
                 </div>

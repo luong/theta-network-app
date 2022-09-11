@@ -22,6 +22,7 @@
                 <tr>
                     <th scope="col">Code</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Tags</th>
                     <th scope="col" class="text-center">Created At</th>
                     <th scope="col"></th>
                 </tr>
@@ -31,6 +32,7 @@
                     <tr>
                         <td><a href="/account/{{ $account->code }}">{{ $account->code }}</a></td>
                         <td>{{ $account->name }}</td>
+                        <td>{{ implode(', ', $account->tags ?? []) }}</td>
                         <td class="text-center">{{ $account->created_at->format('Y-m-d') }}</td>
                         <td class="text-end">
                             <a class="btn btn-outline-primary" href="{{ route('admin.account.edit', ['id' => $account->id]) }}">Edit</a>
