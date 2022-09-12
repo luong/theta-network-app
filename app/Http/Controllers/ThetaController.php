@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Services\OnChainService;
 use App\Services\TdropContract;
 use App\Services\ThetaService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
@@ -286,11 +287,11 @@ class ThetaController extends Controller
             ->selectRaw('account, count(*) as times, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd_in - usd_out) as remaining');
 
         if ($days == '1D') {
-            $query2->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));
+            $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));
         } else if ($days == '7D') {
-            $query2->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
+            $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
         } else if ($days == '30D') {
-            $query2->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-30 days')));
+            $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-30 days')));
         }
 
         if ($sort == 'transactions') {
