@@ -175,7 +175,7 @@ class OnChainService
         $coinsFromCMC = Cache::get('coins_cmc');
         if (empty($coinsFromCMC)) {
             $coinsFromCMC = $this->getCoinListFromCMC();
-            Cache::put('coins_cmc', $coinsFromCMC, now()->addMinutes(10));
+            Cache::put('coins_cmc', $coinsFromCMC, now()->addMinutes(5));
         }
 
         $coins = Cache::get('coins_gko');
