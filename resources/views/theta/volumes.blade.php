@@ -21,7 +21,7 @@
         </form>
 
         <div class="container transactions d-none d-lg-block ps-0 pe-0 mt-4">
-            <table class="table table-striped w-100">
+            <table class="table table-striped table-sm w-100">
                 <thead>
                 <tr>
                     <th scope="col" class="truncate-cell">Account</th>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="container transactions mobile d-block d-lg-none ps-0 pe-0 mt-4">
-            <table class="table table-striped w-100">
+            <table class="table table-striped table-sm w-100">
                 <thead>
                 <tr>
                     <th scope="col" class="truncate-cell">Account</th>
