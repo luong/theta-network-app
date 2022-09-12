@@ -118,43 +118,6 @@ class NetworkController extends Controller
         ]);
     }
 
-    public function transactions()
-    {
-        $type = request('type');
-        $sort = request('sort', 'large_value');
-        $search = request('search');
-        $accounts = $this->thetaService->getAccounts();
-        $transactions = DB::table('transactions');
-        $transactions->leftJoin('accounts AS accounts_1', 'transactions.from_account', '=', 'accounts_1.code');
-        $transactions->leftJoin('accounts AS accounts_2', 'transactions.to_account', '=', 'accounts_2.code');
-        $transactions->selectRaw('transactions.*, accounts_1.name AS from_name, accounts_2.name AS to_name, IF(accounts_1.id IS NOT NULL OR accounts_2.id IS NOT NULL, 1, 0) AS has_account');
-        if (!empty($search)) {
-            $transactions->whereRaw("(from_account LIKE '%{$search}%' OR accounts_1.name LIKE '%{$search}%' OR to_account LIKE '%{$search}%' OR accounts_2.name LIKE '%{$search}%')");
-        }
-        if (!empty($type)) {
-            $transactions->where('type', $type);
-        }
-        if (!empty($sort)) {
-            if ($sort == 'large_value') {
-                $transactions->orderByDesc('usd');
-            } else if ($sort == 'latest_date') {
-                $transactions->orderByDesc('date');
-            } else if ($sort == 'verified_accounts_large_value') {
-                $transactions->orderByDesc('has_account')->orderByDesc('usd');
-            } else if ($sort == 'verified_accounts_latest_date') {
-                $transactions->orderByDesc('has_account')->orderByDesc('date');
-            }
-        }
-        $transactions = $transactions->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();
-        return view('admin.network.transactions', [
-            'transactions' => $transactions,
-            'accounts' => $accounts,
-            'search' => $search,
-            'sort' => $sort,
-            'type' => $type
-        ]);
-    }
-
     public function logs()
     {
         $logs = Log::query()->orderByDesc('created_at')->paginate(Constants::PAGINATION_PAGE_LIMIT)->withQueryString();

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Models\TrackingAccount;
+use App\Models\Transaction;
 use App\Services\OnChainService;
 use App\Services\TdropContract;
 use App\Services\ThetaService;
@@ -269,6 +270,47 @@ class ThetaController extends Controller
             'type' => $type,
             'account' => $account,
             'currency' => $currency,
+        ]);
+    }
+
+    public function volumes() {
+        $days = request('days', '30D');
+        $sort = request('sort', 'usd_in');
+
+        $accounts = $this->thetaService->getAccounts();
+
+        $query1 = DB::table('transactions')->selectRaw('from_account as account, 0 as usd_in, usd as usd_out, date')
+            ->union(DB::table('transactions')->selectRaw('to_account as account, usd as usd_in, 0 as usd_out, date'));
+
+        $query2 = Transaction::query()->fromSub($query1, 't1')
+            ->selectRaw('account, count(*) as times, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd_in - usd_out) as remaining');
+
+        if ($days == '1D') {
+            $query2->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));
+        } else if ($days == '7D') {
+            $query2->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
+        } else if ($days == '30D') {
+            $query2->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-30 days')));
+        }
+
+        if ($sort == 'transactions') {
+            $query2->orderByDesc('times');
+        } else if ($sort == 'usd_in') {
+            $query2->orderByDesc('usd_in');
+        } else if ($sort == 'usd_out') {
+            $query2->orderByDesc('usd_out');
+        } else if ($sort == 'remaining') {
+            $query2->orderByDesc('remaining');
+        }
+
+        $volumes = $query2->groupBy('account')->simplePaginate(Constants::PAGINATION_PAGE_LIMIT)
+            ->withQueryString();
+
+        return view('theta.volumes', [
+            'volumes' => $volumes,
+            'accounts' => $accounts,
+            'days' => $days,
+            'sort' => $sort
         ]);
     }
 

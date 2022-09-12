@@ -51,6 +51,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-secondar fs-5" href="/transactions"><span class="bi bi-layers"></span> Transactions</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondar fs-5" href="/volumes"><span class="bi bi-badge-vo"></span> Volumes</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-secondar fs-5" href="#" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-bar-chart"></span> Charts</a>
                         <ul class="dropdown-menu">

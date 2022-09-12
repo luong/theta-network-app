@@ -54,7 +54,6 @@
                                 <a class="nav-link" href="{{ route('admin.validators') }}" page="validators"><span class="bi-at"></span> Validators</a>
                                 <a class="nav-link" href="{{ route('admin.stakes') }}" page="stakes"><span class="bi-save"></span> Stakes</a>
                                 <a class="nav-link" href="{{ route('admin.accounts') }}" page="accounts"><span class="bi-diamond"></span> Accounts</a>
-                                <a class="nav-link" href="{{ route('admin.transactions') }}" page="top_transactions"><span class="bi-shop"></span> Transactions</a>
                                 <a class="nav-link" href="{{ route('admin.topActivists') }}" page="top_activists"><span class="bi-broadcast"></span> Top Activists</a>
                             </li>
                         </ul>
