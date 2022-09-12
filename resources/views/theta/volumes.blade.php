@@ -20,7 +20,7 @@
         </div>
         </form>
 
-        <div class="container transactions ps-0 pe-0 mt-4">
+        <div class="container transactions d-none d-lg-block ps-0 pe-0 mt-4">
             <table class="table table-striped w-100">
                 <thead>
                 <tr>
@@ -39,6 +39,33 @@
                         <td class="fit-cell text-end">{{ number_format($volume->usd_in, 0) }}</td>
                         <td class="fit-cell text-end">{{ number_format($volume->usd_out, 0) }}</td>
                         <td class="fit-cell text-end">{{ number_format($volume->remaining, 0) }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            {{ $volumes->links() }} (Transactions in the last 30 days)
+        </div>
+
+        <div class="container transactions mobile d-block d-lg-none ps-0 pe-0 mt-4">
+            <table class="table table-striped w-100">
+                <thead>
+                <tr>
+                    <th scope="col" class="truncate-cell">Account</th>
+                    <th scope="col" class="text-center fit-cell">Trans</th>
+                    <th scope="col" class="text-end fit-cell">USD In / Out</th>
+                    <th scope="col" class="text-end fit-cell">Remaining</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ($volumes as $volume)
+                    <tr>
+                        <td class="truncate-cell align-middle"><a href="/account/{{ $volume->account }}">{{ isset($accounts[$volume->account]) ? $accounts[$volume->account]['name'] : $volume->account }}</a></td>
+                        <td class="text-center fit-cell align-middle">{{ number_format($volume->times) }}</td>
+                        <td class="fit-cell text-end align-middle">
+                            {{ number_format($volume->usd_in, 0) }} <br/>
+                            {{ number_format($volume->usd_out, 0) }}
+                        </td>
+                        <td class="fit-cell text-end align-middle">{{ number_format($volume->remaining, 0) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
