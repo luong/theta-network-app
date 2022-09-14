@@ -276,7 +276,7 @@ class ThetaController extends Controller
 
     public function volumes() {
         $days = request('days', '30D');
-        $sort = request('sort', 'usd_in');
+        $sort = request('sort', 'volume_in');
         $currency = request('currency');
 
         $accounts = $this->thetaService->getAccounts();
