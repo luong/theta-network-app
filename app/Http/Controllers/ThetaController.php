@@ -280,11 +280,11 @@ class ThetaController extends Controller
 
         $accounts = $this->thetaService->getAccounts();
 
-        $query1 = DB::table('transactions')->selectRaw('from_account as account, 0 as usd_in, usd as usd_out, date')
-            ->union(DB::table('transactions')->selectRaw('to_account as account, usd as usd_in, 0 as usd_out, date'));
+        $query1 = DB::table('transactions')->selectRaw('from_account as account, 0 as in_theta_coins, 0 as in_tfuel_coins, 0 as in_tdrop_coins, IF(currency = "theta", coins, 0) as out_theta_coins, IF(currency = "tfuel", coins, 0) as out_tfuel_coins, IF(currency = "tdrop", coins, 0) as out_tdrop_coins, 0 as usd_in, usd as usd_out, date')
+            ->union(DB::table('transactions')->selectRaw('to_account as account, IF(currency = "theta", coins, 0) as in_theta_coins, IF(currency = "tfuel", coins, 0) as in_tfuel_coins, IF(currency = "tdrop", coins, 0) as in_tdrop_coins, 0 as out_theta_coins, 0 as out_tfuel_coins, 0 as out_tdrop_coins, usd as usd_in, 0 as usd_out, date'));
 
         $query2 = Transaction::query()->fromSub($query1, 't1')
-            ->selectRaw('account, count(*) as times, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd_in - usd_out) as remaining');
+            ->selectRaw('account, count(*) as times, sum(in_theta_coins) as in_theta_coins, sum(in_tfuel_coins) as in_tfuel_coins, sum(in_tdrop_coins) as in_tdrop_coins, sum(out_theta_coins) as out_theta_coins, sum(out_tfuel_coins) as out_tfuel_coins, sum(out_tdrop_coins) as out_tdrop_coins, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd_in - usd_out) as remaining');
 
         if ($days == '1D') {
             $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));

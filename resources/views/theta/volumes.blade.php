@@ -26,8 +26,8 @@
                 <tr>
                     <th scope="col" class="truncate-cell">Account</th>
                     <th scope="col" class="text-center fit-cell">Trans</th>
-                    <th scope="col" class="text-end fit-cell">USD In</th>
-                    <th scope="col" class="text-end fit-cell">USD Out</th>
+                    <th scope="col" class="text-end fit-cell">Volume In</th>
+                    <th scope="col" class="text-end fit-cell">Volume Out</th>
                     <th scope="col" class="text-end fit-cell">Remaining</th>
                 </tr>
                 </thead>
@@ -36,8 +36,12 @@
                     <tr>
                         <td class="truncate-cell"><a href="/account/{{ $volume->account }}">{{ isset($accounts[$volume->account]) ? $accounts[$volume->account]['name'] : $volume->account }}</a></td>
                         <td class="text-center fit-cell">{{ number_format($volume->times) }}</td>
-                        <td class="fit-cell text-end">{{ number_format($volume->usd_in, 0) }}</td>
-                        <td class="fit-cell text-end">{{ number_format($volume->usd_out, 0) }}</td>
+                        <td class="fit-cell text-end">
+                            <a href="#" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->in_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->in_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->in_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_in, 2, 'auto') }}</a>
+                        </td>
+                        <td class="fit-cell text-end">
+                            <a href="#" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->out_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->out_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->out_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_out, 2, 'auto') }}</a>
+                        </td>
                         <td class="fit-cell text-end">{{ number_format($volume->remaining, 0) }}</td>
                     </tr>
                 @endforeach
