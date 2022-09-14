@@ -277,11 +277,12 @@ class ThetaController extends Controller
     public function volumes() {
         $days = request('days', '30D');
         $sort = request('sort', 'usd_in');
+        $currency = request('currency');
 
         $accounts = $this->thetaService->getAccounts();
 
-        $query1 = DB::table('transactions')->selectRaw('from_account as account, 0 as in_theta_coins, 0 as in_tfuel_coins, 0 as in_tdrop_coins, IF(currency = "theta", coins, 0) as out_theta_coins, IF(currency = "tfuel", coins, 0) as out_tfuel_coins, IF(currency = "tdrop", coins, 0) as out_tdrop_coins, 0 as usd_in, usd as usd_out, date')
-            ->union(DB::table('transactions')->selectRaw('to_account as account, IF(currency = "theta", coins, 0) as in_theta_coins, IF(currency = "tfuel", coins, 0) as in_tfuel_coins, IF(currency = "tdrop", coins, 0) as in_tdrop_coins, 0 as out_theta_coins, 0 as out_tfuel_coins, 0 as out_tdrop_coins, usd as usd_in, 0 as usd_out, date'));
+        $query1 = DB::table('transactions')->selectRaw('currency, from_account as account, 0 as in_theta_coins, 0 as in_tfuel_coins, 0 as in_tdrop_coins, IF(currency = "theta", coins, 0) as out_theta_coins, IF(currency = "tfuel", coins, 0) as out_tfuel_coins, IF(currency = "tdrop", coins, 0) as out_tdrop_coins, 0 as usd_in, usd as usd_out, date')
+            ->union(DB::table('transactions')->selectRaw('currency, to_account as account, IF(currency = "theta", coins, 0) as in_theta_coins, IF(currency = "tfuel", coins, 0) as in_tfuel_coins, IF(currency = "tdrop", coins, 0) as in_tdrop_coins, 0 as out_theta_coins, 0 as out_tfuel_coins, 0 as out_tdrop_coins, usd as usd_in, 0 as usd_out, date'));
 
         $query2 = Transaction::query()->fromSub($query1, 't1')
             ->selectRaw('account, count(*) as times, sum(in_theta_coins) as in_theta_coins, sum(in_tfuel_coins) as in_tfuel_coins, sum(in_tdrop_coins) as in_tdrop_coins, sum(out_theta_coins) as out_theta_coins, sum(out_tfuel_coins) as out_tfuel_coins, sum(out_tdrop_coins) as out_tdrop_coins, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd_in - usd_out) as remaining');
@@ -294,11 +295,19 @@ class ThetaController extends Controller
             $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-30 days')));
         }
 
+        if ($currency == 'theta') {
+            $query2->where('currency' , 'theta');
+        } else if ($currency == 'tfuel') {
+            $query2->where('currency' , 'tfuel');
+        } else if ($currency == 'tdrop') {
+            $query2->where('currency' , 'tdrop');
+        }
+
         if ($sort == 'transactions') {
             $query2->orderByDesc('times');
-        } else if ($sort == 'usd_in') {
+        } else if ($sort == 'volume_in') {
             $query2->orderByDesc('usd_in');
-        } else if ($sort == 'usd_out') {
+        } else if ($sort == 'volume_out') {
             $query2->orderByDesc('usd_out');
         } else if ($sort == 'remaining') {
             $query2->orderByDesc('remaining');
@@ -311,6 +320,7 @@ class ThetaController extends Controller
             'volumes' => $volumes,
             'accounts' => $accounts,
             'days' => $days,
+            'currency' => $currency,
             'sort' => $sort
         ]);
     }

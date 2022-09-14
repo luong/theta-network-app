@@ -2,18 +2,26 @@
     <div class="volumes-page">
         <form method="get">
         <div class="row col-lg-4 ms-auto me-auto mt-3 mb-2">
-            <div class="col-6 mt-2">
+            <div class="col-4 mt-2">
                 <select name="days" class="form-select" onchange="this.form.submit()">
                     <option value="1D" {{ $days == '1D' ? 'selected' : '' }}>1 Day</option>
                     <option value="7D" {{ $days == '7D' ? 'selected' : '' }}>7 Days</option>
                     <option value="30D" {{ $days == '30D' ? 'selected' : '' }}>30 Days</option>
                 </select>
             </div>
-            <div class="col-6 mt-2">
+            <div class="col-4 mt-2">
+                <select name="currency" class="form-select" onchange="this.form.submit()">
+                    <option value="">Currency</option>
+                    <option value="theta" {{ $currency == 'theta' ? 'selected' : '' }}>Theta</option>
+                    <option value="tfuel" {{ $currency == 'tfuel' ? 'selected' : '' }}>Tfuel</option>
+                    <option value="tdrop" {{ $currency == 'tdrop' ? 'selected' : '' }}>Tdrop</option>
+                </select>
+            </div>
+            <div class="col-4 mt-2">
                 <select name="sort" class="form-select" onchange="this.form.submit()">
                     <option value="transactions" {{ $sort == 'transactions' ? 'selected' : '' }}>By Transactions</option>
-                    <option value="usd_in" {{ $sort == 'usd_in' ? 'selected' : '' }}>By USD In</option>
-                    <option value="usd_out" {{ $sort == 'usd_out' ? 'selected' : '' }}>By USD Out</option>
+                    <option value="volume_in" {{ $sort == 'volume_in' ? 'selected' : '' }}>By Volume In</option>
+                    <option value="volume_out" {{ $sort == 'volume_out' ? 'selected' : '' }}>By Volume Out</option>
                     <option value="remaining" {{ $sort == 'remaining' ? 'selected' : '' }}>By Remaining</option>
                 </select>
             </div>
