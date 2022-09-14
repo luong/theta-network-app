@@ -37,10 +37,10 @@
                         <td class="truncate-cell"><a href="/account/{{ $volume->account }}">{{ isset($accounts[$volume->account]) ? $accounts[$volume->account]['name'] : $volume->account }}</a></td>
                         <td class="text-center fit-cell">{{ number_format($volume->times) }}</td>
                         <td class="fit-cell text-end">
-                            <a href="#" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->in_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->in_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->in_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_in, 2, 'auto') }}</a>
+                            <a href="javascript:void(0)" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->in_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->in_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->in_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_in, 2, 'auto') }}</a>
                         </td>
                         <td class="fit-cell text-end">
-                            <a href="#" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->out_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->out_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->out_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_out, 2, 'auto') }}</a>
+                            <a href="javascript:void(0)" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->out_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->out_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->out_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_out, 2, 'auto') }}</a>
                         </td>
                         <td class="fit-cell text-end">{{ $volume->remaining > 0 ? Helper::formatPrice($volume->remaining, 0, 'auto') : '-' }}</td>
                     </tr>
@@ -66,9 +66,9 @@
                         <td class="truncate-cell align-middle"><a href="/account/{{ $volume->account }}">{{ isset($accounts[$volume->account]) ? $accounts[$volume->account]['name'] : $volume->account }}</a></td>
                         <td class="text-center fit-cell align-middle">{{ number_format($volume->times) }}</td>
                         <td class="fit-cell text-end align-middle">
-                            <a href="#" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->in_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->in_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->in_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_in, 2, 'auto') }}</a>
+                            <a href="javascript:void(0)" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->in_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->in_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->in_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_in, 2, 'auto') }}</a>
                             <br/>
-                            <a href="#" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->out_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->out_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->out_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_out, 2, 'auto') }}</a>
+                            <a href="javascript:void(0)" data-bs-toggle="tooltip" title="{{ Helper::formatNumber($volume->out_theta_coins, 2, 'auto') }} theta, {{ Helper::formatNumber($volume->out_tfuel_coins, 2, 'auto') }} tfuel, {{  Helper::formatNumber($volume->out_tdrop_coins, 2, 'auto') }} tdrop">{{ Helper::formatPrice($volume->usd_out, 2, 'auto') }}</a>
                         </td>
                         <td class="fit-cell text-end">{{ $volume->remaining > 0 ? Helper::formatPrice($volume->remaining, 0, 'auto') : '-' }}</td>
                     </tr>
