@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             Artisan::call('theta:binanceListing');
-            sleep(30);
+            sleep(20);
             Artisan::call('theta:binanceListing');
         })->everyMinute();
     }
