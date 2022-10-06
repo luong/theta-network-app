@@ -104,7 +104,7 @@ class TdropTransactions extends Command
                 $thetaService->addTrackingAccount(strtolower($transaction['to']), null, null, true);
             }
 
-            if ($usd > 1) {
+            if ($usd > 0) {
                 $trackedData[] = $tx;
             }
         }

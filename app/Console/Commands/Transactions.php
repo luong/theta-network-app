@@ -127,7 +127,7 @@ class Transactions extends Command
                     }
                 }
 
-                if ($usd > 1) {
+                if ($usd > 0) {
                     $trackedData[] = $tx;
                 }
 
