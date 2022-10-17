@@ -290,7 +290,9 @@ class ThetaController extends Controller
             ->selectRaw('account, count(*) as times, sum(in_theta_coins) as in_theta_coins, sum(in_tfuel_coins) as in_tfuel_coins, sum(in_tdrop_coins) as in_tdrop_coins, sum(out_theta_coins) as out_theta_coins, sum(out_tfuel_coins) as out_tfuel_coins, sum(out_tdrop_coins) as out_tdrop_coins, sum(usd_in) as usd_in, sum(usd_out) as usd_out, sum(usd_in - usd_out) as remaining');
 
         if ($days == '1D') {
-            $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));
+            $query2->where('date', '>=', date('Y-m-d H:i:s', strtotime('-1 day')));
+        } else if ($days == '3D') {
+            $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-3 day')));
         } else if ($days == '7D') {
             $query2->where('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
         } else if ($days == '30D') {

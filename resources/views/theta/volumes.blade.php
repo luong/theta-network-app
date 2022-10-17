@@ -5,6 +5,7 @@
             <div class="col-4 mt-2">
                 <select name="days" class="form-select" onchange="this.form.submit()">
                     <option value="1D" {{ $days == '1D' ? 'selected' : '' }}>1 Day</option>
+                    <option value="3D" {{ $days == '3D' ? 'selected' : '' }}>3 Days</option>
                     <option value="7D" {{ $days == '7D' ? 'selected' : '' }}>7 Days</option>
                     <option value="30D" {{ $days == '30D' ? 'selected' : '' }}>30 Days</option>
                 </select>
