@@ -250,7 +250,7 @@ class ThetaController extends Controller
         }
 
         if ($days == '1D') {
-            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-1 day')));
+            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-24 hours')));
         } else if ($days == '7D') {
             $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
         } else if ($days == '30D') {
@@ -340,5 +340,12 @@ class ThetaController extends Controller
             }
         }
         return redirect('/');
+    }
+
+    public function detector()
+    {
+        return view('theta.detector', [
+            'data' => []
+        ]);
     }
 }
