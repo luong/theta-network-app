@@ -250,7 +250,9 @@ class ThetaController extends Controller
         }
 
         if ($days == '1D') {
-            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-24 hours')));
+            $transactions->whereDate('date', '>=', date('Y-m-d H:i:s', strtotime('-24 hours')));
+        } else if ($days == '3D') {
+            $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-3 days')));
         } else if ($days == '7D') {
             $transactions->whereDate('date', '>=' , date('Y-m-d H:i:s', strtotime('-7 days')));
         } else if ($days == '30D') {
