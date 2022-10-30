@@ -196,6 +196,11 @@ class OnChainService
         $coins['TDROP']['market_cap'] = $coinsFromCMC['TDROP']['market_cap'];
         $coins['TDROP']['market_cap_rank'] = $coinsFromCMC['TDROP']['market_cap_rank'];
 
+        $binancePrices = $this->getPricesFromBinance();
+        $coins['BTC']['price'] = $binancePrices['BTC'];
+        $coins['THETA']['price'] = $binancePrices['THETA'];
+        $coins['TFUEL']['price'] = $binancePrices['TFUEL'];
+
         uasort($coins, function($coin1, $coin2) {
             if ($coin1['price'] < $coin2['price']) {
                 return 1;
@@ -659,5 +664,20 @@ class OnChainService
     public function getTotalTfuelSupply()
     {
         return 5000000000 + ~~((10968061 - 4164982) / 100) * 4800 + ~~(($this->getBlockHeight() - 10968061) / 100) * 8600;
+    }
+
+    public function getPricesFromBinance() {
+        $url = 'https://www.binance.com/api/v3/ticker/price?symbols=[%22BTCUSDT%22,%22THETAUSDT%22,%22TFUELUSDT%22]';
+        $response = Http::get($url);
+        if ($response->ok()) {
+            $prices = [];
+            foreach ($response->json() as $each) {
+                $prices[str_replace('USDT', '', $each['symbol'])] = $each['price'];
+            }
+            return $prices;
+        } else {
+            Log::channel('db')->error('Request failed (getPricesFromBinance): binance/api/v3/ticker/price');
+        }
+        return false;
     }
 }
