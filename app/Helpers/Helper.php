@@ -18,7 +18,7 @@ class Helper
         if ($currency == 'tdrop') {
             return self::makeThetaTransactionURL($transactionId);
         }
-        return Constants::THETA_EXPLORER_URL . '/transaction/' . $transactionId;
+        return Constants::THETA_EXPLORER_URL . '/txs/' . $transactionId;
     }
 
     public static function makeThetaTransactionURL($transactionId)
