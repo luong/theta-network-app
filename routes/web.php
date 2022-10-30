@@ -5,6 +5,11 @@ use App\Http\Controllers\ThetaController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TempController;
 
+Route::get('/*', function () {
+    return 'This website stopped. Any question, please reach us at https://twitter.com/ThetaPizza';
+});
+
+/*
 Route::get('/', [ThetaController::class, 'home'])->name('home');
 Route::get('/account/{id}', [ThetaController::class, 'account'])->name('account');
 Route::get('/transaction/{id}', [ThetaController::class, 'transaction'])->name('transaction');
@@ -28,5 +33,6 @@ Route::get('/chart/tfuel-burnt', [ThetaController::class, 'tfuelBurntChart'])->n
 Route::get('/chart/gold-ratio', [ThetaController::class, 'goldRatioChart'])->name('goldRatioChart');
 Route::get('/chart/theta-drop-sales', [ThetaController::class, 'thetaDropSalesChart'])->name('thetaDropSalesChart');
 Route::get('/chart/transactions', [ThetaController::class, 'transactionsChart'])->name('transactionsChart');
+*/
 
 Route::get('/camera/{id}', [TempController::class, 'camera']);
