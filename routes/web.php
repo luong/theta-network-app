@@ -5,7 +5,7 @@ use App\Http\Controllers\ThetaController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TempController;
 
-Route::get('/*', function () {
+Route::get('/', function () {
     return 'This website stopped. Any question, please reach us at https://twitter.com/ThetaPizza';
 });
 
